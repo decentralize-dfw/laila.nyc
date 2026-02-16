@@ -47,38 +47,46 @@
         :root {
             --logo-top: 2%;
             --logo-left: 3%;
+            --logo-height: 36px;
             --dock-bottom: 2%;
             --dock-height: 48px;
-            --content-top: 7%;
-            --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + 2%);
             --content-horizontal-padding: 4%;
             --section-gap: 2%;
+
+            /* Content area: starts right after logo, ends at dock */
+            --content-top: calc(var(--logo-top) + var(--logo-height) + 1%);
+            --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + 1.5%);
 
             /* =====================================================
                HOW IT WORKS – DESKTOP PARAMETRIC VARIABLES
                =====================================================
-               1) --hiw-media-top-pct : percentage of the middle area
-                  allocated to the TOP media row (image cards).
-                  The BOTTOM row (Popular Date Ideas) = 100% − this value.
+               CHANGE THESE VALUES TO CONTROL THE ENTIRE LAYOUT:
 
-               2) --hiw-content-padding : percentage-based padding
-                  around each content card (left, right, top, bottom).
+               1) --hiw-media-top-pct : What % of the USABLE middle
+                  area goes to the top row (media/image cards).
+                  Bottom row = automatically (100 − this)%.
+                  Example: 72 means top=72%, bottom=28%.
 
-               3) --hiw-content-gap : percentage-based gap between
-                  the 4 content columns AND between top/bottom rows.
+               2) --hiw-content-lr-padding : Left & right padding
+                  inside each card, as %. Same value applied to
+                  top & bottom of each card.
 
-               4) CROP IS FORBIDDEN. All images, text, and icons
-                  use object-fit:contain / auto scaling. Nothing is
-                  clipped or hidden.
+               3) --hiw-content-gap : Gap between the 4 columns
+                  AND between the top/bottom rows, as %.
 
-               5) --hiw-media-scale : the scale (%) at which the
-                  media (image) is shown INSIDE its container box.
-                  50 = image is 50% of box size, centered both axes.
+               4) CROP IS STRICTLY FORBIDDEN. Every image, text,
+                  and icon auto-scales with object-fit:contain.
+                  No overflow:hidden on any image container.
+
+               5) --hiw-media-scale : How big the image renders
+                  inside its glass box. 50 = half the box size,
+                  centered horizontally & vertically. 100 = fill
+                  the entire box (still no crop, just max size).
                ===================================================== */
-            --hiw-media-top-pct: 75;          /* 1) top media area = 75% of available space */
-            --hiw-content-padding: 2%;        /* 2) padding inside each card (all sides)    */
-            --hiw-content-gap: 2%;            /* 3) gap between cards (horiz & vert)         */
-            --hiw-media-scale: 85;            /* 5) image shown at 85% of its box, centered  */
+            --hiw-media-top-pct: 72;          /* 1) top row = 72%, bottom row = 28%        */
+            --hiw-content-lr-padding: 1.5%;   /* 2) card internal padding (all 4 sides)    */
+            --hiw-content-gap: 1.5%;          /* 3) gap between columns AND rows            */
+            --hiw-media-scale: 90;            /* 5) image at 90% of its box, centered       */
         }
 
         /* Base */
@@ -185,7 +193,9 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== CONTENT AREA ===== */
+        /* ===== CONTENT AREA =====
+           Starts right below the logo, ends right above the dock.
+           This is the USABLE middle area for all sections. */
         .content-area {
             position: absolute;
             top: var(--content-top);
@@ -205,152 +215,239 @@
             border-radius: 1rem;
         }
 
-        /* How it works section - DESKTOP: fully parametric, NO CROP layout
-           All proportions are percentage-based so nothing breaks or overlaps
-           at any desktop width. Images, text, icons auto-scale only. */
+        /* =============================================================
+           HOW IT WORKS – DESKTOP LAYOUT
+           Single CSS Grid: 4 columns, 2 explicit rows.
+           Top row and bottom row share the SAME 4 columns = ALIGNED.
+           Everything auto-scales. Nothing is cropped. Ever.
+           ============================================================= */
 
-        /* The overall section uses flex-column; the top media row gets
-           --hiw-media-top-pct of available height, the rest goes to bottom. */
-        #getting-started .hiw-top-row {
-            flex: 0 0 calc(var(--hiw-media-top-pct) * 1%);
-            min-height: 0;
-            overflow: hidden;
-        }
-        #getting-started .hiw-bottom-row {
-            flex: 1 1 0;
-            min-height: 0;
-            overflow: hidden;
-        }
-
-        .how-it-works-grid {
+        .hiw-unified-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
+            /* Row 1 = top media (--hiw-media-top-pct),
+               Row 2 = label (auto height),
+               Row 3 = bottom idea cards (remaining space) */
+            grid-template-rows:
+                calc(var(--hiw-media-top-pct) * 1%)
+                auto
+                1fr;
             gap: var(--hiw-content-gap);
+            width: 100%;
             height: 100%;
-            align-items: stretch;
         }
-        .how-it-works-step {
+
+        /* -- Title spans full width above the grid (handled via flex parent) -- */
+        .hiw-title {
+            flex: 0 0 auto;
+            text-align: center;
+            padding-bottom: var(--hiw-content-gap);
+        }
+        .hiw-title h2 {
+            font-size: clamp(0.9rem, 2vw, 1.6rem);
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        /* -- Each step card in the top row (row 1) --
+           Grid row/column set via inline style on each element. */
+        .hiw-step {
             display: flex;
             flex-direction: column;
             align-items: center;
-            height: 100%;
+            padding: var(--hiw-content-lr-padding);
             min-width: 0;
-            padding: var(--hiw-content-padding);
-            overflow: hidden;
+            min-height: 0;
         }
 
-        /* Image container: takes all remaining space after the title */
-        .how-it-works-step .step-img-wrap {
+        /* Image wrapper: fills available space, centers image */
+        .hiw-step .step-img-wrap {
             flex: 1 1 0;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             min-height: 0;
-            overflow: hidden;
+            /* NO overflow:hidden — images must NEVER be cropped */
         }
 
-        /* Image itself: scaled to --hiw-media-scale % of its container,
-           centered both axes, NEVER cropped (object-fit: contain) */
-        .how-it-works-step .step-img-wrap img {
+        /* Image: scales to --hiw-media-scale % of its box, NEVER CROPPED */
+        .hiw-step .step-img-wrap img {
             max-height: calc(var(--hiw-media-scale) * 1%);
             max-width: calc(var(--hiw-media-scale) * 1%);
             width: auto;
             height: auto;
             object-fit: contain;
             border-radius: 0.75rem;
-            flex-shrink: 1;
         }
 
-        /* Step title: auto-scales with vw so it never overflows */
-        .how-it-works-step h3 {
-            flex-shrink: 0;
+        /* Step label: auto-scales via clamp */
+        .hiw-step h3 {
+            flex: 0 0 auto;
             padding-top: var(--hiw-content-gap);
             font-weight: 700;
             text-align: center;
             white-space: nowrap;
-            font-size: clamp(0.55rem, 1.1vw, 0.9rem);
+            font-size: clamp(0.5rem, 1vw, 0.85rem);
+            color: #fff;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
         }
 
-        /* Popular ideas - DESKTOP: percentage grid, no crop, auto-scale */
-        .popular-ideas-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: var(--hiw-content-gap);
-            height: 100%;
-            align-items: stretch;
+        /* -- Bottom row (row 3): Popular Date Ideas cards --
+           Grid row/column set via inline style on each element. */
+        .hiw-idea-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: var(--hiw-content-lr-padding);
+            min-width: 0;
+            min-height: 0;
         }
-        .popular-ideas-grid > .glass-card {
-            padding: var(--hiw-content-padding);
-            overflow: hidden;
+        .hiw-idea-card .idea-icon-row {
+            display: flex;
+            align-items: center;
+            gap: clamp(0.25rem, 0.5vw, 0.5rem);
+            margin-bottom: clamp(0.15rem, 0.3vh, 0.4rem);
         }
-        /* All text inside popular ideas auto-scales with viewport */
-        .popular-ideas-grid h4 {
-            font-size: clamp(0.55rem, 1vw, 0.85rem);
+        .hiw-idea-card .idea-icon {
+            width: clamp(1.2rem, 2.2vw, 2rem);
+            height: clamp(1.2rem, 2.2vw, 2rem);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
         }
-        .popular-ideas-grid p {
-            font-size: clamp(0.5rem, 0.85vw, 0.75rem);
-        }
-        .popular-ideas-grid .text-\\[10px\\] {
-            font-size: clamp(0.45rem, 0.7vw, 0.65rem);
-        }
-        /* Icons inside popular ideas auto-scale */
-        .popular-ideas-grid .w-6,
-        .popular-ideas-grid .w-8 {
-            width: clamp(1rem, 2vw, 2rem);
-            height: clamp(1rem, 2vw, 2rem);
-        }
-        .popular-ideas-grid .w-3,
-        .popular-ideas-grid .w-4 {
+        .hiw-idea-card .idea-icon i {
             width: clamp(0.6rem, 1vw, 1rem);
             height: clamp(0.6rem, 1vw, 1rem);
         }
+        .hiw-idea-card .idea-neighborhood {
+            font-size: clamp(0.4rem, 0.7vw, 0.6rem);
+            font-weight: 600;
+            color: rgba(255,255,255,0.6);
+        }
+        .hiw-idea-card h4 {
+            font-weight: 700;
+            font-size: clamp(0.5rem, 0.95vw, 0.8rem);
+            color: #fff;
+            line-height: 1.3;
+            margin-bottom: clamp(0.1rem, 0.2vh, 0.25rem);
+        }
+        .hiw-idea-card p {
+            font-size: clamp(0.4rem, 0.8vw, 0.7rem);
+            color: rgba(255,255,255,0.7);
+            line-height: 1.4;
+        }
 
-        /* ===== MOBILE: horizontal swipe for both ===== */
+        /* -- Section title for "Popular Date Ideas" spans all 4 columns, row 2 -- */
+        .hiw-bottom-label {
+            grid-column: 1 / -1;
+            grid-row: 2;
+            display: flex;
+            align-items: flex-end;
+            padding-bottom: 0;
+        }
+        .hiw-bottom-label h3 {
+            font-size: clamp(0.65rem, 1.2vw, 1rem);
+            font-weight: 700;
+            color: #fff;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+        }
+        .hiw-bottom-label .hiw-divider-line {
+            flex: 1;
+            height: 1px;
+            background: rgba(255,255,255,0.2);
+            margin-left: clamp(0.5rem, 1vw, 1rem);
+            align-self: center;
+        }
+
+        /* ===== MOBILE (<=768px): vertical scroll, horizontal step carousel ===== */
         @media (max-width: 768px) {
             :root {
-                --content-top: 8%;
+                --content-top: calc(var(--logo-top) + var(--logo-height) + 2%);
                 --content-horizontal-padding: 3%;
             }
 
-            /* Convert steps grid to horizontal scroll */
-            .how-it-works-grid {
+            /* Section scrolls vertically */
+            #getting-started {
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+            }
+            #getting-started::-webkit-scrollbar { display: none; }
+            #getting-started { -ms-overflow-style: none; scrollbar-width: none; }
+
+            /* Grid becomes vertical flow on mobile */
+            .hiw-unified-grid {
                 display: flex;
+                flex-wrap: wrap;
                 overflow-x: auto;
                 overflow-y: hidden;
                 scroll-snap-type: x mandatory;
                 -webkit-overflow-scrolling: touch;
                 gap: 12px;
-                height: 100%;
+                height: auto;
+                min-height: 60vh;
                 padding-bottom: 8px;
+                flex-direction: row;
             }
-            .how-it-works-grid::-webkit-scrollbar { display: none; }
-            .how-it-works-grid { -ms-overflow-style: none; scrollbar-width: none; }
+            .hiw-unified-grid::-webkit-scrollbar { display: none; }
+            .hiw-unified-grid { -ms-overflow-style: none; scrollbar-width: none; }
 
-            .how-it-works-step {
-                flex: 0 0 70%;
+            /* Steps: horizontal scroll, each ~80% width, vertically centered */
+            .hiw-step {
+                flex: 0 0 80%;
+                max-width: 80%;
                 scroll-snap-align: center;
-                max-width: 70%;
+                padding: 8px;
+                order: 0;
+                height: auto;
+                min-height: 50vh;
+            }
+            .hiw-step .step-img-wrap {
+                flex: 1 1 0;
+                min-height: 0;
+            }
+            .hiw-step .step-img-wrap img {
+                max-height: 100%;
+                max-width: 100%;
+            }
+            .hiw-step h3 {
+                font-size: 0.8rem;
             }
 
-            /* Convert popular ideas to horizontal scroll */
-            .popular-ideas-grid {
-                display: flex;
-                overflow-x: auto;
-                overflow-y: hidden;
-                scroll-snap-type: x mandatory;
-                -webkit-overflow-scrolling: touch;
-                gap: 10px;
-                height: 100%;
-                padding-bottom: 4px;
+            /* Label and idea cards: hidden in horizontal swipe, shown after scroll */
+            .hiw-bottom-label {
+                flex: 0 0 100%;
+                order: 10;
+                padding: 12px 0 8px 0;
+                scroll-snap-align: start;
             }
-            .popular-ideas-grid::-webkit-scrollbar { display: none; }
-            .popular-ideas-grid { -ms-overflow-style: none; scrollbar-width: none; }
+            .hiw-idea-card {
+                flex: 0 0 calc(50% - 6px);
+                max-width: calc(50% - 6px);
+                order: 11;
+                padding: 12px;
+                scroll-snap-align: none;
+            }
+            .hiw-idea-card h4 { font-size: 0.8rem; }
+            .hiw-idea-card p { font-size: 0.7rem; }
+            .hiw-idea-card .idea-icon {
+                width: 1.75rem;
+                height: 1.75rem;
+            }
+            .hiw-idea-card .idea-icon i {
+                width: 0.85rem;
+                height: 0.85rem;
+            }
+            .hiw-idea-card .idea-neighborhood {
+                font-size: 0.6rem;
+            }
 
-            .popular-ideas-grid > .glass-card {
-                flex: 0 0 75%;
-                scroll-snap-align: center;
-                max-width: 75%;
+            /* Show scroll arrow on mobile */
+            .hiw-scroll-arrow {
+                display: flex !important;
             }
 
             .nav-item span {
@@ -358,6 +455,13 @@
             }
             .nav-item {
                 padding: 8px 12px;
+            }
+        }
+
+        /* Desktop: hide mobile-only elements */
+        @media (min-width: 769px) {
+            .hiw-scroll-arrow {
+                display: none !important;
             }
         }
     </style>
@@ -459,89 +563,91 @@
         </section>
 
         <!-- ========== 2. HOW IT WORKS ========== -->
-        <section id="getting-started" class="content-section w-full h-full fade-in" style="display:none; flex-direction:column; padding: var(--hiw-content-padding);">
+        <section id="getting-started" class="content-section w-full h-full fade-in" style="display:none; flex-direction:column; padding: var(--hiw-content-lr-padding);">
 
-            <!-- Title: auto height -->
-            <div style="flex: 0 0 auto; text-align:center; padding-bottom: var(--hiw-content-gap);">
-                <h2 style="font-size: clamp(1rem, 2.2vw, 1.8rem);" class="font-bold text-white drop-shadow-lg">How Laila Works</h2>
+            <!-- Title -->
+            <div class="hiw-title">
+                <h2>How Laila Works</h2>
             </div>
 
-            <!-- TOP ROW: media cards – gets --hiw-media-top-pct % of remaining space -->
-            <div class="hiw-top-row">
-                <div class="how-it-works-grid" style="height: 100%;">
-                    <div class="how-it-works-step">
-                        <div class="step-img-wrap glass-card">
-                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date">
-                        </div>
-                        <h3 class="text-white drop-shadow">Post A Date</h3>
+            <!-- UNIFIED GRID: 4 columns shared by top (media) + bottom (ideas) = PERFECTLY ALIGNED
+                 Desktop: CSS Grid with explicit row/col placement.
+                 Mobile: flex column + horizontal carousel. -->
+            <div class="hiw-unified-grid" style="flex: 1 1 0; min-height: 0;">
+
+                <!-- ROW 1: 4 step cards (media) -->
+                <div class="hiw-step glass-card" style="grid-row:1; grid-column:1;">
+                    <div class="step-img-wrap">
+                        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date">
                     </div>
-                    <div class="how-it-works-step">
-                        <div class="step-img-wrap glass-card">
-                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Wants to Join">
-                        </div>
-                        <h3 class="text-white drop-shadow">See Who Wants to Join</h3>
-                    </div>
-                    <div class="how-it-works-step">
-                        <div class="step-img-wrap glass-card">
-                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out">
-                        </div>
-                        <h3 class="text-white drop-shadow">Ask Someone Out</h3>
-                    </div>
-                    <div class="how-it-works-step">
-                        <div class="step-img-wrap glass-card">
-                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match With a Date Plan">
-                        </div>
-                        <h3 class="text-white drop-shadow">Match With a Date Plan</h3>
-                    </div>
+                    <h3>Post A Date</h3>
                 </div>
-            </div>
-
-            <!-- Divider -->
-            <div style="flex: 0 0 auto; padding: var(--hiw-content-gap) 0;">
-                <div style="height:1px; background: rgba(255,255,255,0.2);"></div>
-            </div>
-
-            <!-- Popular Date Ideas title -->
-            <div style="flex: 0 0 auto; padding-bottom: var(--hiw-content-gap);">
-                <h3 style="font-size: clamp(0.75rem, 1.4vw, 1.1rem);" class="font-bold text-white drop-shadow">Popular Date Ideas</h3>
-            </div>
-
-            <!-- BOTTOM ROW: popular ideas – gets remaining space (100% − top) -->
-            <div class="hiw-bottom-row">
-                <div class="popular-ideas-grid" style="height: 100%;">
-                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-amber-400/30 text-amber-200 flex items-center justify-center flex-shrink-0"><i data-lucide="coffee" class="w-3 h-3 md:w-4 md:h-4"></i></div>
-                            <span class="text-[10px] font-semibold text-white/60">UES</span>
-                        </div>
-                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Coffee at Central Park</h4>
-                        <p class="text-[10px] md:text-xs text-white/70">Latte & walk around the reservoir.</p>
+                <div class="hiw-step glass-card" style="grid-row:1; grid-column:2;">
+                    <div class="step-img-wrap">
+                        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Wants to Join">
                     </div>
-                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center flex-shrink-0"><i data-lucide="music" class="w-3 h-3 md:w-4 md:h-4"></i></div>
-                            <span class="text-[10px] font-semibold text-white/60">SoHo</span>
-                        </div>
-                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Live Jazz Night</h4>
-                        <p class="text-[10px] md:text-xs text-white/70">Blue Note quartet playing tonight.</p>
-                    </div>
-                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-rose-400/30 text-rose-200 flex items-center justify-center flex-shrink-0"><i data-lucide="utensils" class="w-3 h-3 md:w-4 md:h-4"></i></div>
-                            <span class="text-[10px] font-semibold text-white/60">Village</span>
-                        </div>
-                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Try New Italian</h4>
-                        <p class="text-[10px] md:text-xs text-white/70">Craving pasta at Carbone.</p>
-                    </div>
-                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
-                        <div class="flex items-center gap-2 mb-1">
-                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-400/30 text-blue-200 flex items-center justify-center flex-shrink-0"><i data-lucide="camera" class="w-3 h-3 md:w-4 md:h-4"></i></div>
-                            <span class="text-[10px] font-semibold text-white/60">Midtown</span>
-                        </div>
-                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">MoMA Gallery</h4>
-                        <p class="text-[10px] md:text-xs text-white/70">Checking out modern art.</p>
-                    </div>
+                    <h3>See Who Wants to Join</h3>
                 </div>
+                <div class="hiw-step glass-card" style="grid-row:1; grid-column:3;">
+                    <div class="step-img-wrap">
+                        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out">
+                    </div>
+                    <h3>Ask Someone Out</h3>
+                </div>
+                <div class="hiw-step glass-card" style="grid-row:1; grid-column:4;">
+                    <div class="step-img-wrap">
+                        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match With a Date Plan">
+                    </div>
+                    <h3>Match With a Date Plan</h3>
+                </div>
+
+                <!-- ROW 2: "Popular Date Ideas" label – spans all 4 columns -->
+                <div class="hiw-bottom-label" style="grid-row:2; grid-column:1/-1;">
+                    <h3>Popular Date Ideas</h3>
+                    <div class="hiw-divider-line"></div>
+                </div>
+
+                <!-- ROW 3: 4 idea cards – SAME 4 columns = ALIGNED with top row -->
+                <div class="hiw-idea-card glass-card" style="grid-row:3; grid-column:1;">
+                    <div class="idea-icon-row">
+                        <div class="idea-icon" style="background:rgba(251,191,36,0.3); color:#fde68a;"><i data-lucide="coffee"></i></div>
+                        <span class="idea-neighborhood">UES</span>
+                    </div>
+                    <h4>Coffee at Central Park</h4>
+                    <p>Latte & walk around the reservoir.</p>
+                </div>
+                <div class="hiw-idea-card glass-card" style="grid-row:3; grid-column:2;">
+                    <div class="idea-icon-row">
+                        <div class="idea-icon" style="background:rgba(192,132,252,0.3); color:#e9d5ff;"><i data-lucide="music"></i></div>
+                        <span class="idea-neighborhood">SoHo</span>
+                    </div>
+                    <h4>Live Jazz Night</h4>
+                    <p>Blue Note quartet playing tonight.</p>
+                </div>
+                <div class="hiw-idea-card glass-card" style="grid-row:3; grid-column:3;">
+                    <div class="idea-icon-row">
+                        <div class="idea-icon" style="background:rgba(251,113,133,0.3); color:#fecdd3;"><i data-lucide="utensils"></i></div>
+                        <span class="idea-neighborhood">Village</span>
+                    </div>
+                    <h4>Try New Italian</h4>
+                    <p>Craving pasta at Carbone.</p>
+                </div>
+                <div class="hiw-idea-card glass-card" style="grid-row:3; grid-column:4;">
+                    <div class="idea-icon-row">
+                        <div class="idea-icon" style="background:rgba(96,165,250,0.3); color:#bfdbfe;"><i data-lucide="camera"></i></div>
+                        <span class="idea-neighborhood">Midtown</span>
+                    </div>
+                    <h4>MoMA Gallery</h4>
+                    <p>Checking out modern art.</p>
+                </div>
+
+            </div>
+
+            <!-- Mobile: scroll arrow hint (hidden on desktop, shown by mobile CSS) -->
+            <div class="hiw-scroll-arrow" style="display:none; justify-content:center; padding: 4px 0;">
+                <button onclick="document.querySelector('.hiw-unified-grid').scrollBy({left:200,behavior:'smooth'})" style="background:rgba(255,255,255,0.2); border:none; border-radius:50%; width:32px; height:32px; display:flex; align-items:center; justify-content:center; cursor:pointer;">
+                    <i data-lucide="chevron-right" style="width:18px; height:18px; color:#fff;"></i>
+                </button>
             </div>
         </section>
 
