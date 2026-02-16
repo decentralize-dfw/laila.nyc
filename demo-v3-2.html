@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laila | Real Life Connections</title>
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons (CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'silk': ['"Silk Flower"', 'cursive'],
+                        'book': ['"Bookmania"', 'serif'],
+                        'metro': ['"Metropolis"', 'sans-serif'],
+                        'mulish': ['"Mulish"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            500: '#9d6ac0',
+                        }
+                    },
+                    fontSize: {
+                        'xxs': '0.65rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* =========================================
+           1. FONTS
+           ========================================= */
+        @font-face { font-family: 'Mulish'; src: url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd060_Mulish-VariableFont_wght.ttf") format("truetype"); font-weight: 200 1000; font-display: swap; }
+        @font-face { font-family: 'Silk Flower'; src: url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd05f_Silk%20Flower.otf") format("opentype"); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Bookmania'; src: url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd062_Fontspring-DEMO-bookmania-bold.otf") format("opentype"); font-weight: 700; font-display: swap; }
+        @font-face { font-family: 'Metropolis'; src: url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9d2d108a8275ff8b6_Metropolis-Regular.otf") format("opentype"); font-weight: 400; font-display: swap; }
+        @font-face { font-family: 'Metropolis'; src: url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9c97208ba9db083d5_Metropolis-Bold.otf") format("opentype"); font-weight: 700; font-style: normal; }
+
+        /* =========================================
+           2. PARAMETRIC LAYOUT ENGINE (MASTER CONTROLS)
+           ========================================= */
+        :root {
+            /* Positioning Constraints */
+            --logo-h: 36px;
+            --dock-h: 60px;
+            
+            /* 1. DİKEY HİZALAMA SINIRLARI (Tüm sayfalar için ortak) */
+            --layout-top-padding: 8vh;    /* Logo altından başlama mesafesi */
+            --layout-bottom-padding: 10vh; /* Menu üstünden bitiş mesafesi */
+            
+            /* 2. HOW LAILA WORKS DİKEY ALANI (Masaüstü % Height) */
+            --hiw-top-height: 50%; 
+
+            /* 3. ARADAKİ BOŞLUK (Upper Section <-> Date Ideas) */
+            --hiw-gap-middle: 3%;
+
+            /* 4. POPULAR DATE IDEAS İÇ BOŞLUK (İki sıra arası) */
+            --hiw-ideas-row-gap: 2.5%;
+
+            /* 5. MOBİL ÖZEL AYARLARI */
+            --mobile-top-ratio: 60%; /* Üst kısım mobilde daha uzun olsun */
+            
+            --content-x-padding: 4%;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Mulish', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            background: #000;
+            color: #fff;
+        }
+
+        /* Typography */
+        h1.hero-text { font-family: 'Silk Flower', cursive; }
+        h2.section-title { font-family: 'Bookmania', serif; font-weight: 700; }
+        h3.card-title { font-family: 'Bookmania', serif; font-weight: 600; }
+        h4.detail-title { font-family: 'Metropolis', sans-serif; font-weight: 700; }
+        .btn-text { font-family: 'Bookmania', serif; font-weight: 600; }
+        .nav-text { font-family: 'Mulish', sans-serif; font-weight: 600; letter-spacing: 0.02em; } 
+        .detail-text { font-family: 'Metropolis', sans-serif; }
+
+        /* --- GLASS STYLES (Strictly as requested) --- */
+        
+        /* CONTENT BOXES: 0.4 Opacity White, 8px Blur */
+        .glass-box {
+            background: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(8px); 
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 16px;
+        }
+
+        /* BUTTONS: 0.6 Opacity White, 8px Blur */
+        .glass-btn {
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.4);
+            border-radius: 100px;
+            color: #9d6ac0; /* Brand Color Text */
+            transition: all 0.3s ease;
+        }
+        .glass-btn:hover {
+            background: #9d6ac0 !important; /* Solid Brand Color on Hover */
+            color: white !important;
+            transform: scale(1.05);
+        }
+
+        /* DOCK */
+        .glass-dock {
+            background: rgba(255, 255, 255, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255,255,255,0.4);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Background Video */
+        .bg-video-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; overflow: hidden;
+        }
+        .bg-video-container video {
+            width: 100%; height: 100%; object-fit: cover;
+        }
+
+        /* MASTER LAYOUT CONTAINER */
+        /* This ensures ALL sections start/end at the exact same pixels */
+        .layout-master {
+            position: absolute;
+            top: var(--layout-top-padding);
+            bottom: var(--layout-bottom-padding);
+            left: var(--content-x-padding);
+            right: var(--content-x-padding);
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Headers */
+        .section-header {
+            flex: 0 0 auto;
+            padding-bottom: 2vh;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            height: 10%; /* Fixed % height for headers to align content below */
+        }
+        .section-header.spread { justify-content: space-between; }
+
+        /* Scrollable Content Areas (Events, FAQ) */
+        .content-scrollable {
+            flex: 1; /* Fills exactly the rest of the space */
+            overflow-y: auto;
+            min-height: 0;
+            padding-bottom: 10px; /* Slight buffer for scroll */
+        }
+
+        /* ===== HOW IT WORKS (PARAMETRIC GRID) ===== */
+        .hiw-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+        }
+
+        /* 1. TOP SECTION */
+        .hiw-top {
+            flex: 0 0 var(--hiw-top-height);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5%;
+            min-height: 0;
+        }
+
+        /* 2. MIDDLE GAP / TITLE */
+        .hiw-middle {
+            flex: 0 0 auto;
+            height: var(--hiw-gap-middle); /* Acts as the gap spacer */
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 2px;
+        }
+        /* Title adjustments */
+        .hiw-middle h3 {
+            transform: translateY(-50%); /* Visually center in the gap */
+            margin-top: 2vh; 
+        }
+
+        /* 3. BOTTOM SECTION (Fills the rest) */
+        .hiw-bottom {
+            flex: 1; 
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: 1fr 1fr; /* Exactly 2 rows */
+            gap: var(--hiw-ideas-row-gap);
+            min-height: 0;
+        }
+
+        /* Items */
+        .hiw-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 0;
+            overflow: hidden;
+            padding: 1.5vh;
+            /* Applies glass-box style via class in HTML */
+        }
+        
+        .hiw-card-bottom {
+            justify-content: center;
+        }
+
+        .phone-img-wrapper {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1vh;
+            overflow: hidden;
+        }
+        .phone-img-wrapper img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* Texts */
+        .hiw-card h3 { font-size: clamp(0.7rem, 1.1vw, 1.1rem); text-align: center; color: #000; }
+        .hiw-card h4 { font-size: clamp(0.65rem, 0.9vw, 0.95rem); line-height: 1.1; margin-bottom: 0.2rem; color: #000; }
+        .hiw-card p { font-size: clamp(0.55rem, 0.75vw, 0.75rem); line-height: 1.2; opacity: 0.7; color: #000; }
+
+        /* ===== MOBILE OVERRIDES ===== */
+        @media (max-width: 768px) {
+            :root {
+                --layout-top-padding: 12vh;
+                --layout-bottom-padding: 12vh;
+            }
+
+            /* Scroll Containers */
+            .hiw-top, .hiw-bottom {
+                display: flex;
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                width: 100vw; /* Full width */
+                margin-left: -4vw; /* Counteract padding */
+                padding-left: 12vw; /* Center first item */
+                padding-right: 12vw;
+                gap: 12px;
+                scrollbar-width: none;
+            }
+            .hiw-top::-webkit-scrollbar, .hiw-bottom::-webkit-scrollbar { display: none; }
+
+            .hiw-card {
+                flex: 0 0 75vw;
+                width: 75vw;
+                scroll-snap-align: center;
+            }
+
+            /* HEIGHT ADJUSTMENTS (Red Lines Request) */
+            .hiw-top {
+                flex: 0 0 var(--mobile-top-ratio); /* Taller top section */
+                min-height: 0;
+            }
+            
+            .hiw-middle {
+                height: auto;
+                padding: 2vh 0 1vh 0;
+                justify-content: center;
+            }
+            .hiw-middle h3 {
+                transform: none;
+                margin-top: 0;
+            }
+
+            .hiw-bottom {
+                flex: 1; /* Shorter bottom section */
+                min-height: 0;
+                align-items: flex-start; /* Top align content */
+            }
+            
+            /* Tighter padding for bottom cards on mobile */
+            .hiw-bottom .hiw-card {
+                padding: 12px;
+                height: 90%; /* Slight gap at bottom */
+            }
+        }
+
+        /* Logo Hover */
+        .logo-img { filter: brightness(0) saturate(100%) invert(52%) sepia(12%) saturate(1639%) hue-rotate(235deg) brightness(89%) contrast(89%); transition: filter 0.3s ease; }
+        .logo-wrapper:hover .logo-img { filter: brightness(0) invert(1); }
+
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.5); border-radius: 4px; }
+        .fade-in { animation: fadeIn 0.4s ease forwards; opacity: 0; }
+        @keyframes fadeIn { to { opacity: 1; } }
+        .nav-item.active { background: rgba(255,255,255,0.6); color: #9d6ac0; border: 1px solid rgba(157, 106, 192, 0.4); }
+
+    </style>
+</head>
+<body>
+
+    <!-- VIDEO BACKGROUNDS -->
+    <div class="bg-video-container" id="bg-video-home"><video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video></div>
+    <div class="bg-video-container" id="bg-video-getting-started" style="display:none;"><video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video></div>
+    <div class="bg-video-container" id="bg-video-events" style="display:none;"><video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video></div>
+    <div class="bg-video-container" id="bg-video-faq" style="display:none;"><video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video></div>
+
+    <!-- LOGO -->
+    <div class="logo-wrapper" style="position:fixed; top:20px; left:4%; z-index:50; cursor:pointer;" onclick="showSection('home')">
+        <img class="logo-img" src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila" style="height: 36px; width: auto;">
+    </div>
+
+    <!-- DOCK MENU -->
+    <nav class="glass-dock fixed z-50 rounded-full flex items-center justify-center gap-1"
+         style="bottom: 20px; left: 50%; transform: translateX(-50%); height: 60px; padding: 0 16px;">
+        <button onclick="showSection('home')" id="btn-home" class="nav-item active px-4 py-2 rounded-full flex items-center gap-2 transition-all group">
+            <i data-lucide="home" class="w-5 h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block group-hover:text-brand-500 text-gray-700">Home</span>
+        </button>
+        <button onclick="showSection('getting-started')" id="btn-getting-started" class="nav-item px-4 py-2 rounded-full flex items-center gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="rocket" class="w-5 h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">How it Works</span>
+        </button>
+        <button onclick="showSection('events')" id="btn-events" class="nav-item px-4 py-2 rounded-full flex items-center gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="calendar-heart" class="w-5 h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">Events</span>
+        </button>
+        <button onclick="showSection('faq')" id="btn-faq" class="nav-item px-4 py-2 rounded-full flex items-center gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="help-circle" class="w-5 h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">FAQ</span>
+        </button>
+    </nav>
+
+    <!-- MASTER CONTENT CONTAINER -->
+    <div class="layout-master">
+
+        <!-- 1. HOME SECTION -->
+        <section id="home" class="w-full h-full flex flex-col items-center justify-center fade-in">
+            <div class="flex flex-col items-center justify-center flex-1 text-center w-full max-w-4xl mx-auto">
+                <div class="mb-[-1.5rem] relative z-10">
+                    <h1 class="hero-text text-6xl md:text-8xl lg:text-9xl text-white leading-none drop-shadow-lg" style="white-space: nowrap;">Let's go</h1>
+                </div>
+                <div class="h-20 md:h-28 flex items-start justify-center overflow-hidden w-full mb-6">
+                    <span id="date-idea-text" class="hero-text text-4xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-200 leading-tight pb-3 block pt-4 mt-0">to a Broadway show</span>
+                </div>
+                <div class="flex flex-row gap-3 w-full justify-center px-4">
+                    <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" 
+                       class="glass-btn btn-text px-6 py-3 text-sm flex items-center justify-center gap-2 shadow-lg whitespace-nowrap">
+                        Join Laila <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <button onclick="showSection('getting-started')" 
+                            class="glass-btn btn-text px-6 py-3 text-sm whitespace-nowrap shadow-lg">
+                        How it works
+                    </button>
+                </div>
+            </div>
+            <div class="w-full text-center pb-4 px-6 flex-shrink-0">
+                <div class="max-w-2xl mx-auto drop-shadow-md text-white">
+                    <p class="text-base md:text-lg font-mulish font-bold leading-tight mb-2">Our mission is to turn every match into a real-life connection.</p>
+                    <p class="text-[10px] md:text-xs font-mulish leading-tight opacity-90" style="letter-spacing: -0.2px;">Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk. Post a date you actually want to go on and connect with people who are ready to join you—no more “let's chat sometime” just real dates with real people.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. HOW IT WORKS (FIXED GRID LAYOUT) -->
+        <section id="getting-started" class="fade-in" style="display:none; height:100%; flex-direction:column;">
+            <div class="section-header centered">
+                <h2 class="section-title text-3xl md:text-4xl text-white drop-shadow-lg">How Laila Works</h2>
+            </div>
+            
+            <div class="hiw-container">
+                <!-- Top Row (Phones) -->
+                <div class="hiw-top">
+                    <div class="hiw-card glass-box"><div class="phone-img-wrapper"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date"></div><h3 class="card-title">Post A Date</h3></div>
+                    <div class="hiw-card glass-box"><div class="phone-img-wrapper"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Wants to Join"></div><h3 class="card-title">See Who Joins</h3></div>
+                    <div class="hiw-card glass-box"><div class="phone-img-wrapper"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out"></div><h3 class="card-title">Ask Someone Out</h3></div>
+                    <div class="hiw-card glass-box"><div class="phone-img-wrapper"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match With a Date Plan"></div><h3 class="card-title">Match & Meet</h3></div>
+                </div>
+
+                <!-- Middle Title -->
+                <div class="hiw-middle">
+                    <h3 class="card-title text-white text-lg md:text-xl drop-shadow-lg">Popular Date Ideas</h3>
+                </div>
+
+                <!-- Bottom Row (Cards 4x2) -->
+                <div class="hiw-bottom">
+                    <!-- Row 1 -->
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-amber-400/20 text-amber-900 flex items-center justify-center flex-shrink-0"><i data-lucide="coffee" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">UES</span></div><h4 class="detail-title">Coffee at Central Park</h4><p class="detail-text">Latte & walk.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-brand-500/30 text-brand-900 flex items-center justify-center flex-shrink-0"><i data-lucide="music" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">SoHo</span></div><h4 class="detail-title">Live Jazz Night</h4><p class="detail-text">Blue Note playing.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-rose-400/30 text-rose-900 flex items-center justify-center flex-shrink-0"><i data-lucide="utensils" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">Village</span></div><h4 class="detail-title">Try New Italian</h4><p class="detail-text">Craving pasta.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-blue-400/30 text-blue-900 flex items-center justify-center flex-shrink-0"><i data-lucide="camera" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">Midtown</span></div><h4 class="detail-title">MoMA Gallery</h4><p class="detail-text">Modern art walk.</p></div>
+                    <!-- Row 2 -->
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-green-400/30 text-green-900 flex items-center justify-center flex-shrink-0"><i data-lucide="footprints" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">Central Park</span></div><h4 class="detail-title">Run a 5k</h4><p class="detail-text">Morning jog.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-yellow-400/30 text-yellow-900 flex items-center justify-center flex-shrink-0"><i data-lucide="laugh" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">Village</span></div><h4 class="detail-title">Comedy Cellar</h4><p class="detail-text">Stand-up night.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-red-400/30 text-red-900 flex items-center justify-center flex-shrink-0"><i data-lucide="shopping-bag" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">Chinatown</span></div><h4 class="detail-title">Dumpling Crawl</h4><p class="detail-text">Taste best spots.</p></div>
+                    <div class="hiw-card hiw-card-bottom glass-box"><div class="flex items-center gap-2 mb-1"><div class="w-6 h-6 rounded-full bg-indigo-400/30 text-indigo-900 flex items-center justify-center flex-shrink-0"><i data-lucide="activity" class="w-3 h-3"></i></div><span class="text-[10px] font-bold text-gray-800 uppercase font-mulish">West Side</span></div><h4 class="detail-title">Play Padel</h4><p class="detail-text">Active match.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. EVENTS -->
+        <section id="events" class="fade-in" style="display:none; height:100%; flex-direction:column;">
+            <div class="section-header spread">
+                <h2 class="section-title text-3xl md:text-4xl text-white drop-shadow-lg">Latest Events</h2>
+                <span class="detail-text text-xs font-semibold text-brand-700 bg-white/60 backdrop-blur-md px-3 py-1 rounded-full border border-white/40">Curated by Laila</span>
+            </div>
+            
+            <div class="content-scrollable custom-scroll">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pb-4">
+                    <!-- Events content remains same -->
+                    <div class="relative h-64 md:h-56 rounded-2xl overflow-hidden shadow-lg group cursor-pointer glass-box border-0"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div><div class="absolute bottom-0 left-0 p-5 w-full"><span class="text-[10px] font-bold text-white uppercase bg-brand-500/90 px-2 py-1 rounded-sm mb-2 inline-block font-mulish">Speed Dating</span><h4 class="detail-title text-white text-xl mb-1 drop-shadow-md">Laila x D8 Time</h4><p class="detail-text text-sm text-gray-300 leading-snug">Fast-paced speed dating.</p></div></div>
+                    <div class="relative h-64 md:h-56 rounded-2xl overflow-hidden shadow-lg group cursor-pointer glass-box border-0"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div><div class="absolute bottom-0 left-0 p-5 w-full"><span class="text-[10px] font-bold text-white uppercase bg-pink-600/90 px-2 py-1 rounded-sm mb-2 inline-block font-mulish">Mixer</span><h4 class="detail-title text-white text-xl mb-1 drop-shadow-md">Good Girls Gone Social</h4><p class="detail-text text-sm text-gray-300 leading-snug">Flirty singles mixer.</p></div></div>
+                    <div class="relative h-64 md:h-56 rounded-2xl overflow-hidden shadow-lg group cursor-pointer glass-box border-0"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div><div class="absolute bottom-0 left-0 p-5 w-full"><span class="text-[10px] font-bold text-white uppercase bg-red-600/90 px-2 py-1 rounded-sm mb-2 inline-block font-mulish">Party</span><h4 class="detail-title text-white text-xl mb-1 drop-shadow-md">Cupid's Hit List</h4><p class="detail-text text-sm text-gray-300 leading-snug">Retro 80s disco party.</p></div></div>
+                    <div class="relative h-64 md:h-56 rounded-2xl overflow-hidden shadow-lg group cursor-pointer glass-box border-0"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div><div class="absolute bottom-0 left-0 p-5 w-full"><span class="text-[10px] font-bold text-white uppercase bg-blue-600/90 px-2 py-1 rounded-sm mb-2 inline-block font-mulish">Community</span><h4 class="detail-title text-white text-xl mb-1 drop-shadow-md">Laila's Friends</h4><p class="detail-text text-sm text-gray-300 leading-snug">Friends and family launch.</p></div></div>
+                    <div class="relative h-64 md:h-56 rounded-2xl overflow-hidden shadow-lg group cursor-pointer glass-box border-0"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"><div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"></div><div class="absolute bottom-0 left-0 p-5 w-full"><span class="text-[10px] font-bold text-white uppercase bg-amber-600/90 px-2 py-1 rounded-sm mb-2 inline-block font-mulish">Social</span><h4 class="detail-title text-white text-xl mb-1 drop-shadow-md">Pregame at Cosmo</h4><p class="detail-text text-sm text-gray-300 leading-snug">Cheeky martini soiree.</p></div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FAQ -->
+        <section id="faq" class="fade-in" style="display:none; height:100%; flex-direction:column;">
+            <div class="section-header centered">
+                <h2 class="section-title text-3xl md:text-4xl text-white mb-4 flex-shrink-0 drop-shadow-lg">FAQ</h2>
+            </div>
+            
+            <div class="content-scrollable custom-scroll">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                    <!-- FAQ items - same content as before -->
+                    <div class="space-y-3">
+                        <div class="glass-box overflow-hidden"><button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)"><span class="card-title text-black text-base">What is Laila?</span><div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div></button><div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Laila is an event-based dating app that helps you skip the small talk.</div></div>
+                        <div class="glass-box overflow-hidden"><button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)"><span class="card-title text-black text-base">How do I post?</span><div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div></button><div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Click "Post a Date" and share your idea.</div></div>
+                        <div class="glass-box overflow-hidden"><button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)"><span class="card-title text-black text-base">Is Laila everywhere?</span><div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div></button><div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Currently live in NYC.</div></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="glass-box overflow-hidden"><button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)"><span class="card-title text-black text-base">How is it different?</span><div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div></button><div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">We focus on action, not just messaging.</div></div>
+                        <div class="glass-box overflow-hidden"><button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)"><span class="card-title text-black text-base">Is it safe?</span><div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div></button><div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Yes, we vet profiles and keep location private until match.</div></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        const dateIdeas = ["to a Broadway show", "do a dumpling crawl", "play tennis", "to Farmer's Market", "bowling", "to a comedy show", "hiking", "to a Mets game", "play padel", "to brunch"];
+        let ideaIndex = 0;
+        const ideaEl = document.getElementById('date-idea-text');
+
+        function rotateText() {
+            ideaEl.style.opacity = '0';
+            ideaEl.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                ideaEl.textContent = dateIdeas[ideaIndex];
+                ideaEl.style.opacity = '1';
+                ideaEl.style.transform = 'translateY(0)';
+                ideaIndex = (ideaIndex + 1) % dateIdeas.length;
+            }, 300);
+        }
+        setInterval(rotateText, 3000);
+
+        function showSection(id) {
+            document.querySelectorAll('section').forEach(el => el.style.display = 'none');
+            const target = document.getElementById(id);
+            if(target) {
+                target.style.display = 'flex'; // Enforced Flex for all
+                target.classList.add('fade-in');
+            }
+            document.querySelectorAll('.bg-video-container').forEach(v => v.style.display = 'none');
+            const vidId = 'bg-video-' + id;
+            if(document.getElementById(vidId)) document.getElementById(vidId).style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('btn-' + id);
+            if(btn) btn.classList.add('active');
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const iconWrapper = btn.querySelector('.icon-wrapper');
+            const isCurrentlyOpen = !content.classList.contains('hidden');
+            document.querySelectorAll('#faq .glass-box').forEach(card => {
+                const button = card.querySelector('button');
+                const cont = button.nextElementSibling;
+                const icon = button.querySelector('.icon-wrapper');
+                if (cont) cont.classList.add('hidden');
+                if (icon) icon.style.transform = 'rotate(0deg)';
+            });
+            if (!isCurrentlyOpen) {
+                content.classList.remove('hidden');
+                if(iconWrapper) iconWrapper.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        showSection('home');
+    </script>
+</body>
+</html>
