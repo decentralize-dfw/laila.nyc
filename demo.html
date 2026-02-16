@@ -5,7 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Laila | Real Life Connections</title>
 
-    <!-- Google Fonts: Inter -->
+    <!-- Webflow shared CSS (same as og.html) -->
+    <link href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/css/laila-qav2.webflow.shared.72dbb000e.css" rel="stylesheet" type="text/css">
+    <!-- Google Fonts: Inter as fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -199,11 +201,12 @@
             align-items: center;
             justify-content: center;
             min-height: 0;
-            overflow: hidden;
         }
         .how-it-works-step .step-img-wrap img {
             max-height: 100%;
             max-width: 100%;
+            width: auto;
+            height: auto;
             object-fit: contain;
             border-radius: 0.75rem;
         }
@@ -304,9 +307,9 @@
         </video>
     </div>
 
-    <!-- ===== LOGO ===== -->
+    <!-- ===== LOGO (PNG from og.html) ===== -->
     <div style="position:fixed; top:var(--logo-top); left:var(--logo-left); z-index:50; cursor:pointer;" onclick="showSection('home')">
-        <span class="font-extrabold text-2xl tracking-tighter text-white drop-shadow-lg">Laila.</span>
+        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila" style="height: 36px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
     </div>
 
     <!-- ===== FLOATING DOCK MENU ===== -->
@@ -340,22 +343,25 @@
         <!-- ========== 1. HOME ========== -->
         <section id="home" class="content-section w-full h-full flex flex-col items-center justify-center fade-in">
 
-            <!-- Center: Rotating Date Ideas -->
+            <!-- Center: Rotating Date Ideas (NO background, fixed height) -->
             <div class="flex flex-col items-center justify-center flex-1 text-center px-4">
-                <div class="glass-card px-6 py-4 md:px-10 md:py-6 inline-block mb-4">
-                    <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/20 text-[10px] font-bold text-white uppercase tracking-wider mb-4">
-                        <span class="relative flex h-1.5 w-1.5 mr-2">
-                          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-                          <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-white"></span>
-                        </span>
-                        Live in New York City
-                    </div>
-                    <h1 class="text-3xl md:text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight text-white mb-2">
+                <!-- Live in NYC badge with GREEN dot -->
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[10px] font-bold text-white uppercase tracking-wider mb-4">
+                    <span class="relative flex h-2 w-2 mr-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: #4ade80; box-shadow: 0 0 8px 2px rgba(74, 222, 128, 0.5);"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2" style="background: #4ade80; box-shadow: 0 0 6px 2px rgba(74, 222, 128, 0.4);"></span>
+                    </span>
+                    Live in New York City
+                </div>
+
+                <!-- Fixed-height text area so buttons never jump -->
+                <div style="height: 60px; display: flex; align-items: center; justify-content: center; overflow: hidden;" class="mb-4">
+                    <h1 class="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white" style="white-space: nowrap;">
                         Let's go <span id="date-idea-text" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300"></span>
                     </h1>
                 </div>
 
-                <div class="flex flex-col sm:flex-row gap-3 justify-center mt-4">
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
                     <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="glass-card text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm">
                         Join Laila <i data-lucide="arrow-right" class="w-4 h-4"></i>
                     </a>
@@ -365,13 +371,11 @@
                 </div>
             </div>
 
-            <!-- Bottom: Mission text above dock -->
+            <!-- Bottom: Mission text above dock (small font, no card bg) -->
             <div class="flex-shrink-0 w-full text-center pb-2 px-4">
-                <div class="glass-card inline-block px-6 py-3 max-w-2xl">
-                    <p class="text-white/90 text-xs md:text-sm leading-relaxed">
-                        Our mission is to turn every match into a real-life connection. Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk.
-                    </p>
-                </div>
+                <p class="text-white/70 text-[10px] md:text-xs leading-relaxed max-w-xl mx-auto">
+                    Our mission is to turn every match into a real-life connection. Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk.
+                </p>
             </div>
         </section>
 
@@ -383,8 +387,8 @@
                 <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">How Laila Works</h2>
             </div>
 
-            <!-- How it works steps: takes 62% of remaining -->
-            <div style="flex: 0 0 60%; min-height: 0; overflow: hidden;">
+            <!-- How it works steps: 80% of space -->
+            <div style="flex: 0 0 78%; min-height: 0;">
                 <div class="how-it-works-grid" style="height: 100%;">
                     <div class="how-it-works-step">
                         <div class="step-img-wrap glass-card p-1">
@@ -423,8 +427,8 @@
                 <h3 class="text-base md:text-lg font-bold text-white drop-shadow">Popular Date Ideas</h3>
             </div>
 
-            <!-- Popular Date Ideas: takes remaining space -->
-            <div style="flex: 1 1 0; min-height: 0; overflow: hidden;">
+            <!-- Popular Date Ideas: takes remaining ~18% -->
+            <div style="flex: 1 1 0; min-height: 0;">
                 <div class="popular-ideas-grid" style="height: 100%;">
                     <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
                         <div class="flex items-center gap-2 mb-1">
