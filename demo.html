@@ -107,36 +107,53 @@
             }
         }
 
-        /* Date Ideas Animation */
-        .date-ideas-list {
+        /* Date Ideas Animation - OG.HTML STYLE */
+        .home-hero_heading {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.2;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .home-hero_heading {
+                font-size: 2rem;
+            }
+        }
+
+        .home-hero_text-list {
             display: inline-block;
-            vertical-align: top;
+            vertical-align: baseline;
             overflow: hidden;
             height: 1.2em;
             position: relative;
+            min-width: 200px;
         }
 
-        .date-idea {
+        .home-hero_text {
             display: block;
             opacity: 0;
             position: absolute;
             top: 0;
             left: 0;
+            white-space: nowrap;
             animation: slideText 24s infinite;
         }
 
-        .date-idea:nth-child(1) { animation-delay: 0s; }
-        .date-idea:nth-child(2) { animation-delay: 2s; }
-        .date-idea:nth-child(3) { animation-delay: 4s; }
-        .date-idea:nth-child(4) { animation-delay: 6s; }
-        .date-idea:nth-child(5) { animation-delay: 8s; }
-        .date-idea:nth-child(6) { animation-delay: 10s; }
-        .date-idea:nth-child(7) { animation-delay: 12s; }
-        .date-idea:nth-child(8) { animation-delay: 14s; }
-        .date-idea:nth-child(9) { animation-delay: 16s; }
-        .date-idea:nth-child(10) { animation-delay: 18s; }
-        .date-idea:nth-child(11) { animation-delay: 20s; }
-        .date-idea:nth-child(12) { animation-delay: 22s; }
+        .home-hero_text:nth-child(1) { animation-delay: 0s; }
+        .home-hero_text:nth-child(2) { animation-delay: 2s; }
+        .home-hero_text:nth-child(3) { animation-delay: 4s; }
+        .home-hero_text:nth-child(4) { animation-delay: 6s; }
+        .home-hero_text:nth-child(5) { animation-delay: 8s; }
+        .home-hero_text:nth-child(6) { animation-delay: 10s; }
+        .home-hero_text:nth-child(7) { animation-delay: 12s; }
+        .home-hero_text:nth-child(8) { animation-delay: 14s; }
+        .home-hero_text:nth-child(9) { animation-delay: 16s; }
+        .home-hero_text:nth-child(10) { animation-delay: 18s; }
+        .home-hero_text:nth-child(11) { animation-delay: 20s; }
+        .home-hero_text:nth-child(12) { animation-delay: 22s; }
 
         @keyframes slideText {
             0%, 8.33% {
@@ -201,53 +218,90 @@
             background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
         }
 
-        /* Layout Proportions - Parametric */
+        /* Layout Proportions - Parametric - FIXED FOR NO OVERLAP */
         :root {
-            --dock-height: 4rem;
-            --content-padding-bottom: calc(var(--dock-height) + 1rem);
-            --logo-height: 4rem;
-            --how-it-works-ratio: 60%;
-            --popular-ideas-ratio: 35%;
-            --spacing-unit: 1rem;
+            --dock-height: 4.5rem;
+            --mission-height: 4rem;
+            --spacing-gap: 1rem;
+            --total-bottom-space: calc(var(--dock-height) + var(--mission-height) + var(--spacing-gap) * 3);
         }
 
         @media (max-width: 768px) {
             :root {
-                --dock-height: 3.5rem;
-                --content-padding-bottom: calc(var(--dock-height) + 0.5rem);
-                --how-it-works-ratio: 55%;
-                --popular-ideas-ratio: 40%;
+                --dock-height: 4rem;
+                --mission-height: 3.5rem;
+                --spacing-gap: 0.75rem;
+                --total-bottom-space: calc(var(--dock-height) + var(--mission-height) + var(--spacing-gap) * 3);
             }
         }
 
         .main-content-wrapper {
-            height: calc(100vh - var(--content-padding-bottom));
-            padding-bottom: var(--content-padding-bottom);
+            height: calc(100vh - var(--total-bottom-space));
+            padding-bottom: var(--total-bottom-space);
         }
 
-        /* Mission Statement Styling */
-        .mission-statement {
+        /* Mission Statement + Download Button Styling */
+        .mission-download-wrapper {
             position: fixed;
-            bottom: calc(var(--dock-height) + 1.5rem);
+            bottom: calc(var(--dock-height) + var(--spacing-gap));
             left: 50%;
             transform: translateX(-50%);
             max-width: 90%;
-            width: 600px;
+            width: 700px;
             z-index: 40;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            align-items: center;
+        }
+
+        .mission-statement {
             padding: 0.75rem 1.25rem;
             background: rgba(255, 255, 255, 0.4);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             border-radius: 1rem;
             text-align: center;
+            width: 100%;
         }
 
         @media (max-width: 768px) {
+            .mission-download-wrapper {
+                width: 85%;
+                gap: 0.5rem;
+            }
             .mission-statement {
-                bottom: calc(var(--dock-height) + 1rem);
                 font-size: 0.7rem;
                 padding: 0.5rem 1rem;
-                width: 85%;
+            }
+        }
+
+        /* How it Works Section - NO OVERLAP! */
+        .getting-started-section {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            gap: 1rem;
+        }
+
+        .how-it-works-container {
+            flex: 0 0 auto;
+            max-height: 50%;
+            overflow: visible;
+        }
+
+        .popular-ideas-container {
+            flex: 0 0 auto;
+            max-height: 35%;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 768px) {
+            .how-it-works-container {
+                max-height: 45%;
+            }
+            .popular-ideas-container {
+                max-height: 40%;
             }
         }
     </style>
@@ -293,11 +347,16 @@
 
     </nav>
 
-    <!-- MISSION STATEMENT (Only visible on home page) -->
-    <div id="mission-statement" class="mission-statement hidden">
-        <p class="text-gray-700 text-xs md:text-sm leading-relaxed">
-            Our mission is to turn every match into a real-life connection. Laila eliminates endless swiping by making dating about action, not small talk.
-        </p>
+    <!-- MISSION STATEMENT + DOWNLOAD BUTTON (Only visible on home page) -->
+    <div id="mission-download-wrapper" class="mission-download-wrapper hidden">
+        <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="bg-gray-900 text-white px-6 py-2.5 rounded-2xl font-semibold hover:bg-gray-800 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm shadow-lg">
+            Join Laila <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </a>
+        <div class="mission-statement">
+            <p class="text-gray-700 text-xs md:text-sm leading-relaxed">
+                Our mission is to turn every match into a real-life connection. Laila eliminates endless swiping by making dating about action, not small talk.
+            </p>
+        </div>
     </div>
 
     <!-- LOGO -->
@@ -313,7 +372,7 @@
         <!-- 1. HOME SECTION -->
         <section id="home" class="content-section w-full h-full flex flex-col md:flex-row items-center justify-center gap-8 fade-in text-center md:text-left">
 
-            <div class="flex-1 flex flex-col items-center md:items-start justify-center space-y-4 z-10 max-w-xl w-full">
+            <div class="flex-1 flex flex-col items-center md:items-start justify-center space-y-4 z-10 max-w-2xl w-full">
                 <div class="inline-flex items-center px-3 py-1 rounded-full glass-panel border border-purple-100 shadow-sm text-[10px] font-bold text-purple-600 uppercase tracking-wider">
                     <span class="relative flex h-1.5 w-1.5 mr-2">
                       <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-400 opacity-75"></span>
@@ -322,39 +381,40 @@
                     Live in New York City
                 </div>
 
-                <h1 class="text-4xl md:text-6xl font-extrabold tracking-tighter leading-[0.95] text-gray-900 w-full">
+                <!-- OG.HTML STYLE TEXT FLOW -->
+                <div class="home-hero_heading text-gray-900 w-full">
                     Let's go
-                    <span class="date-ideas-list">
-                        <span class="date-idea">to a Broadway show</span>
-                        <span class="date-idea">do a dumpling crawl at Chinatown</span>
-                        <span class="date-idea">play tennis at West Side Highway</span>
-                        <span class="date-idea">to Farmer's Market</span>
-                        <span class="date-idea">bowling</span>
-                        <span class="date-idea">to a comedy show</span>
-                        <span class="date-idea">run a 5k in Central Park</span>
-                        <span class="date-idea">hiking</span>
-                        <span class="date-idea">to a Mets game</span>
-                        <span class="date-idea">play padel</span>
-                        <span class="date-idea">to brunch in West Village</span>
-                        <span class="date-idea">to a Broadway show</span>
-                    </span>
-                </h1>
+                    <div class="home-hero_text-list">
+                        <div class="home-hero_text">to a Broadway show</div>
+                        <div class="home-hero_text">do a dumpling crawl at Chinatown</div>
+                        <div class="home-hero_text">play tennis at West Side Highway</div>
+                        <div class="home-hero_text">to Farmer's Market</div>
+                        <div class="home-hero_text">bowling</div>
+                        <div class="home-hero_text">to a comedy show</div>
+                        <div class="home-hero_text">run a 5k in Central Park</div>
+                        <div class="home-hero_text">hiking</div>
+                        <div class="home-hero_text">to a Mets game</div>
+                        <div class="home-hero_text">play padel</div>
+                        <div class="home-hero_text">to brunch in West Village</div>
+                        <div class="home-hero_text">to a Broadway show</div>
+                    </div>
+                </div>
 
                 <p class="text-slate-500 text-base md:text-lg font-medium leading-relaxed max-w-md mx-auto md:mx-0">
                     Laila gets you off your phone and into the moment. Post a date idea, find a match, and go.
                 </p>
 
                 <div class="flex flex-col sm:flex-row gap-3 justify-center md:justify-start pt-2 w-full">
-                    <button class="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm shadow-lg shadow-purple-500/10">
+                    <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="bg-gray-900 text-white px-6 py-3 rounded-2xl font-semibold hover:bg-gray-800 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm shadow-lg shadow-purple-500/10">
                         Download App <i data-lucide="arrow-right" class="w-4 h-4"></i>
-                    </button>
+                    </a>
                     <button onclick="showSection('getting-started')" class="px-6 py-3 rounded-2xl font-semibold text-gray-700 glass-panel hover:bg-white/50 transition-all active:scale-95 text-sm">
                         How it works
                     </button>
                 </div>
             </div>
 
-            <!-- Visual Area (Right) -->
+            <!-- Visual Area (Right) - NO BACKGROUND -->
             <div class="flex-1 relative hidden md:flex items-center justify-center h-full max-h-[500px]">
                 <div class="absolute w-56 h-[420px] glass-panel rounded-[2rem] shadow-2xl border-4 border-gray-50 transform -rotate-3 z-10 overflow-hidden flex flex-col">
                      <!-- Mockup Header -->
@@ -364,7 +424,7 @@
                         <div class="w-6 h-6 bg-purple-100 rounded-full"></div>
                     </div>
                     <!-- Mockup Body -->
-                    <div class="p-3 space-y-3 bg-gray-50 h-full">
+                    <div class="p-3 space-y-3 bg-gray-50/90 h-full">
                         <div class="bg-white p-3 rounded-xl shadow-sm border border-gray-100">
                             <div class="flex justify-between items-start mb-1">
                                 <div class="font-bold text-gray-800 text-sm">Jazz Night</div>
@@ -378,17 +438,16 @@
                         </div>
                     </div>
                 </div>
-                <div class="absolute w-56 h-[420px] bg-gradient-to-br from-purple-600 to-pink-500 rounded-[2rem] shadow-xl transform rotate-6 translate-x-4 translate-y-2 -z-10 opacity-10"></div>
             </div>
         </section>
 
-        <!-- 2. GETTING STARTED & POPULAR IDEAS (Parametric Layout) -->
-        <section id="getting-started" class="content-section hidden w-full h-full flex flex-col max-w-6xl mx-auto overflow-hidden">
+        <!-- 2. GETTING STARTED & POPULAR IDEAS (NO OVERLAP!) -->
+        <section id="getting-started" class="content-section hidden w-full h-full max-w-6xl mx-auto getting-started-section">
 
-            <!-- Top Section: How it Works (60% of available height) -->
-            <div class="flex flex-col justify-center" style="height: var(--how-it-works-ratio); min-height: 0;">
-                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 text-center flex-shrink-0">How Laila Works</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6 flex-1 min-h-0 items-center">
+            <!-- How it Works Section -->
+            <div class="how-it-works-container">
+                <h2 class="text-2xl md:text-3xl font-bold mb-4 text-gray-900 text-center">How Laila Works</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
 
                     <!-- Step 1 -->
                     <div class="flex flex-col items-center group">
@@ -400,7 +459,7 @@
 
                     <!-- Step 2 -->
                     <div class="flex flex-col items-center group">
-                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300 delay-75">
+                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300">
                             <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" class="w-full h-full object-cover" alt="See Who Wants to Join">
                         </div>
                         <h3 class="font-bold text-sm md:text-base text-gray-900 mt-2 text-center">See Who Wants to Join</h3>
@@ -408,7 +467,7 @@
 
                     <!-- Step 3 -->
                     <div class="flex flex-col items-center group">
-                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300 delay-100">
+                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300">
                             <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" class="w-full h-full object-cover" alt="Ask Someone Out">
                         </div>
                         <h3 class="font-bold text-sm md:text-base text-gray-900 mt-2 text-center">Ask Someone Out</h3>
@@ -416,7 +475,7 @@
 
                     <!-- Step 4 -->
                     <div class="flex flex-col items-center group">
-                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300 delay-150">
+                        <div class="relative w-full aspect-[9/16] rounded-2xl overflow-hidden shadow-lg border-2 border-gray-100 group-hover:-translate-y-2 transition-transform duration-300">
                             <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" class="w-full h-full object-cover" alt="Match With a Date Plan">
                         </div>
                         <h3 class="font-bold text-sm md:text-base text-gray-900 mt-2 text-center">Match With a Date Plan</h3>
@@ -426,43 +485,43 @@
             </div>
 
             <!-- Divider -->
-            <div class="w-full h-px bg-gray-200 my-2 flex-shrink-0"></div>
+            <div class="w-full h-px bg-gray-200 flex-shrink-0"></div>
 
-            <!-- Bottom Section: Popular Date Ideas (35% of available height) -->
-            <div class="flex flex-col overflow-hidden" style="height: var(--popular-ideas-ratio); min-height: 0;">
-                <h3 class="text-xl font-bold mb-2 text-gray-900 px-1 flex-shrink-0">Popular Date Ideas</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 overflow-y-auto custom-scroll pr-1 flex-1 min-h-0 content-start pb-2">
+            <!-- Popular Date Ideas Section -->
+            <div class="popular-ideas-container">
+                <h3 class="text-xl font-bold mb-2 text-gray-900">Popular Date Ideas</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 pb-2">
                     <!-- Idea 1 -->
-                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors h-fit">
+                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center"><i data-lucide="coffee" class="w-4 h-4"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center flex-shrink-0"><i data-lucide="coffee" class="w-4 h-4"></i></div>
                             <span class="text-xs font-semibold text-gray-400">UES</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 leading-tight mb-1">Coffee at Central Park</h4>
                         <p class="text-xs text-gray-500">Latte & walk around the reservoir.</p>
                     </div>
                     <!-- Idea 2 -->
-                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors h-fit">
+                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center"><i data-lucide="music" class="w-4 h-4"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center flex-shrink-0"><i data-lucide="music" class="w-4 h-4"></i></div>
                             <span class="text-xs font-semibold text-gray-400">SoHo</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 leading-tight mb-1">Live Jazz Night</h4>
                         <p class="text-xs text-gray-500">Blue Note quartet playing tonight.</p>
                     </div>
                     <!-- Idea 3 -->
-                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors h-fit">
+                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center"><i data-lucide="utensils" class="w-4 h-4"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-rose-100 text-rose-600 flex items-center justify-center flex-shrink-0"><i data-lucide="utensils" class="w-4 h-4"></i></div>
                             <span class="text-xs font-semibold text-gray-400">Village</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 leading-tight mb-1">Try New Italian</h4>
                         <p class="text-xs text-gray-500">Craving pasta at Carbone.</p>
                     </div>
                     <!-- Idea 4 -->
-                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors h-fit">
+                    <div class="glass-panel rounded-xl p-3 shadow-sm border border-gray-100 hover:border-purple-200 transition-colors">
                         <div class="flex items-center gap-2 mb-2">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center"><i data-lucide="camera" class="w-4 h-4"></i></div>
+                            <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0"><i data-lucide="camera" class="w-4 h-4"></i></div>
                             <span class="text-xs font-semibold text-gray-400">Midtown</span>
                         </div>
                         <h4 class="font-bold text-sm text-gray-900 leading-tight mb-1">MoMA Gallery</h4>
@@ -549,7 +608,7 @@
             </div>
         </section>
 
-        <!-- 4. FAQ SECTION (Complete texts from og.html) -->
+        <!-- 4. FAQ SECTION -->
         <section id="faq" class="content-section hidden w-full h-full flex flex-col max-w-4xl mx-auto overflow-hidden">
             <h2 class="text-2xl font-bold mb-4 text-gray-900 flex-shrink-0">FAQ</h2>
 
@@ -689,12 +748,12 @@
                 activeBtn.classList.add('active');
             }
 
-            // Show mission statement only on home page
-            const missionStatement = document.getElementById('mission-statement');
+            // Show mission+download wrapper only on home page
+            const missionWrapper = document.getElementById('mission-download-wrapper');
             if (sectionId === 'home') {
-                missionStatement.classList.remove('hidden');
+                missionWrapper.classList.remove('hidden');
             } else {
-                missionStatement.classList.add('hidden');
+                missionWrapper.classList.add('hidden');
             }
         }
 
@@ -718,6 +777,7 @@
 
         window.addEventListener('DOMContentLoaded', () => {
             showSection('home');
+            lucide.createIcons();
         });
     </script>
 </body>
