@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laila | Real Life Connections</title>
+
+    <!-- Webflow shared CSS (same as og.html) -->
+    <link href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/css/laila-qav2.webflow.shared.72dbb000e.css" rel="stylesheet" type="text/css">
+    <!-- Google Fonts: Inter as fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons (CDN) -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            300: '#c4b5fd',
+                            400: '#a78bfa',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                        }
+                    },
+                    fontSize: {
+                        'xxs': '0.65rem',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* ===== PARAMETRIC LAYOUT VARIABLES ===== */
+        :root {
+            --logo-top: 2%;
+            --logo-left: 3%;
+            --dock-bottom: 2%;
+            --dock-height: 48px;
+            --content-top: 7%;
+            --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + 2%);
+            --content-horizontal-padding: 4%;
+            --section-gap: 2%;
+        }
+
+        /* Base */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            width: 100vw;
+            margin: 0;
+            padding: 0;
+            background: #000;
+            color: #fff;
+        }
+
+        /* ===== BACKGROUND VIDEO ===== */
+        .bg-video-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .bg-video-container video {
+            width: 100%; height: 100%;
+            object-fit: cover;
+        }
+
+        /* ===== GLASS OVERLAY for all content on top of video ===== */
+        .glass-overlay {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+        }
+
+        /* ===== DOCK ===== */
+        .glass-dock {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: none;
+            box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navigation */
+        .nav-item {
+            transition: all 0.2s ease;
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .nav-item:hover {
+            color: #fff;
+        }
+        .nav-item.active {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.25);
+        }
+
+        /* Animations */
+        .fade-in {
+            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Accordion */
+        .accordion-content {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        .accordion-content.open {
+            max-height: 500px;
+            opacity: 1;
+        }
+        .accordion-btn[aria-expanded="true"] .accordion-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Custom Scrollbar */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-track { background: transparent; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.3); border-radius: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.5); }
+
+        /* Text overlay gradient for events */
+        .text-overlay-gradient {
+            background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+        }
+
+        /* ===== ROTATING DATE IDEAS ===== */
+        .date-idea-rotator {
+            display: inline;
+        }
+        .date-idea-rotator span {
+            display: inline-block;
+            animation: rotateDateIdea 0.5s ease forwards;
+        }
+        @keyframes rotateDateIdea {
+            0% { opacity: 0; transform: translateY(100%); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CONTENT AREA ===== */
+        .content-area {
+            position: absolute;
+            top: var(--content-top);
+            left: var(--content-horizontal-padding);
+            right: var(--content-horizontal-padding);
+            bottom: var(--content-bottom);
+            z-index: 10;
+            overflow: hidden;
+        }
+
+        /* Glass card used inside content sections */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: none;
+            border-radius: 1rem;
+        }
+
+        /* How it works section - DESKTOP: percentage grid that fits, no overlap */
+        .how-it-works-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2%;
+            height: 100%;
+            align-items: stretch;
+        }
+        .how-it-works-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100%;
+            min-width: 0;
+        }
+        .how-it-works-step .step-img-wrap {
+            flex: 1;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 0;
+        }
+        .how-it-works-step .step-img-wrap img {
+            max-height: 100%;
+            max-width: 100%;
+            width: auto;
+            height: auto;
+            object-fit: contain;
+            border-radius: 0.75rem;
+        }
+        .how-it-works-step h3 {
+            flex-shrink: 0;
+            padding-top: 4%;
+            font-weight: 700;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Popular ideas - DESKTOP: grid fits */
+        .popular-ideas-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2%;
+            height: 100%;
+            align-items: stretch;
+        }
+
+        /* ===== MOBILE: horizontal swipe for both ===== */
+        @media (max-width: 768px) {
+            :root {
+                --content-top: 8%;
+                --content-horizontal-padding: 3%;
+            }
+
+            /* Convert steps grid to horizontal scroll */
+            .how-it-works-grid {
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 12px;
+                height: 100%;
+                padding-bottom: 8px;
+            }
+            .how-it-works-grid::-webkit-scrollbar { display: none; }
+            .how-it-works-grid { -ms-overflow-style: none; scrollbar-width: none; }
+
+            .how-it-works-step {
+                flex: 0 0 70%;
+                scroll-snap-align: center;
+                max-width: 70%;
+            }
+
+            /* Convert popular ideas to horizontal scroll */
+            .popular-ideas-grid {
+                display: flex;
+                overflow-x: auto;
+                overflow-y: hidden;
+                scroll-snap-type: x mandatory;
+                -webkit-overflow-scrolling: touch;
+                gap: 10px;
+                height: 100%;
+                padding-bottom: 4px;
+            }
+            .popular-ideas-grid::-webkit-scrollbar { display: none; }
+            .popular-ideas-grid { -ms-overflow-style: none; scrollbar-width: none; }
+
+            .popular-ideas-grid > .glass-card {
+                flex: 0 0 75%;
+                scroll-snap-align: center;
+                max-width: 75%;
+            }
+
+            .nav-item span {
+                display: none;
+            }
+            .nav-item {
+                padding: 8px 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== BACKGROUND VIDEOS (one per section, toggled via JS) ===== -->
+    <div class="bg-video-container" id="bg-video-home">
+        <video autoplay muted loop playsinline>
+            <source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-video-container" id="bg-video-getting-started" style="display:none;">
+        <video autoplay muted loop playsinline>
+            <source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-video-container" id="bg-video-events" style="display:none;">
+        <video autoplay muted loop playsinline>
+            <source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4">
+        </video>
+    </div>
+    <div class="bg-video-container" id="bg-video-faq" style="display:none;">
+        <video autoplay muted loop playsinline>
+            <source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4">
+        </video>
+    </div>
+
+    <!-- ===== LOGO (PNG from og.html) ===== -->
+    <div style="position:fixed; top:var(--logo-top); left:var(--logo-left); z-index:50; cursor:pointer;" onclick="showSection('home')">
+        <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila" style="height: 36px; width: auto; filter: brightness(0) invert(1) drop-shadow(0 2px 8px rgba(0,0,0,0.3));">
+    </div>
+
+    <!-- ===== FLOATING DOCK MENU ===== -->
+    <nav class="glass-dock fixed z-50 rounded-full flex items-center justify-center gap-1"
+         style="bottom: var(--dock-bottom); left: 50%; transform: translateX(-50%); height: var(--dock-height); padding: 0 12px;">
+
+        <button onclick="showSection('home')" id="btn-home" class="nav-item active px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2">
+            <i data-lucide="home" class="w-4 h-4 md:w-5 md:h-5"></i>
+            <span class="text-xs font-semibold">Home</span>
+        </button>
+        <div class="w-px h-4 bg-white/30"></div>
+        <button onclick="showSection('getting-started')" id="btn-getting-started" class="nav-item px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2">
+            <i data-lucide="rocket" class="w-4 h-4 md:w-5 md:h-5"></i>
+            <span class="text-xs font-semibold">How it Works</span>
+        </button>
+        <div class="w-px h-4 bg-white/30"></div>
+        <button onclick="showSection('events')" id="btn-events" class="nav-item px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2">
+            <i data-lucide="calendar-heart" class="w-4 h-4 md:w-5 md:h-5"></i>
+            <span class="text-xs font-semibold">Events</span>
+        </button>
+        <div class="w-px h-4 bg-white/30"></div>
+        <button onclick="showSection('faq')" id="btn-faq" class="nav-item px-3 py-1.5 md:px-4 md:py-2 rounded-full flex items-center gap-2">
+            <i data-lucide="help-circle" class="w-4 h-4 md:w-5 md:h-5"></i>
+            <span class="text-xs font-semibold">FAQ</span>
+        </button>
+    </nav>
+
+    <!-- ===== CONTENT AREA (never goes below dock) ===== -->
+    <div class="content-area">
+
+        <!-- ========== 1. HOME ========== -->
+        <section id="home" class="content-section w-full h-full flex flex-col items-center justify-center fade-in">
+
+            <!-- Center: Rotating Date Ideas (NO background, fixed height) -->
+            <div class="flex flex-col items-center justify-center flex-1 text-center px-4">
+                <!-- Live in NYC badge with GREEN dot -->
+                <div class="inline-flex items-center px-3 py-1 rounded-full bg-white/10 text-[10px] font-bold text-white uppercase tracking-wider mb-4">
+                    <span class="relative flex h-2 w-2 mr-2">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" style="background: #4ade80; box-shadow: 0 0 8px 2px rgba(74, 222, 128, 0.5);"></span>
+                      <span class="relative inline-flex rounded-full h-2 w-2" style="background: #4ade80; box-shadow: 0 0 6px 2px rgba(74, 222, 128, 0.4);"></span>
+                    </span>
+                    Live in New York City
+                </div>
+
+                <!-- Fixed-height text area so buttons never jump -->
+                <div style="height: 60px; display: flex; align-items: center; justify-content: center; overflow: hidden;" class="mb-4">
+                    <h1 class="text-xl md:text-3xl lg:text-4xl font-extrabold tracking-tight text-white" style="white-space: nowrap;">
+                        Let's go <span id="date-idea-text" class="text-transparent bg-clip-text bg-gradient-to-r from-purple-300 to-pink-300"></span>
+                    </h1>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="glass-card text-white px-6 py-3 rounded-2xl font-semibold hover:bg-white/30 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm">
+                        Join Laila <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <button onclick="showSection('getting-started')" class="glass-card px-6 py-3 rounded-2xl font-semibold text-white hover:bg-white/30 transition-all active:scale-95 text-sm">
+                        How it works
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bottom: Mission text above dock (small font, no card bg) -->
+            <div class="flex-shrink-0 w-full text-center pb-2 px-4">
+                <p class="text-white/70 text-[10px] md:text-xs leading-relaxed max-w-xl mx-auto">
+                    Our mission is to turn every match into a real-life connection. Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk.
+                </p>
+            </div>
+        </section>
+
+        <!-- ========== 2. HOW IT WORKS ========== -->
+        <section id="getting-started" class="content-section w-full h-full fade-in" style="display:none; flex-direction:column; padding: 1% 2%;">
+
+            <!-- Title: fixed small area -->
+            <div style="flex: 0 0 auto; text-align:center; padding-bottom: 1%;">
+                <h2 class="text-xl md:text-2xl lg:text-3xl font-bold text-white drop-shadow-lg">How Laila Works</h2>
+            </div>
+
+            <!-- How it works steps: 80% of space -->
+            <div style="flex: 0 0 78%; min-height: 0;">
+                <div class="how-it-works-grid" style="height: 100%;">
+                    <div class="how-it-works-step">
+                        <div class="step-img-wrap glass-card p-1">
+                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date">
+                        </div>
+                        <h3 class="text-white text-xs md:text-sm drop-shadow">Post A Date</h3>
+                    </div>
+                    <div class="how-it-works-step">
+                        <div class="step-img-wrap glass-card p-1">
+                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Wants to Join">
+                        </div>
+                        <h3 class="text-white text-xs md:text-sm drop-shadow">See Who Wants to Join</h3>
+                    </div>
+                    <div class="how-it-works-step">
+                        <div class="step-img-wrap glass-card p-1">
+                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out">
+                        </div>
+                        <h3 class="text-white text-xs md:text-sm drop-shadow">Ask Someone Out</h3>
+                    </div>
+                    <div class="how-it-works-step">
+                        <div class="step-img-wrap glass-card p-1">
+                            <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match With a Date Plan">
+                        </div>
+                        <h3 class="text-white text-xs md:text-sm drop-shadow">Match With a Date Plan</h3>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div style="flex: 0 0 auto; padding: 1% 0;">
+                <div style="height:1px; background: rgba(255,255,255,0.2);"></div>
+            </div>
+
+            <!-- Popular Date Ideas title -->
+            <div style="flex: 0 0 auto; padding-bottom: 1%;">
+                <h3 class="text-base md:text-lg font-bold text-white drop-shadow">Popular Date Ideas</h3>
+            </div>
+
+            <!-- Popular Date Ideas: takes remaining ~18% -->
+            <div style="flex: 1 1 0; min-height: 0;">
+                <div class="popular-ideas-grid" style="height: 100%;">
+                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-amber-400/30 text-amber-200 flex items-center justify-center flex-shrink-0"><i data-lucide="coffee" class="w-3 h-3 md:w-4 md:h-4"></i></div>
+                            <span class="text-[10px] font-semibold text-white/60">UES</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Coffee at Central Park</h4>
+                        <p class="text-[10px] md:text-xs text-white/70">Latte & walk around the reservoir.</p>
+                    </div>
+                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-purple-400/30 text-purple-200 flex items-center justify-center flex-shrink-0"><i data-lucide="music" class="w-3 h-3 md:w-4 md:h-4"></i></div>
+                            <span class="text-[10px] font-semibold text-white/60">SoHo</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Live Jazz Night</h4>
+                        <p class="text-[10px] md:text-xs text-white/70">Blue Note quartet playing tonight.</p>
+                    </div>
+                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-rose-400/30 text-rose-200 flex items-center justify-center flex-shrink-0"><i data-lucide="utensils" class="w-3 h-3 md:w-4 md:h-4"></i></div>
+                            <span class="text-[10px] font-semibold text-white/60">Village</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">Try New Italian</h4>
+                        <p class="text-[10px] md:text-xs text-white/70">Craving pasta at Carbone.</p>
+                    </div>
+                    <div class="glass-card p-3 flex flex-col justify-center overflow-hidden">
+                        <div class="flex items-center gap-2 mb-1">
+                            <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-blue-400/30 text-blue-200 flex items-center justify-center flex-shrink-0"><i data-lucide="camera" class="w-3 h-3 md:w-4 md:h-4"></i></div>
+                            <span class="text-[10px] font-semibold text-white/60">Midtown</span>
+                        </div>
+                        <h4 class="font-bold text-xs md:text-sm text-white leading-tight mb-0.5">MoMA Gallery</h4>
+                        <p class="text-[10px] md:text-xs text-white/70">Checking out modern art.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 3. EVENTS ========== -->
+        <section id="events" class="content-section w-full h-full flex flex-col fade-in" style="display:none; padding: 1% 2%;">
+            <div class="flex justify-between items-end mb-3 flex-shrink-0">
+                <h2 class="text-2xl md:text-3xl font-bold text-white drop-shadow-lg">Latest Events</h2>
+                <span class="text-xs font-medium text-white bg-white/20 backdrop-blur-sm px-2 py-1 rounded-lg">Curated by Laila</span>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 overflow-y-auto custom-scroll pb-4 flex-1 min-h-0 content-start">
+
+                <!-- Event 1 -->
+                <div class="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm group cursor-pointer glass-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="D8 Time">
+                    <div class="absolute inset-0 text-overlay-gradient"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <span class="text-[10px] font-bold tracking-wider text-white uppercase bg-purple-600/80 backdrop-blur-sm px-2 py-0.5 rounded-full mb-1 inline-block">Speed Dating</span>
+                        <h3 class="font-bold text-white text-lg mb-0.5 leading-tight drop-shadow-md">Laila x D8 Time</h3>
+                        <p class="text-xs text-gray-200 leading-relaxed line-clamp-2">A fast-paced speed dating night with 120 singles at Time Again, the hottest spot in Dimes Square.</p>
+                    </div>
+                </div>
+
+                <!-- Event 2 -->
+                <div class="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm group cursor-pointer glass-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Good Girls Gone Social">
+                    <div class="absolute inset-0 text-overlay-gradient"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <span class="text-[10px] font-bold tracking-wider text-white uppercase bg-pink-600/80 backdrop-blur-sm px-2 py-0.5 rounded-full mb-1 inline-block">Mixer</span>
+                        <h3 class="font-bold text-white text-lg mb-0.5 leading-tight drop-shadow-md">Good Girls Gone Social</h3>
+                        <p class="text-xs text-gray-200 leading-relaxed line-clamp-2">A flirty singles mixer with Good Girls Gone Social, where roses flowed and real connections bloomed all night long.</p>
+                    </div>
+                </div>
+
+                <!-- Event 3 -->
+                <div class="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm group cursor-pointer glass-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Cupid's Hit List">
+                    <div class="absolute inset-0 text-overlay-gradient"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <span class="text-[10px] font-bold tracking-wider text-white uppercase bg-red-600/80 backdrop-blur-sm px-2 py-0.5 rounded-full mb-1 inline-block">Party</span>
+                        <h3 class="font-bold text-white text-lg mb-0.5 leading-tight drop-shadow-md">Cupid's Hit List - Valentine's Day</h3>
+                        <p class="text-xs text-gray-200 leading-relaxed line-clamp-2">A retro 80s disco party at Early Terrible, spinning love songs and bringing back the vintage Valentine's energy.</p>
+                    </div>
+                </div>
+
+                <!-- Event 4 -->
+                <div class="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm group cursor-pointer glass-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Laila's Friends">
+                    <div class="absolute inset-0 text-overlay-gradient"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <span class="text-[10px] font-bold tracking-wider text-white uppercase bg-blue-600/80 backdrop-blur-sm px-2 py-0.5 rounded-full mb-1 inline-block">Community</span>
+                        <h3 class="font-bold text-white text-lg mb-0.5 leading-tight drop-shadow-md">Laila's Friends</h3>
+                        <p class="text-xs text-gray-200 leading-relaxed line-clamp-2">Our friends and family launch at Bar Nena marked the beginning of our mission: to bring dating back to real life.</p>
+                    </div>
+                </div>
+
+                <!-- Event 5 -->
+                <div class="relative h-48 md:h-56 rounded-2xl overflow-hidden shadow-sm group cursor-pointer glass-card md:col-span-2 lg:col-span-1">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="Pregame at Cosmo">
+                    <div class="absolute inset-0 text-overlay-gradient"></div>
+                    <div class="absolute bottom-0 left-0 p-4 w-full">
+                        <span class="text-[10px] font-bold tracking-wider text-white uppercase bg-amber-600/80 backdrop-blur-sm px-2 py-0.5 rounded-full mb-1 inline-block">Social</span>
+                        <h3 class="font-bold text-white text-lg mb-0.5 leading-tight drop-shadow-md">Pregame at Cosmo</h3>
+                        <p class="text-xs text-gray-200 leading-relaxed line-clamp-2">A cheeky martini-fueled soiree with just the right amount of flirtation to set the mood before a long disco night out.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== 4. FAQ (Complete texts from og.html) ========== -->
+        <section id="faq" class="content-section w-full h-full flex flex-col fade-in" style="display:none; padding: 1% 2%;">
+            <h2 class="text-2xl md:text-3xl font-bold text-white mb-3 flex-shrink-0 drop-shadow-lg">FAQ</h2>
+
+            <div class="overflow-y-auto custom-scroll pb-4 space-y-2 flex-1 min-h-0 pr-1">
+
+                <!-- FAQ 1 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">What is Laila and how does it work?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Laila is an event-based dating app that helps you skip the small talk and get to real-life connections faster. Instead of swiping endlessly, you can post or ask to join specific date ideas. This way, you'll meet people with shared interests and start your date with a fun activity already planned.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">How is Laila different from other dating apps?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Unlike traditional apps that focus on profiles and endless messaging, Laila is all about action. We encourage users to post date ideas like "Coffee at Central Park" or "Live music in SoHo." It's about getting off your phone and into real life, fast. Our goal is to make dating fun and spontaneous again.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">How do I post a date idea on Laila?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Posting a date is simple. Just open the app, click the "Post a Date" button, and either share your own idea or use Laila's AI Date Planner to generate suggestions based on your interests. Whether it's grabbing a drink, checking out a local event, or something more unique, you can add the details, date, and time. Once your date is live, others can show interest by sending a like to it and joining you!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 4 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">Can I join a date posted by someone else?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Yes! If you see a date idea that interests you, simply send a like to show you're interested. If there's mutual interest, you'll get connected in the chat, where you can finalize the details and meet up.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 5 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">Is Laila available everywhere?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Right now, Laila is live in New York City. We're working on expanding to more cities soon, so stay tuned! Want Laila in your city? Let us know by following us on social media and sharing your thoughts—we're always listening!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 6 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">Is Laila safe to use?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Absolutely. At Laila, safety is our top priority. We thoroughly vet every profile by cross-checking user information and social media accounts to ensure that every user is real and authentic. Additionally, to enhance safety, users can post date ideas without specifying the exact location upfront. For example, you can post "Let's grab Italian" and finalize the location in the chat once you've matched with someone interested in joining. This ensures that details are shared only when both parties feel comfortable.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 7 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">How do I get matches on Laila?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Laila connects you with people who share your interests through real-life date ideas. You can either post a date idea or like dates posted by others. If someone likes your date or you both like the same date, it's a match! Once matched, you can chat to finalize the details and plan your meetup.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 8 -->
+                <div class="glass-card overflow-hidden">
+                    <button class="accordion-btn w-full px-4 py-3 text-left flex justify-between items-center focus:outline-none" aria-expanded="false" onclick="toggleAccordion(this)">
+                        <span class="font-semibold text-white text-sm">Can I suggest improvements or report issues?</span>
+                        <i data-lucide="chevron-down" class="accordion-icon w-4 h-4 text-white/60 transition-transform duration-300"></i>
+                    </button>
+                    <div class="accordion-content">
+                        <div class="px-4 pb-3 pt-1 text-white/80 text-xs leading-relaxed">
+                            Absolutely! We love hearing from our users. If you have feedback, suggestions, or need help with anything, you can contact us through the app or email us at <a href="mailto:contact@laila.nyc" class="underline text-purple-300 hover:text-purple-200">contact@laila.nyc</a>. We're always working to make Laila better!
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Still have questions -->
+                <div class="text-center pt-4 pb-2">
+                    <h3 class="text-white font-bold text-base mb-3">Still have questions?</h3>
+                    <div class="flex gap-3 justify-center">
+                        <a href="https://www.instagram.com/laila.social/" target="_blank" class="glass-card text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/30 transition-all">DM Us</a>
+                        <a href="mailto:contact@laila.nyc?subject=Laila%20-%20Question" class="glass-card text-white px-4 py-2 rounded-xl text-sm font-semibold hover:bg-white/30 transition-all">Email Us</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ===== JAVASCRIPT ===== -->
+    <script>
+        lucide.createIcons();
+
+        // Date ideas rotation (from og.html)
+        const dateIdeas = [
+            "to a Broadway show",
+            "do a dumpling crawl at Chinatown",
+            "play tennis at West Side Highway",
+            "to Farmer's Market",
+            "bowling",
+            "to a comedy show",
+            "run a 5k in Central Park",
+            "hiking",
+            "to a Mets game",
+            "play padel",
+            "to brunch in West Village"
+        ];
+        let currentIdeaIndex = 0;
+        const ideaEl = document.getElementById('date-idea-text');
+
+        function rotateDateIdea() {
+            ideaEl.style.opacity = '0';
+            ideaEl.style.transform = 'translateY(20px)';
+            setTimeout(() => {
+                ideaEl.textContent = dateIdeas[currentIdeaIndex];
+                ideaEl.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+                ideaEl.style.opacity = '1';
+                ideaEl.style.transform = 'translateY(0)';
+                currentIdeaIndex = (currentIdeaIndex + 1) % dateIdeas.length;
+            }, 300);
+        }
+
+        // Start rotation
+        rotateDateIdea();
+        setInterval(rotateDateIdea, 2500);
+
+        // Section switching with background video swap
+        const sectionVideoMap = {
+            'home': 'bg-video-home',
+            'getting-started': 'bg-video-getting-started',
+            'events': 'bg-video-events',
+            'faq': 'bg-video-faq'
+        };
+
+        function showSection(sectionId) {
+            // Hide all content sections
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(sec => {
+                sec.style.display = 'none';
+                sec.classList.remove('fade-in');
+            });
+
+            // Show target section
+            const activeSection = document.getElementById(sectionId);
+            if (activeSection) {
+                activeSection.style.display = 'flex';
+                if (sectionId === 'getting-started') {
+                    activeSection.style.flexDirection = 'column';
+                }
+                void activeSection.offsetWidth;
+                activeSection.classList.add('fade-in');
+            }
+
+            // Switch background videos
+            Object.values(sectionVideoMap).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.style.display = 'none';
+            });
+            const activeVideo = document.getElementById(sectionVideoMap[sectionId]);
+            if (activeVideo) activeVideo.style.display = 'block';
+
+            // Update nav buttons
+            const buttons = document.querySelectorAll('.nav-item');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + sectionId);
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+
+        function toggleAccordion(button) {
+            const content = button.nextElementSibling;
+            const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+            const allButtons = document.querySelectorAll('.accordion-btn');
+            const allContents = document.querySelectorAll('.accordion-content');
+            allButtons.forEach(btn => btn.setAttribute('aria-expanded', 'false'));
+            allContents.forEach(cont => cont.classList.remove('open'));
+
+            if (!isOpen) {
+                button.setAttribute('aria-expanded', 'true');
+                content.classList.add('open');
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            showSection('home');
+        });
+    </script>
+</body>
+</html>
