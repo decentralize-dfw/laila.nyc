@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Laila | Real Life Connections</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'silk':   ['"Silk Flower"', 'cursive'],
+                        'book':   ['"Bookmania"', 'serif'],
+                        'metro':  ['"Metropolis"', 'sans-serif'],
+                        'mulish': ['"Mulish"', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50:'#f5f3ff', 100:'#ede9fe', 200:'#ddd6fe',
+                            300:'#c4b5fd', 400:'#a78bfa', 500:'#9d6ac0',
+                            600:'#7c3aed', 700:'#6d28d9',
+                        }
+                    },
+                    fontSize: { xxs: '0.65rem' }
+                }
+            }
+        }
+    </script>
+    <style>
+        @font-face { font-family:'Mulish'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd060_Mulish-VariableFont_wght.ttf") format("truetype"); font-weight:200 1000; font-style:normal; font-display:swap; }
+        @font-face { font-family:'Silk Flower'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd05f_Silk%20Flower.otf") format("opentype"); font-weight:400; font-style:normal; font-display:swap; }
+        @font-face { font-family:'Bookmania'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd062_Fontspring-DEMO-bookmania-bold.otf") format("opentype"); font-weight:700; font-style:normal; }
+        @font-face { font-family:'Bookmania'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd063_Fontspring-DEMO-bookmania-semibold.otf") format("opentype"); font-weight:600; font-style:normal; }
+        @font-face { font-family:'Bookmania'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd065_Fontspring-DEMO-bookmania-regular.otf") format("opentype"); font-weight:400; font-style:normal; }
+        @font-face { font-family:'Metropolis'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9d2d108a8275ff8b6_Metropolis-Regular.otf") format("opentype"); font-weight:400; font-style:normal; }
+        @font-face { font-family:'Metropolis'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c991c3fb98dc42418b_Metropolis-SemiBold.otf") format("opentype"); font-weight:600; font-style:normal; }
+        @font-face { font-family:'Metropolis'; src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9c97208ba9db083d5_Metropolis-Bold.otf") format("opentype"); font-weight:700; font-style:normal; }
+
+        :root {
+            --logo-top:    20px;
+            --logo-height: 36px;
+            --dock-bottom: 12px;
+            --dock-height: 48px;
+            --chrome-gap:  5vh;
+            --content-top:    calc(var(--logo-top) + var(--logo-height) + var(--chrome-gap));
+            --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + var(--chrome-gap));
+            --content-h-pad: 4%;
+            --gap-v: 1.5vh;
+            --gap-h: 1.2%;
+            --title-size:    clamp(1.5rem, 2.6vw, 2.2rem);
+            --title-height:  5.5vh;
+            --title-mb:      1.5vh;
+            --hiw-pad-v:       1.2vh;
+            --hiw-pad-h:       0.8%;
+            --hiw-h3:          clamp(0.62rem, 0.95vw, 1rem);
+            --hiw-h4:          clamp(0.55rem, 0.8vw,  0.88rem);
+            --hiw-p:           clamp(0.48rem, 0.65vw, 0.72rem);
+            --hiw-badge-sz:    clamp(9px, 0.9vw, 13px);
+            --hiw-icon-sz:     clamp(5px, 0.55vw, 7.5px);
+            --hiw-badge-mb:    0.5vh;
+            --hiw-badge-lbl:   clamp(0.42rem, 0.5vw, 0.56rem);
+            --dock-center: calc((var(--dock-bottom) + var(--dock-height) + var(--chrome-gap)) / 2);
+        }
+
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { font-family:'Mulish', sans-serif; overflow:hidden; height:100vh; width:100vw; background:#000; color:#fff; }
+        h1.hero-text      { font-family:'Silk Flower', cursive; }
+        h2.section-title  { font-family:'Bookmania', serif; font-weight:700; }
+        h3.card-title     { font-family:'Bookmania', serif; font-weight:600; }
+        h4.detail-title   { font-family:'Metropolis', sans-serif; font-weight:700; }
+        .btn-text         { font-family:'Bookmania', serif; font-weight:600; }
+        .nav-text         { font-family:'Mulish', sans-serif; font-weight:600; letter-spacing:.02em; }
+        .detail-text      { font-family:'Metropolis', sans-serif; }
+
+        .glass-card, .hiw-item.glass-card {
+            background: rgba(255,255,255,0.65) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 16px;
+        }
+        .glass-btn {
+            background: rgba(255,255,255,0.65) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255,255,255,0.5);
+            border-radius: 100px;
+        }
+        .glass-dock {
+            background: rgba(255,255,255,0.65) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+            border: 1px solid rgba(255,255,255,0.5);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        #faq .glass-card {
+            background: rgba(255,255,255,0.65) !important;
+            backdrop-filter: blur(16px) saturate(180%) !important;
+            -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+        }
+
+        .bg-video-container { position:fixed; top:0; left:0; width:100%; height:100%; z-index:0; overflow:hidden; }
+        .bg-video-container video { width:100%; height:100%; object-fit:cover; }
+        .logo-img { filter:brightness(0) saturate(100%) invert(52%) sepia(12%) saturate(1639%) hue-rotate(235deg) brightness(89%) contrast(89%); transition:filter .3s ease; }
+        .logo-wrapper:hover .logo-img { filter:brightness(0) invert(1); }
+        .nav-item.active { background:rgba(255,255,255,.5); color:#9d6ac0; border:1px solid rgba(157,106,192,.4); }
+        .fade-in { animation:fadeIn .4s ease forwards; opacity:0; }
+        @keyframes fadeIn { to { opacity:1; } }
+        .custom-scroll::-webkit-scrollbar { width:4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background:rgba(255,255,255,.5); border-radius:4px; }
+        .hero-text { line-height:1.1; padding-bottom:.15em; }
+        #date-idea-text { transition:opacity .3s ease, transform .3s ease; }
+
+        .content-area {
+            position: absolute;
+            top: var(--content-top); bottom: var(--content-bottom);
+            left: var(--content-h-pad); right: var(--content-h-pad);
+            z-index: 10; display: flex; flex-direction: column; overflow: hidden;
+        }
+        .content-area > section { width:100%; height:100%; flex-direction:column; }
+
+        .section-header { flex:0 0 var(--title-height); display:flex; align-items:center; justify-content:center; margin-bottom:var(--title-mb); }
+        .section-header h2 { transition:opacity .3s ease; }
+        .section-title { font-size:var(--title-size); }
+        #events .section-header { justify-content:center; position:relative; }
+        #events .section-header .detail-text { position:absolute; right:0; }
+
+        .hiw-wrapper { flex:1; min-height:0; display:flex; flex-direction:column; gap:var(--gap-v); }
+        .hiw-top-row { flex:1; min-height:0; display:grid; grid-template-columns:repeat(4,1fr); column-gap:var(--gap-h); }
+        .hiw-mid-title { display:none; }
+        .hiw-bottom-row { display:none; }
+        .hiw-date-grid {
+            flex: 1; min-height: 0; display: none;
+            grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr);
+            gap: var(--gap-v) var(--gap-h);
+        }
+        .hiw-date-grid.active { display: grid; }
+        .hiw-top-row.hidden-view { display: none; }
+        #getting-started .section-header { justify-content:center; position:relative; }
+        #getting-started .section-header .hiw-toggle-badge { position: absolute; right: 0; }
+        .hiw-item { display:flex; flex-direction:column; height:100%; min-height:0; overflow:visible !important; padding:var(--hiw-pad-v) var(--hiw-pad-h); padding-bottom:calc(var(--hiw-pad-v)*1.5); }
+        .hiw-item-center { justify-content:center; }
+        .step-img-wrap { flex:1; min-height:0; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+        .step-img-wrap img, .step-img-wrap video { max-width:100%; max-height:100%; object-fit:contain; }
+        .step-img-wrap video { display:block; pointer-events:none; }
+        .hiw-step-text { flex:0 0 auto; display:flex; align-items:center; justify-content:center; margin-top:.5vh; }
+        .hiw-step-text h3 { font-size:var(--hiw-h3); text-align:center; color:#000; margin:0; }
+        .hiw-badge-row { display:flex; align-items:center; justify-content:center; gap:4px; margin-bottom:var(--hiw-badge-mb); }
+        .hiw-badge-icon { width:var(--hiw-badge-sz); height:var(--hiw-badge-sz); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+        .hiw-badge-icon svg, .hiw-badge-icon i { width:var(--hiw-icon-sz) !important; height:var(--hiw-icon-sz) !important; }
+        .hiw-badge-label { font-size:var(--hiw-badge-lbl); font-weight:700; text-transform:uppercase; letter-spacing:.05em; font-family:'Mulish',sans-serif; color:#000; }
+        .hiw-item h4 { font-size:var(--hiw-h4); line-height:1.3; margin-bottom:.3vh; color:#000; text-align:center; padding:0 .2rem; }
+        .hiw-item p  { font-size:var(--hiw-p); line-height:1.35; opacity:.65; color:#000; text-align:center; padding:0 .2rem; }
+
+        .events-grid { flex:1; min-height:0; display:grid; grid-template-columns:repeat(3,1fr); grid-template-rows:1fr 1fr; gap:var(--gap-v) var(--gap-h); overflow:hidden; }
+        .event-card { position:relative; border-radius:16px; overflow:hidden; cursor:pointer; }
+        .event-card img, .event-card video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transition:transform .7s ease; }
+        .event-card video { display:block; }
+        .event-card:hover img, .event-card:hover video { transform:scale(1.05); }
+        .event-overlay { position:absolute; inset:0; background:linear-gradient(to top, rgba(0,0,0,.9), rgba(0,0,0,.4) 50%, transparent); }
+        .event-info { position:absolute; bottom:0; left:0; width:100%; padding:clamp(.6rem,1.2vh,1rem) clamp(.7rem,1.2vw,1.1rem); }
+        .event-tag { font-size:clamp(.38rem,.55vw,.52rem); font-weight:700; letter-spacing:.08em; text-transform:uppercase; padding:.15rem .4rem; border-radius:3px; margin-bottom:.3rem; display:inline-block; font-family:'Mulish',sans-serif; color:#fff; }
+        .event-card h4 { font-size:clamp(.7rem,1.2vw,1rem); margin-bottom:.15rem; line-height:1.15; }
+        .event-card p { font-size:clamp(.5rem,.75vw,.68rem); line-height:1.25; color:rgba(255,255,255,.75); font-family:'Metropolis',sans-serif; }
+
+        .faq-footer { flex:0 0 auto; display:flex; align-items:center; justify-content:center; gap:clamp(.5rem,2vw,1.2rem); padding-top:1.5vh; border-top:1px solid rgba(255,255,255,.1); margin-top:1vh; flex-wrap:nowrap; }
+        .faq-footer h3 { font-size:clamp(.72rem,1.4vw,.95rem); font-family:'Bookmania',serif; font-weight:600; white-space:nowrap; color:#fff; }
+        .faq-footer a { font-size:clamp(.62rem,1.1vw,.82rem); white-space:nowrap; padding:.3rem clamp(.6rem,1.2vw,1rem); }
+
+        #ambassador-btn {
+            position: fixed; top: var(--logo-top); right: 4%;
+            z-index: 50; height: var(--logo-height); display: flex; align-items: center;
+        }
+        #ambassador-btn a {
+            font-family: 'Bookmania', serif; font-weight: 600;
+            font-size: clamp(0.6rem, 0.85vw, 0.78rem); color: #9d6ac0;
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.5); border-radius: 100px;
+            padding: 0.45rem 1.1rem 0.45rem 0.85rem;
+            white-space: nowrap; text-decoration: none;
+            display: flex; align-items: center; gap: 6px;
+            box-shadow: 0 2px 14px rgba(0,0,0,0.1);
+            transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+        }
+        #ambassador-btn a:hover { background: #9d6ac0 !important; color: #fff; box-shadow: 0 4px 20px rgba(157,106,192,0.35); }
+        #ambassador-btn a svg { flex-shrink: 0; }
+
+        #bottom-socials {
+            position: fixed; bottom: var(--dock-center); left: 4%;
+            transform: translateY(50%); z-index: 50; display: flex; align-items: center; gap: 8px;
+        }
+        #bottom-socials a {
+            display: flex; align-items: center; justify-content: center;
+            width: 32px; height: 32px; border-radius: 50%;
+            background: rgba(255,255,255,0.65);
+            backdrop-filter: blur(16px) saturate(180%);
+            -webkit-backdrop-filter: blur(16px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.5); color: #9d6ac0;
+            text-decoration: none; transition: background 0.25s, color 0.25s, box-shadow 0.25s;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+        #bottom-socials a:hover { background: #9d6ac0 !important; color: #fff; box-shadow: 0 4px 16px rgba(157,106,192,0.35); }
+        #bottom-socials a svg { width: 14px; height: 14px; display: block; }
+
+        #bottom-legal {
+            position: fixed; bottom: var(--dock-center); right: 4%;
+            transform: translateY(50%); z-index: 50;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 4px;
+        }
+        #bottom-legal .legal-links { display: flex; gap: 12px; align-items: center; }
+        #bottom-legal a {
+            font-family: 'Metropolis', sans-serif; font-size: clamp(0.48rem, 0.65vw, 0.62rem);
+            color: rgba(255,255,255,0.72); text-decoration: underline; text-underline-offset: 2px;
+            white-space: nowrap; transition: color 0.2s;
+        }
+        #bottom-legal a:hover { color: #fff; }
+        #bottom-legal .copyright {
+            font-family: 'Metropolis', sans-serif; font-size: clamp(0.4rem, 0.55vw, 0.54rem);
+            color: rgba(255,255,255,0.38); white-space: nowrap;
+        }
+
+        /* ── MOBILE ONLY ── */
+        @media (max-width: 768px) {
+            .hiw-date-grid, .hiw-date-grid.active { display: none !important; }
+            #hiw-toggle-badge { display: none !important; }
+
+            .content-area {
+                left: 0 !important; right: 0 !important;
+                top:    calc(var(--logo-top) + var(--logo-height) + 2.5vh) !important;
+                bottom: calc(var(--dock-bottom) + var(--dock-height) + 2.5vh) !important;
+            }
+            .section-header { justify-content: center !important; padding: 0 15vw; position: relative; }
+            #events .section-header .detail-text {
+                position: absolute !important; right: 15vw;
+                font-size: clamp(0.3rem, 1.5vw, 0.55rem) !important;
+                padding: 0.1rem clamp(0.2rem, 1vw, 0.45rem) !important;
+                white-space: nowrap;
+            }
+            #events .section-header h2 { max-width: calc(100% - clamp(80px,20vw,130px)); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+            .hiw-wrapper    { gap: 0 !important; overflow: visible !important; }
+            .hiw-mid-title  { display: none !important; }
+            .hiw-bottom-row { display: none !important; }
+            .date-video-overlay { display: none !important; }
+
+            .mob-scroll-track {
+                flex: 1; min-height: 0;
+                display: flex !important; flex-direction: row !important;
+                overflow-x: scroll !important; overflow-y: hidden !important;
+                scroll-snap-type: x mandatory;
+                padding-inline: 15vw; scroll-padding-inline-start: 15vw;
+                gap: 10vw; align-items: stretch; scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                grid-template-columns: unset !important; grid-template-rows: unset !important;
+            }
+            .mob-scroll-track::-webkit-scrollbar { display: none !important; }
+            .mob-scroll-track > * { flex: 0 0 70vw; width: 70vw; min-width: 0; height: 100%; min-height: 0; scroll-snap-align: start; }
+
+            .mob-scroll-track > .hiw-item {
+                background: transparent !important; border: none !important;
+                backdrop-filter: none !important; -webkit-backdrop-filter: none !important;
+                padding: 0 !important; display: flex !important; flex-direction: column !important;
+                align-items: center !important; justify-content: flex-start !important; overflow: visible !important;
+            }
+            .mob-scroll-track > .hiw-item .step-img-wrap {
+                flex: 1; min-height: 0; width: 100%;
+                display: flex; align-items: center; justify-content: center; overflow: hidden;
+            }
+            .mob-scroll-track > .hiw-item .step-img-wrap img { width: auto; height: 100%; max-width: 100%; object-fit: contain; }
+            .mob-scroll-track > .hiw-item .step-img-wrap video { display: none; }
+            .mob-scroll-track > .hiw-item .hiw-step-text {
+                flex: 0 0 auto; display: flex; align-items: center; justify-content: center;
+                background: rgba(255,255,255,.72); backdrop-filter: blur(16px) saturate(180%);
+                -webkit-backdrop-filter: blur(16px) saturate(180%);
+                border: 1px solid rgba(255,255,255,.55); border-radius: 100px;
+                padding: 0.35rem 1.2rem; margin-top: 1.5vh; margin-bottom: 1.5vh;
+                width: auto; align-self: center;
+            }
+            .mob-scroll-track > .hiw-item .hiw-step-text h3 {
+                font-size: clamp(.65rem, 2.8vw, .82rem); color: #000; margin: 0; text-align: center; white-space: nowrap;
+            }
+            .mob-scroll-track .event-card { border-radius:16px; }
+            .event-card.md-span-2 { grid-column:auto; }
+            #faq .overflow-y-auto { padding-left: 15vw !important; padding-right: 15vw !important; }
+            #faq .faq-footer { padding-left: 15vw; padding-right: 15vw; }
+
+            .hiw-arrow {
+                position: absolute; top: 50%; transform: translateY(-50%); z-index: 30;
+                width: 36px; height: 36px; border-radius: 50%;
+                display: flex; align-items: center; justify-content: center;
+                background: rgba(255,255,255,0.65); backdrop-filter: blur(16px) saturate(180%);
+                -webkit-backdrop-filter: blur(16px) saturate(180%);
+                border: 1px solid rgba(157,106,192,0.5); cursor: pointer;
+                transition: opacity .2s, background .2s; color: #9d6ac0; pointer-events: auto;
+            }
+            .hiw-arrow:active { background: rgba(157,106,192,0.3); }
+            .hiw-arrow.hidden { opacity: 0; pointer-events: none; }
+            .hiw-arrow-prev { left: 3vw; }
+            .hiw-arrow-next { right: 3vw; }
+            .hiw-arrow svg { width: 18px; height: 18px; stroke: #9d6ac0; }
+
+            #bottom-legal  { display: none !important; }
+            #bottom-socials { display: none !important; }
+
+            /* Ambassador mobile — sadece metin, ikon yok */
+            #ambassador-btn { top: var(--logo-top); right: 3%; height: var(--logo-height); }
+            #ambassador-btn a {
+                font-size: 0.58rem; padding: 0.28rem 0.7rem;
+                max-width: 90px; white-space: normal; text-align: center;
+                line-height: 1.25; justify-content: center;
+            }
+            #ambassador-btn a svg { display: none !important; }
+
+            #dock-nav { bottom: calc((var(--dock-bottom) + var(--dock-height) + 2.5vh) / 2) !important; }
+
+            /* FAQ mobil: scroll açık, accordion çalışır, fontlar küçük */
+            #faq .overflow-y-auto {
+                padding-left: 15vw !important;
+                padding-right: 15vw !important;
+            }
+            #faq .glass-card button span.card-title {
+                font-size: clamp(0.52rem, 2vh, 0.78rem) !important;
+                line-height: 1.2 !important;
+            }
+            #faq .glass-card button {
+                padding: clamp(0.4rem, 1.2vh, 0.7rem) clamp(0.5rem, 3vw, 0.9rem) !important;
+            }
+            #faq .glass-card > div:not(.hidden) {
+                font-size: clamp(0.48rem, 1.6vh, 0.65rem) !important;
+                padding: 0 clamp(0.5rem, 3vw, 0.9rem) clamp(0.3rem, 0.8vh, 0.5rem) !important;
+                line-height: 1.3 !important;
+            }
+            #faq .faq-footer {
+                padding-left: 15vw !important; padding-right: 15vw !important;
+            }
+
+            /* HOME mobile: hero tam ortada, butonlar altında, sosyal ikonlar arasında, mission dipte */
+            #home { flex-direction: column !important; justify-content: flex-start !important; align-items: stretch !important; }
+            #home .home-hero {
+                flex: 1 !important; min-height: 0;
+                display: flex !important; flex-direction: column !important;
+                align-items: center !important; justify-content: center !important;
+            }
+            #home .home-socials {
+                flex-shrink: 0 !important;
+                display: flex !important; align-items: center !important;
+                justify-content: center !important; gap: 28px !important;
+                padding: 2.5vh 0 !important;
+            }
+            #home .home-mission { flex-shrink: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- VIDEO BACKGROUNDS -->
+    <div class="bg-video-container" id="bg-video-home">
+        <video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video>
+    </div>
+    <div class="bg-video-container" id="bg-video-getting-started" style="display:none">
+        <video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video>
+    </div>
+    <div class="bg-video-container" id="bg-video-events" style="display:none">
+        <video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video>
+    </div>
+    <div class="bg-video-container" id="bg-video-faq" style="display:none">
+        <video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video>
+    </div>
+
+    <!-- LOGO -->
+    <div class="logo-wrapper" style="position:fixed; top:var(--logo-top); left:4%; z-index:50; cursor:pointer;" onclick="showSection('home')">
+        <img class="logo-img" src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila" style="height:var(--logo-height); width:auto;">
+    </div>
+
+    <!-- AMBASSADOR -->
+    <div id="ambassador-btn">
+        <a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            Become an Ambassador
+        </a>
+    </div>
+
+    <!-- BOTTOM LEFT — Social Icons -->
+    <div id="bottom-socials">
+        <a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" title="Instagram">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <a href="https://x.com/LailaSocial" target="_blank" rel="noopener" title="X (Twitter)">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+        </a>
+        <a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" title="TikTok">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg>
+        </a>
+    </div>
+
+    <!-- BOTTOM RIGHT — Legal -->
+    <div id="bottom-legal">
+        <div class="legal-links">
+            <a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68acc0133df6f03948a48732_Laila%20Dating%20-%20Terms%20of%20Use%20(8%3A25%3A25).pdf" target="_blank" rel="noopener">Terms of Use</a>
+            <a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/6846fbfc59f3b042ad4628ae_Laila%20Dating%20Privacy%20Policy%20(6_9_2025).docx.pdf" target="_blank" rel="noopener">Privacy Policy</a>
+        </div>
+        <div class="copyright">© 2024 Laila Dating Inc.</div>
+    </div>
+
+    <!-- DOCK -->
+    <nav id="dock-nav" class="glass-dock fixed z-50 rounded-full flex items-center justify-center gap-1"
+         style="bottom:calc((var(--dock-bottom) + var(--dock-height) + var(--chrome-gap)) / 2); left:50%; transform:translate(-50%, 50%); height:var(--dock-height); padding:0 clamp(8px, 2vw, 16px);">
+        <button onclick="showSection('home')" id="btn-home" class="nav-item active px-3 md:px-4 py-2 rounded-full flex items-center gap-1 md:gap-2 transition-all group">
+            <i data-lucide="home" class="w-4 h-4 md:w-5 md:h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block group-hover:text-brand-500 text-gray-700">Home</span>
+        </button>
+        <button onclick="showSection('getting-started')" id="btn-getting-started" class="nav-item px-3 md:px-4 py-2 rounded-full flex items-center gap-1 md:gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="route" class="w-4 h-4 md:w-5 md:h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">How it Works</span>
+        </button>
+        <button onclick="showSection('events')" id="btn-events" class="nav-item px-3 md:px-4 py-2 rounded-full flex items-center gap-1 md:gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="calendar-heart" class="w-4 h-4 md:w-5 md:h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">Events</span>
+        </button>
+        <button onclick="showSection('faq')" id="btn-faq" class="nav-item px-3 md:px-4 py-2 rounded-full flex items-center gap-1 md:gap-2 transition-all text-gray-700 hover:text-brand-500 group">
+            <i data-lucide="help-circle" class="w-4 h-4 md:w-5 md:h-5 group-hover:text-brand-500 transition-colors"></i>
+            <span class="nav-text text-xs hidden md:block">FAQ</span>
+        </button>
+    </nav>
+
+    <!-- CONTENT AREA -->
+    <div class="content-area">
+
+        <!-- 1. HOME -->
+        <section id="home" class="w-full h-full flex flex-col items-center justify-center fade-in">
+
+            <!-- HERO — desktop: flex-1 içinde tüm içerik. Mobile: home-hero class ile flex:1 alır -->
+            <div class="home-hero flex flex-col items-center justify-center flex-1 text-center w-full max-w-4xl mx-auto">
+                <div class="mb-[-0.75rem] relative z-10">
+                    <h1 class="hero-text text-6xl md:text-8xl lg:text-9xl text-white leading-none drop-shadow-lg" style="white-space:nowrap;">Let's go</h1>
+                </div>
+                <div class="h-20 md:h-28 flex items-start justify-center overflow-hidden w-full mb-6">
+                    <span id="date-idea-text" class="hero-text text-4xl md:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-pink-200 leading-tight pb-3 block pt-2 mt-0">to a Broadway show</span>
+                </div>
+                <div class="flex flex-row gap-3 w-full justify-center px-4">
+                    <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank"
+                       class="glass-btn btn-text text-brand-500 px-6 py-3 rounded-full text-sm hover:bg-brand-500 hover:text-white transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 shadow-lg whitespace-nowrap">
+                        Join Laila <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <button onclick="showSection('getting-started')"
+                            class="glass-btn btn-text text-brand-500 px-6 py-3 rounded-full text-sm hover:bg-brand-500 hover:text-white transition-all duration-300 active:scale-95 whitespace-nowrap shadow-lg">
+                        How it works
+                    </button>
+                </div>
+            </div>
+
+            <!-- SOSYAL MEDYA — desktop'ta GİZLİ, mobilde butonlar ile mission arasında tam ortalı -->
+            <div class="home-socials hidden">
+                <a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" style="color:#fff;opacity:0.85;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+                </a>
+                <a href="https://x.com/LailaSocial" target="_blank" rel="noopener" style="opacity:0.85;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+                </a>
+                <a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" style="opacity:0.85;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#fff"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg>
+                </a>
+            </div>
+
+            <!-- MİSSİON — desktop'ta da görünür -->
+            <div class="home-mission w-full text-center pb-4 px-6 flex-shrink-0">
+                <div class="max-w-2xl mx-auto drop-shadow-md text-white">
+                    <p class="text-base md:text-lg font-mulish font-semibold leading-tight mb-2">Our mission is to turn every match into a real-life connection.</p>
+                    <p class="text-[10px] md:text-xs font-mulish leading-tight opacity-90" style="letter-spacing:-0.2px;">Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk. Post a date you actually want to go on and connect with people who are ready to join you—no more "let's chat sometime" just real dates with real people.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. HOW IT WORKS -->
+        <section id="getting-started" style="display:none;" class="fade-in flex flex-col h-full w-full">
+            <div class="section-header" id="hiw-header">
+                <h2 id="hiw-section-title" class="section-title text-white drop-shadow-lg">How Laila Works</h2>
+                <button id="hiw-toggle-badge" class="hidden md:inline-flex hiw-toggle-badge detail-text font-semibold text-brand-700 bg-white/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/40 transition-all hover:bg-white/70 cursor-pointer"
+                        style="font-size:clamp(.58rem,1vw,.75rem);" onclick="toggleDateIdeas()">Popular Date Ideas</button>
+            </div>
+            <div class="hiw-wrapper" style="position:relative;">
+                <div class="hiw-top-row">
+                    <div class="hiw-item glass-card">
+                        <div class="step-img-wrap"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date"></div>
+                        <div class="hiw-step-text"><h3 class="card-title">Post A Date</h3></div>
+                    </div>
+                    <div class="hiw-item glass-card">
+                        <div class="step-img-wrap"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Joins"></div>
+                        <div class="hiw-step-text"><h3 class="card-title">See Who Joins</h3></div>
+                    </div>
+                    <div class="hiw-item glass-card">
+                        <div class="step-img-wrap"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out"></div>
+                        <div class="hiw-step-text"><h3 class="card-title">Ask Someone Out</h3></div>
+                    </div>
+                    <div class="hiw-item glass-card">
+                        <div class="step-img-wrap"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match & Meet"></div>
+                        <div class="hiw-step-text"><h3 class="card-title">Match & Meet</h3></div>
+                    </div>
+                </div>
+                <div class="hiw-date-grid" id="hiw-date-grid">
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-amber-400/20"><i data-lucide="coffee" class="text-amber-900"></i></div><span class="hiw-badge-label">UES</span></div><h4 class="detail-title">Coffee at Central Park</h4><p class="detail-text">Latte & walk around reservoir.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-brand-500/30"><i data-lucide="music" class="text-brand-900"></i></div><span class="hiw-badge-label">SoHo</span></div><h4 class="detail-title">Live Jazz Night</h4><p class="detail-text">Blue Note quartet playing.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-rose-400/30"><i data-lucide="utensils" class="text-rose-900"></i></div><span class="hiw-badge-label">Village</span></div><h4 class="detail-title">Try New Italian</h4><p class="detail-text">Craving pasta at Carbone.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-blue-400/30"><i data-lucide="camera" class="text-blue-900"></i></div><span class="hiw-badge-label">Midtown</span></div><h4 class="detail-title">MoMA Gallery</h4><p class="detail-text">Checking out modern art.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-green-400/30"><i data-lucide="footprints" class="text-green-900"></i></div><span class="hiw-badge-label">Central Park</span></div><h4 class="detail-title">Run a 5k</h4><p class="detail-text">Morning jog and smoothies.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-yellow-400/30"><i data-lucide="laugh" class="text-yellow-900"></i></div><span class="hiw-badge-label">Village</span></div><h4 class="detail-title">Comedy Cellar</h4><p class="detail-text">Stand-up comedy night.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-red-400/30"><i data-lucide="shopping-bag" class="text-red-900"></i></div><span class="hiw-badge-label">Chinatown</span></div><h4 class="detail-title">Dumpling Crawl</h4><p class="detail-text">Taste the best spots.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-indigo-400/30"><i data-lucide="activity" class="text-indigo-900"></i></div><span class="hiw-badge-label">West Side</span></div><h4 class="detail-title">Play Padel</h4><p class="detail-text">Active match & drinks.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-sky-400/30"><i data-lucide="sailboat" class="text-sky-900"></i></div><span class="hiw-badge-label">Hudson</span></div><h4 class="detail-title">Sunset Sail</h4><p class="detail-text">Cruise the Hudson at golden hour.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-orange-400/30"><i data-lucide="flame" class="text-orange-900"></i></div><span class="hiw-badge-label">LES</span></div><h4 class="detail-title">Cooking Class</h4><p class="detail-text">Make pasta together, eat better.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-teal-400/30"><i data-lucide="book-open" class="text-teal-900"></i></div><span class="hiw-badge-label">Midtown</span></div><h4 class="detail-title">Bookstore Browse</h4><p class="detail-text">Strand Books then coffee after.</p></div>
+                    <div class="hiw-item hiw-item-center glass-card"><div class="hiw-badge-row"><div class="hiw-badge-icon bg-pink-400/30"><i data-lucide="ferris-wheel" class="text-pink-900"></i></div><span class="hiw-badge-label">Coney Island</span></div><h4 class="detail-title">Amusement Park</h4><p class="detail-text">Rides, boardwalk, cotton candy.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. EVENTS -->
+        <section id="events" style="display:none;" class="fade-in flex flex-col h-full">
+            <div class="section-header">
+                <h2 class="section-title text-white drop-shadow-lg">Latest Events</h2>
+                <span class="detail-text font-semibold text-brand-700 bg-white/50 backdrop-blur-md px-3 py-1 rounded-full border border-white/40" style="font-size:clamp(.58rem,1vw,.75rem);">Curated by Laila</span>
+            </div>
+            <div class="events-grid">
+                <div class="event-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" alt="Laila x D8 Time">
+                    <div class="event-overlay"></div>
+                    <div class="event-info"><span class="event-tag" style="background:rgba(157,106,192,.9);">Speed Dating</span><h4 class="detail-title text-white">Laila x D8 Time</h4><p>Fast-paced speed dating at Time Again, Dimes Square.</p></div>
+                </div>
+                <div class="event-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" alt="Good Girls Gone Social">
+                    <div class="event-overlay"></div>
+                    <div class="event-info"><span class="event-tag" style="background:rgba(219,39,119,.9);">Mixer</span><h4 class="detail-title text-white">Good Girls Gone Social</h4><p>A flirty singles mixer where roses flowed all night.</p></div>
+                </div>
+                <div class="event-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" alt="Cupid's Hit List">
+                    <div class="event-overlay"></div>
+                    <div class="event-info"><span class="event-tag" style="background:rgba(220,38,38,.9);">Party</span><h4 class="detail-title text-white">Cupid's Hit List</h4><p>Retro 80s disco party at Early Terrible.</p></div>
+                </div>
+                <div class="event-card">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" alt="Laila's Friends">
+                    <div class="event-overlay"></div>
+                    <div class="event-info"><span class="event-tag" style="background:rgba(37,99,235,.9);">Community</span><h4 class="detail-title text-white">Laila's Friends</h4><p>Our friends and family launch at Bar Nena.</p></div>
+                </div>
+                <div class="event-card md:col-span-2">
+                    <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" alt="Pregame at Cosmo">
+                    <div class="event-overlay"></div>
+                    <div class="event-info"><span class="event-tag" style="background:rgba(217,119,6,.9);">Social</span><h4 class="detail-title text-white">Pregame at Cosmo</h4><p>A cheeky martini-fueled soiree.</p></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4. FAQ — ORİJİNAL, HİÇ DEĞİŞTİRİLMEDİ -->
+        <section id="faq" style="display:none;" class="fade-in flex flex-col h-full">
+            <div class="section-header">
+                <h2 class="section-title text-white drop-shadow-lg">FAQ</h2>
+            </div>
+            <div class="overflow-y-auto custom-scroll flex-1 pb-2">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
+                    <div class="space-y-3">
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">What is Laila and how does it work?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Laila is an event-based dating app that helps you skip the small talk and get to real-life connections faster. Instead of swiping endlessly, you can post or ask to join specific date ideas.</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">How do I post a date idea?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Open the app, click "Post a Date", and share your idea or use our AI planner. Once live, others can ask to join you.</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">Is Laila available everywhere?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Right now, Laila is live in New York City. We're working on expanding to more cities soon!</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">How do I get matches?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Post a date idea or like others' ideas. If someone likes your date or you both like each other's, it's a match!</div>
+                        </div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">How is Laila different?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Unlike traditional apps, Laila is all about action. We encourage users to post date ideas like "Coffee at Central Park".</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">Can I join a posted date?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Yes! If you see an idea you like, send a like. If there's mutual interest, you'll match and can chat to finalize details.</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">Is it safe?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Yes! We vet every profile. You can post date ideas without revealing exact locations until you match and chat.</div>
+                        </div>
+                        <div class="glass-card overflow-hidden">
+                            <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
+                                <span class="card-title text-black text-base">Can I suggest improvements?</span>
+                                <div class="icon-wrapper transition-transform duration-300"><i data-lucide="chevron-down" class="text-black/60"></i></div>
+                            </button>
+                            <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Absolutely! Email us at contact@laila.nyc. We love feedback.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="faq-footer">
+                <h3>Still have questions?</h3>
+                <a href="https://www.instagram.com/laila.social/" target="_blank" class="glass-btn btn-text text-brand-500 hover:bg-brand-500 hover:text-white transition-all shadow-lg">DM Us</a>
+                <a href="mailto:contact@laila.nyc" class="glass-btn btn-text text-brand-500 hover:bg-brand-500 hover:text-white transition-all shadow-lg">Email Us</a>
+            </div>
+        </section>
+
+    </div><!-- /content-area -->
+
+    <script>
+        lucide.createIcons();
+
+        const dateIdeas = [
+            "to a Broadway show","do a dumpling crawl","play tennis",
+            "to Farmer's Market","bowling","to a comedy show",
+            "hiking","to a Mets game","play padel","to brunch"
+        ];
+        let ideaIndex = 0;
+        const ideaEl  = document.getElementById('date-idea-text');
+        function rotateText() {
+            ideaEl.style.opacity   = '0';
+            ideaEl.style.transform = 'translateY(10px)';
+            setTimeout(() => {
+                ideaEl.textContent     = dateIdeas[ideaIndex];
+                ideaEl.style.opacity   = '1';
+                ideaEl.style.transform = 'translateY(0)';
+                ideaIndex = (ideaIndex + 1) % dateIdeas.length;
+            }, 300);
+        }
+        setInterval(rotateText, 3000);
+
+        const isMobile = () => window.innerWidth <= 768;
+
+        function showSection(id) {
+            document.querySelectorAll('.content-area > section').forEach(el => el.style.display = 'none');
+            const target = document.getElementById(id);
+            if (target) { target.style.display = 'flex'; target.classList.remove('fade-in'); void target.offsetWidth; target.classList.add('fade-in'); }
+            document.querySelectorAll('.bg-video-container').forEach(v => v.style.display = 'none');
+            const bgv = document.getElementById('bg-video-' + id);
+            if (bgv) bgv.style.display = 'block';
+            document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+            const btn = document.getElementById('btn-' + id);
+            if (btn) btn.classList.add('active');
+
+            if (id === 'getting-started' && isMobile()) {
+                setTimeout(() => { const track = document.querySelector('.hiw-top-row'); if (track) { track.scrollLeft = 0; updateArrows(0); } }, 30);
+            }
+            if (id !== 'getting-started' && dateIdeasActive) {
+                dateIdeasActive = false;
+                document.querySelector('.hiw-top-row')?.classList.remove('hidden-view');
+                document.getElementById('hiw-date-grid')?.classList.remove('active');
+                const t = document.getElementById('hiw-section-title');
+                if (t) t.textContent = 'How Laila Works';
+                const b = document.getElementById('hiw-toggle-badge');
+                if (b) b.textContent = 'Popular Date Ideas';
+            }
+        }
+
+        function toggleAccordion(btn) {
+            const content = btn.nextElementSibling;
+            const icon    = btn.querySelector('.icon-wrapper');
+            const isOpen  = !content.classList.contains('hidden');
+            document.querySelectorAll('#faq .glass-card').forEach(card => {
+                card.querySelector('button')?.nextElementSibling?.classList.add('hidden');
+                const i = card.querySelector('.icon-wrapper');
+                if (i) i.style.transform = 'rotate(0deg)';
+            });
+            if (!isOpen) { content.classList.remove('hidden'); if (icon) icon.style.transform = 'rotate(180deg)'; }
+        }
+
+        let mobileReady = false;
+        let hiwPrevBtn, hiwNextBtn;
+        const TOTAL_STEPS = 4;
+
+        function setupMobile() {
+            if (!isMobile() || mobileReady) return;
+            mobileReady = true;
+            const hiwTrack = document.querySelector('.hiw-top-row');
+            const evGrid   = document.querySelector('.events-grid');
+            hiwTrack?.classList.add('mob-scroll-track');
+            evGrid?.classList.add('mob-scroll-track');
+
+            const hiwWrapper = document.querySelector('.hiw-wrapper');
+            if (hiwWrapper && hiwTrack) {
+                hiwPrevBtn = document.createElement('button');
+                hiwPrevBtn.className = 'hiw-arrow hiw-arrow-prev hidden';
+                hiwPrevBtn.setAttribute('aria-label', 'Previous');
+                hiwPrevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>`;
+                hiwPrevBtn.addEventListener('click', () => scrollToStep(currentStep - 1));
+
+                hiwNextBtn = document.createElement('button');
+                hiwNextBtn.className = 'hiw-arrow hiw-arrow-next';
+                hiwNextBtn.setAttribute('aria-label', 'Next');
+                hiwNextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>`;
+                hiwNextBtn.addEventListener('click', () => scrollToStep(currentStep + 1));
+
+                hiwWrapper.appendChild(hiwPrevBtn);
+                hiwWrapper.appendChild(hiwNextBtn);
+                hiwTrack.addEventListener('scroll', onHiwScroll, { passive: true });
+                updateArrows(0);
+            }
+
+            if (evGrid) {
+                const obs = new IntersectionObserver(entries => {
+                    entries.forEach(e => { const v = e.target.querySelector('video'); if (!v) return; if (e.isIntersecting && e.intersectionRatio > 0.5) v.play().catch(()=>{}); else v.pause(); });
+                }, { threshold: 0.5 });
+                document.querySelectorAll('.events-grid .event-card').forEach(c => obs.observe(c));
+            }
+        }
+
+        let currentStep = 0;
+
+        function scrollToStep(index) {
+            const track = document.querySelector('.hiw-top-row');
+            if (!track) return;
+            index = Math.max(0, Math.min(TOTAL_STEPS - 1, index));
+            const stepWidth = window.innerWidth * 0.80;
+            track.scrollTo({ left: index * stepWidth, behavior: 'smooth' });
+        }
+
+        function updateArrows(scrollLeft) {
+            if (!hiwPrevBtn || !hiwNextBtn) return;
+            const stepWidth = window.innerWidth * 0.80;
+            currentStep = Math.max(0, Math.min(TOTAL_STEPS - 1, Math.round(scrollLeft / stepWidth)));
+            hiwPrevBtn.classList.toggle('hidden', currentStep === 0);
+            hiwNextBtn.classList.toggle('hidden', currentStep >= TOTAL_STEPS - 1);
+        }
+
+        function onHiwScroll() { updateArrows(this.scrollLeft); }
+
+        function initDesktopHovers() {
+            if (isMobile()) return;
+            document.querySelectorAll('.hiw-top-row .step-img-wrap video').forEach(vid => {
+                const w = vid.closest('.step-img-wrap'); if (!w) return;
+                w.addEventListener('mouseenter', () => vid.play().catch(()=>{}));
+                w.addEventListener('mouseleave', () => vid.pause());
+            });
+            document.querySelectorAll('.event-card video').forEach(vid => {
+                const card = vid.closest('.event-card'); if (!card) return;
+                card.addEventListener('mouseenter', () => vid.play().catch(()=>{}));
+                card.addEventListener('mouseleave', () => vid.pause());
+            });
+        }
+
+        let dateIdeasActive = false;
+
+        function toggleDateIdeas() {
+            dateIdeasActive = !dateIdeasActive;
+            const topRow   = document.querySelector('.hiw-top-row');
+            const dateGrid = document.getElementById('hiw-date-grid');
+            const title    = document.getElementById('hiw-section-title');
+            const badge    = document.getElementById('hiw-toggle-badge');
+            if (!topRow || !dateGrid || !title || !badge) return;
+            if (dateIdeasActive) {
+                topRow.classList.add('hidden-view'); dateGrid.classList.add('active');
+                title.style.opacity = '0';
+                setTimeout(() => { title.textContent = 'Popular Date Ideas'; title.style.opacity = '1'; }, 200);
+                badge.textContent = 'How Laila Works';
+            } else {
+                topRow.classList.remove('hidden-view'); dateGrid.classList.remove('active');
+                title.style.opacity = '0';
+                setTimeout(() => { title.textContent = 'How Laila Works'; title.style.opacity = '1'; }, 200);
+                badge.textContent = 'Popular Date Ideas';
+            }
+            lucide.createIcons();
+        }
+
+        window.addEventListener('load', () => { setupMobile(); initDesktopHovers(); });
+        showSection('home');
+    </script>
+</body>
+</html>
