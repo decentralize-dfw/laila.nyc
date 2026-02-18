@@ -47,57 +47,45 @@
 
         /* ================================================
            PARAMETRELER / PARAMETERS
-           Tüm layout ve spacing buradan kontrol edilir
            ================================================ */
         :root {
-            /* --- Sabit UI elemanları / Fixed chrome --- */
-            --logo-top:    20px;      /* Logo üst boşluğu */
-            --logo-height: 36px;      /* Logo yüksekliği */
-            --dock-bottom: 12px;      /* Alt menü bottom gap - KÜÇÜLTÜLDÜ */
-            --dock-height: 48px;      /* Alt menü yüksekliği - KÜÇÜLTÜLDÜ */
+            --logo-top:    20px;
+            --logo-height: 36px;
+            --dock-bottom: 12px;
+            --dock-height: 48px;
 
-            /* --- Content alanı boşlukları / Content area gaps --- */
-            --chrome-gap: 5vh;        /* Logo ile content arası ve dock ile content arası boşluk (viewport yüzdesi) */
-            --chrome-gap-mobile: 2.5vh; /* MOBİLDE DAHA AZ BOŞLUK - DAHA FAZLA ALAN */
+            --chrome-gap: 5vh;
+            --chrome-gap-mobile: 2.5vh;
 
-            /* Otomatik hesaplanan content sınırları (değiştirme) */
             --content-top:    calc(var(--logo-top) + var(--logo-height) + var(--chrome-gap));
             --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + var(--chrome-gap));
 
-            /* --- Yatay padding (TÜM sayfalarda aynı) / Horizontal padding --- */
             --content-h-pad: 4%;
 
-            /* --- Kart arası boşluklar / Card gaps --- */
-            --gap-v: 1.5vh;   /* Dikey boşluk / Vertical gap */
-            --gap-h: 1.2%;    /* Yatay boşluk / Horizontal gap */
+            --gap-v: 1.5vh;
+            --gap-h: 1.2%;
 
-            /* --- Sayfa başlık satırı (3 iç sayfada aynı) / Section title row --- */
-            --title-size:   clamp(1.5rem, 2.6vw, 2.2rem);  /* Başlık yazı boyutu */
-            --title-height: 5.5vh;   /* Başlık satır yüksekliği */
-            --title-mb:     1.5vh;   /* Başlık altı boşluk */
+            --title-size:   clamp(1.5rem, 2.6vw, 2.2rem);
+            --title-height: 5.5vh;
+            --title-mb:     1.5vh;
 
-            /* --- HIW DESKTOP: Üst satır yüksekliği / Step card row height --- */
-            --hiw-step-pct:    67%;      /* Üst satır yüksekliği (wrapper'ın %) */
-            --hiw-mid-height:  3.5vh;    /* Orta başlık satır yüksekliği */
+            --hiw-step-pct:    67%;
+            --hiw-mid-height:  3.5vh;
 
-            /* --- HIW Kart içi boşluklar (ölçeklenebilir) / Card internals --- */
             --hiw-pad-v:       1.2vh;
             --hiw-pad-h:       0.8%;
             --hiw-h3:          clamp(0.62rem, 0.95vw, 1rem);
             --hiw-h4:          clamp(0.55rem, 0.8vw,  0.88rem);
             --hiw-p:           clamp(0.48rem, 0.65vw, 0.72rem);
-            --hiw-badge-sz:    clamp(9px, 0.9vw, 13px);  /* YARILANDI */
-            --hiw-icon-sz:     clamp(5px, 0.55vw, 7.5px);  /* YARILANDI */
-            --hiw-badge-mb:    0.5vh; /* Icon küçülünce margin arttırıldı */
+            --hiw-badge-sz:    clamp(9px, 0.9vw, 13px);
+            --hiw-icon-sz:     clamp(5px, 0.55vw, 7.5px);
+            --hiw-badge-mb:    0.5vh;
             --hiw-badge-lbl:   clamp(0.42rem, 0.5vw, 0.56rem);
 
-            /* --- HIW MOBİL / MOBILE --- */
-            --mob-title-align: center;   /* Mobil başlık hizası: center / left */
-            --mob-date-offset:  13%;     /* Alt tarih kartları yüksekliği (content'in %) */
-            --mob-mid-gap:      7vh;     /* "Popular Date Ideas" için ara boşluk */
-            --mob-card-w:       50vw;    /* Yatay scroll kart genişliği */
-            --mob-card-gap:     14px;    /* Kartlar arası boşluk */
-            --mob-h-lead:       25vw;    /* Scroll başlangıç/bitiş padding (ilk kartı ortalamak için) */
+            --mob-title-align: center;
+            --mob-card-w:       50vw;
+            --mob-card-gap:     14px;
+            --mob-h-lead:       25vw;
         }
 
         /* ================================================
@@ -110,7 +98,6 @@
             background:#000; color:#fff;
         }
 
-        /* Typography */
         h1.hero-text      { font-family:'Silk Flower', cursive; }
         h2.section-title  { font-family:'Bookmania', serif; font-weight:700; }
         h3.card-title     { font-family:'Bookmania', serif; font-weight:600; }
@@ -120,8 +107,7 @@
         .detail-text      { font-family:'Metropolis', sans-serif; }
 
         /* ================================================
-           GLASS EFFECTs — GÜÇLÜ BLUR
-           Backdrop-filter için daha yüksek değerler
+           GLASS EFFECTS
            ================================================ */
         .glass-card,
         .hiw-item.glass-card,
@@ -146,8 +132,6 @@
             border: 1px solid rgba(255, 255, 255, 0.5);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
-        
-        /* FAQ cards glass */
         #faq .glass-card {
             background: rgba(255, 255, 255, 0.65) !important;
             backdrop-filter: blur(16px) saturate(180%) !important;
@@ -174,7 +158,7 @@
         #date-idea-text { transition:opacity .3s ease, transform .3s ease; }
 
         /* ================================================
-           CONTENT AREA — tüm sayfalar aynı sınırlarda
+           CONTENT AREA
            ================================================ */
         .content-area {
             position:absolute;
@@ -188,18 +172,17 @@
         .content-area > section { width:100%; height:100%; flex-direction:column; }
 
         /* ================================================
-           SECTION HEADER — 3 iç sayfada aynı
+           SECTION HEADER
            ================================================ */
         .section-header {
             flex:0 0 var(--title-height);
             display:flex; align-items:center;
-            justify-content:center; /* CENTERED */
+            justify-content:center;
             margin-bottom:var(--title-mb);
         }
         .section-header h2 {
-            transition:opacity .5s ease; /* Fade için */
+            transition:opacity .4s ease;
         }
-        /* Events özel: başlık center, badge sağda */
         #events .section-header {
             justify-content:center;
             position:relative;
@@ -210,21 +193,24 @@
         }
         .section-title { font-size:var(--title-size); }
 
-        /* Mobilde ortalanmış başlık */
         @media (max-width: 768px) {
             :root {
                 --content-top: calc(var(--logo-top) + var(--logo-height) + var(--chrome-gap-mobile));
                 --content-bottom: calc(var(--dock-bottom) + var(--dock-height) + var(--chrome-gap-mobile));
             }
             .section-header { justify-content: var(--mob-title-align); }
-            /* Events: mobilde de badge sağda kalır ama daha küçük */
-            #events .section-header {
-                justify-content:center;
+            #events .section-header { justify-content:center; }
+
+            /* FIX #4: Events badge never overlaps title */
+            #events .section-header .detail-text {
+                font-size: clamp(0.34rem, 1.6vw, 0.65rem);
+                padding: 0.1rem clamp(0.25rem, 1.2vw, 0.6rem);
+                white-space: nowrap;
             }
         }
 
         /* ================================================
-           HIW — DESKTOP
+           HIW — DESKTOP (100% ORIGINAL — UNCHANGED)
            ================================================ */
         .hiw-wrapper {
             flex:1; min-height:0;
@@ -237,7 +223,7 @@
         }
         .hiw-mid-title {
             flex:0 0 var(--hiw-mid-height);
-            display:flex; align-items:center; justify-content:center; /* Desktop: center */
+            display:flex; align-items:center; justify-content:center;
         }
         .hiw-bottom-row {
             flex:1; min-height:0;
@@ -249,30 +235,23 @@
 
         .hiw-item {
             display:flex; flex-direction:column;
-            height:100%; min-height:0; 
-            overflow:visible !important; /* TEXT CROP ÖNLENİYOR */
+            height:100%; min-height:0;
+            overflow:visible !important;
             padding:var(--hiw-pad-v) var(--hiw-pad-h);
-            padding-bottom: calc(var(--hiw-pad-v) * 1.5); /* Alt padding arttırıldı */
+            padding-bottom: calc(var(--hiw-pad-v) * 1.5);
         }
         .hiw-item-center { justify-content:center; }
 
-        /* Step card image wrapper */
         .step-img-wrap {
             flex:1; min-height:0;
-            display:flex; align-items:center; justify-content:center; 
-            overflow:hidden; /* Sadece image wrapper overflow:hidden */
+            display:flex; align-items:center; justify-content:center;
+            overflow:hidden;
             position:relative;
         }
         .step-img-wrap img,
         .step-img-wrap video { max-width:100%; max-height:100%; object-fit:contain; }
+        .step-img-wrap video { display:block; pointer-events:none; }
 
-        /* VIDEO ekleme: <img> yerine <video> kullan, data-video-src ekle */
-        .step-img-wrap video {
-            display:block;
-            pointer-events:none; /* hover .step-img-wrap ile kontrol edilecek */
-        }
-
-        /* Step text (desktop: transparent, mobilde: pill) */
         .hiw-step-text {
             flex:0 0 auto;
             display:flex; align-items:center; justify-content:center;
@@ -280,9 +259,8 @@
         }
         .hiw-step-text h3 { font-size:var(--hiw-h3); text-align:center; color:#000; margin:0; }
 
-        /* Date idea internals */
         .hiw-badge-row {
-            display:flex; align-items:center; justify-content:center; gap:4px; /* Gap küçültüldü */
+            display:flex; align-items:center; justify-content:center; gap:4px;
             margin-bottom:var(--hiw-badge-mb);
         }
         .hiw-badge-icon {
@@ -296,198 +274,190 @@
             font-weight:700; text-transform:uppercase; letter-spacing:.05em;
             font-family:'Mulish', sans-serif; color:#000;
         }
-        .hiw-item h4 { 
-            font-size:var(--hiw-h4); 
-            line-height:1.3; /* Arttırıldı crop için */
-            margin-bottom:.3vh; 
-            color:#000; 
+        .hiw-item h4 {
+            font-size:var(--hiw-h4);
+            line-height:1.3;
+            margin-bottom:.3vh;
+            color:#000;
             text-align:center;
-            padding: 0 .2rem; /* Yanlara minimal padding */
+            padding: 0 .2rem;
         }
-        .hiw-item p  { 
-            font-size:var(--hiw-p);  
-            line-height:1.35; /* Arttırıldı crop için */
-            opacity:.65; 
-            color:#000; 
+        .hiw-item p  {
+            font-size:var(--hiw-p);
+            line-height:1.35;
+            opacity:.65;
+            color:#000;
             text-align:center;
-            padding: 0 .2rem; /* Yanlara minimal padding */
+            padding: 0 .2rem;
         }
-
-        /* ── DESKTOP: Bottom date cards video overlay ── */
-        .hiw-item .date-video-overlay {
-            /* JS ile dinamik oluşturulacak */
-            /* Hover'da gösterilir */
-        }
-        .hiw-item.has-video { position:relative; } /* Video için */
+        .hiw-item.has-video { position:relative; }
 
         /* ================================================
-           HIW — MOBILE - DOĞRU LAYOUT
-           İlk 4: TEK TEK full screen, Sonra: İKİŞER İKİŞER kare
+           HIW — MOBILE ONLY
            ================================================ */
         @media (max-width: 768px) {
-            .hiw-wrapper { 
-                gap:0; 
-                position:relative; 
+
+            /* === hiw-wrapper: no gap, just a flex col === */
+            .hiw-wrapper {
+                gap: 0;
             }
 
-            /* === TEK SCROLL CONTAINER === */
+            /* === FIX #2: Scroll container — full width, horizontal snap === */
             .hiw-top-row {
-                flex:1; min-height:0;
-                display:flex !important;
-                overflow-x:scroll !important; /* SCROLL FORCE */
-                overflow-y:hidden !important;
-                scroll-snap-type:x mandatory; 
-                scrollbar-width:none;
-                gap:0;
-                padding:0;
-                align-items:stretch;
-                grid-template-columns:unset !important;
-                -webkit-overflow-scrolling:touch;
-                cursor:grab;
+                flex: 1; min-height: 0;
+                display: flex !important;
+                overflow-x: scroll !important;
+                overflow-y: hidden !important;
+                scroll-snap-type: x mandatory;
+                scrollbar-width: none;
+                -webkit-overflow-scrolling: touch;
+                align-items: stretch;
+                grid-template-columns: unset !important;
+                gap: 0;
+                padding: 0;
+                /* overflow:hidden clips sides so 100vw items look clipped to content-area */
             }
-            .hiw-top-row:active { cursor:grabbing; }
-            .hiw-top-row::-webkit-scrollbar { display:none !important; }
+            .hiw-top-row:active { cursor: grabbing; }
+            .hiw-top-row::-webkit-scrollbar { display: none !important; }
 
-            /* === İLK 4 STEP CARD - HER BİRİ TEK FULL SCREEN === */
+            /* === STEP CARDS: each fills exactly content-area width (100% of container) === */
+            /* FIX #2: Use 100% so they fill the scroll container exactly and center naturally */
             .hiw-top-row > .hiw-item:nth-child(-n+4) {
-                flex:0 0 100vw;
-                width:100vw;
-                height:100%;
-                scroll-snap-align:start;
-                background:transparent !important;
-                border:none !important;
-                backdrop-filter:none !important;
-                -webkit-backdrop-filter:none !important;
-                padding:0 10%;
-                display:flex; flex-direction:column;
-                align-items:center; justify-content:center;
+                flex: 0 0 100%;
+                width: 100%;
+                height: 100%;
+                scroll-snap-align: start;
+                background: transparent !important;
+                border: none !important;
+                backdrop-filter: none !important;
+                -webkit-backdrop-filter: none !important;
+                padding: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
             }
 
             .hiw-top-row > .hiw-item:nth-child(-n+4) .step-img-wrap {
-                flex:1; min-height:0; width:100%; max-width:400px;
+                flex: 1; min-height: 0;
+                width: 80%;
+                max-width: 320px;
                 filter:
                     drop-shadow(0 0 16px rgba(157,106,192,.4))
                     drop-shadow(0 0 40px rgba(200,160,240,.15));
             }
-            .hiw-top-row .step-img-wrap video { display:none; }
+            .hiw-top-row .step-img-wrap video { display: none; }
 
+            /* FIX #2: Step text pill — smaller, sits centered below PNG */
             .hiw-top-row > .hiw-item:nth-child(-n+4) .hiw-step-text {
-                background:rgba(255,255,255,.7);
-                backdrop-filter:blur(16px) saturate(180%); 
-                -webkit-backdrop-filter:blur(16px) saturate(180%);
-                border:1px solid rgba(255,255,255,.55);
-                border-radius:100px;
-                padding:.6rem 2rem;
-                margin-top:1.5vh;
+                background: rgba(255,255,255,.7);
+                backdrop-filter: blur(16px) saturate(180%);
+                -webkit-backdrop-filter: blur(16px) saturate(180%);
+                border: 1px solid rgba(255,255,255,.55);
+                border-radius: 100px;
+                padding: .4rem 1.4rem;
+                margin-top: 1.5vh;
+                margin-bottom: 2vh;
             }
-            .hiw-top-row > .hiw-item:nth-child(-n+4) .hiw-step-text h3 { 
-                font-size:clamp(.95rem, 4.5vw, 1.25rem); 
-                color:#000;
+            .hiw-top-row > .hiw-item:nth-child(-n+4) .hiw-step-text h3 {
+                font-size: clamp(.7rem, 3vw, .9rem);
+                color: #000;
             }
 
-            /* MID TITLE: Section header ile aynı yerde, aynı font */
+            /* FIX #5: hiw-mid-title HIDDEN on mobile — JS controls section-header h2 text instead */
             .hiw-mid-title {
-                position:absolute;
-                top:var(--title-height); /* Section header ile aynı */
-                left:50%; 
-                transform:translateX(-50%);
-                z-index:20;
-                pointer-events:none;
-                opacity:0;
-                transition:opacity .5s ease;
-            }
-            .hiw-mid-title h3 {
-                font-size:var(--title-size); /* Section title ile aynı */
-                font-family:'Bookmania', serif; /* Aynı font */
-                font-weight:700;
-                color:#fff; 
-                text-shadow:0 2px 25px rgba(0,0,0,.9);
+                display: none !important;
             }
 
-            /* BOTTOM ROW: Gizli, JS ile taşınacak */
+            /* BOTTOM ROW: Hidden — cards moved to hiw-top-row via JS */
             .hiw-bottom-row {
-                display:none !important;
+                display: none !important;
             }
-            
-            /* === DATE IDEAS - İKİŞER İKİŞER KARE === */
+
+            /* ===================================================
+               FIX #3 + #4: DATE PAIR WRAPPERS
+               Width = 100% of scroll container (= content-area width)
+               so cards fit perfectly without overflow or clipping.
+               Gap between cards = proper spacing with no black void.
+               =================================================== */
             .date-pair-wrapper {
-                flex:0 0 100vw; /* Çift için container */
-                width:100vw;
-                height:100%;
-                display:grid !important;
-                grid-template-columns:1fr;
-                grid-template-rows:1fr 1fr; /* 2 satır */
-                gap:clamp(10px, 2vh, 16px); /* DİKEY BOŞLUK */
-                padding:clamp(10px, 2vh, 16px);
-                scroll-snap-align:start;
+                flex: 0 0 100%;           /* FIX #3: Exactly content-area width */
+                width: 100%;
+                height: 100%;
+                display: grid !important;
+                grid-template-columns: 1fr;
+                grid-template-rows: 1fr 1fr;
+                gap: 10px;                /* FIX #4: Visible but tight gap */
+                padding: 8px 0;           /* Small breathing room top/bottom */
+                scroll-snap-align: start;
             }
-            
+
+            /* === DATE CARDS === */
             .hiw-top-row .date-card {
-                width:100%;
-                height:100%;
-                border-radius:16px;
-                padding:14px 18px;
-                justify-content:center;
-                overflow:hidden !important;
-                background:rgba(255,255,255,.75) !important;
-                backdrop-filter:blur(18px) saturate(190%) !important;
-                -webkit-backdrop-filter:blur(18px) saturate(190%) !important;
-                border:1px solid rgba(255,255,255,.65);
-                position:relative;
-                display:flex; flex-direction:column;
-                align-items:center;
+                width: 100%;
+                height: 100%;
+                min-height: 0;
+                border-radius: 16px;
+                padding: 16px 20px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden !important;
+                background: rgba(255,255,255,.75) !important;
+                backdrop-filter: blur(18px) saturate(190%) !important;
+                -webkit-backdrop-filter: blur(18px) saturate(190%) !important;
+                border: 1px solid rgba(255,255,255,.65);
+                position: relative;
             }
-            
-            /* Video background */
+
+            /* Video background for date cards */
             .date-card .card-video-bg {
-                position:absolute;
-                top:0; left:0;
-                width:100%; height:100%;
-                object-fit:cover;
-                opacity:0.5;
-                z-index:0;
-                pointer-events:none;
+                position: absolute;
+                top: 0; left: 0;
+                width: 100%; height: 100%;
+                object-fit: cover;
+                opacity: 0.5;
+                z-index: 0;
+                pointer-events: none;
             }
-            
-            .date-card > * {
-                position:relative;
-                z-index:1;
+            .date-card > * { position: relative; z-index: 1; }
+
+            /* Date card content sizing */
+            .hiw-top-row .date-card .hiw-badge-row {
+                justify-content: center;
+                margin-bottom: .8vh;
             }
-            
-            .hiw-top-row .date-card .hiw-badge-row { 
-                justify-content:center; 
-                margin-bottom:.6vh; 
-            }
-            .hiw-top-row .date-card .hiw-badge-icon { 
-                width:14px !important; 
-                height:14px !important; 
+            .hiw-top-row .date-card .hiw-badge-icon {
+                width: 16px !important;
+                height: 16px !important;
             }
             .hiw-top-row .date-card .hiw-badge-icon svg,
-            .hiw-top-row .date-card .hiw-badge-icon i { 
-                width:8px !important; 
-                height:8px !important; 
+            .hiw-top-row .date-card .hiw-badge-icon i {
+                width: 9px !important;
+                height: 9px !important;
             }
-            .hiw-top-row .date-card .hiw-badge-label { 
-                font-size:.56rem; 
+            .hiw-top-row .date-card .hiw-badge-label {
+                font-size: .6rem;
             }
-            .hiw-top-row .date-card h4 { 
-                font-size:clamp(.88rem, 4vw, 1.1rem); 
-                text-align:center; 
-                line-height:1.3;
-                margin-bottom:.5vh;
+            .hiw-top-row .date-card h4 {
+                font-size: clamp(.9rem, 4.5vw, 1.15rem);
+                text-align: center;
+                line-height: 1.3;
+                margin-bottom: .5vh;
             }
-            .hiw-top-row .date-card p { 
-                font-size:clamp(.72rem, 3.4vw, .88rem); 
-                text-align:center; 
-                line-height:1.35;
-                opacity:.75;
+            .hiw-top-row .date-card p {
+                font-size: clamp(.75rem, 3.5vw, .9rem);
+                text-align: center;
+                line-height: 1.35;
+                opacity: .75;
             }
 
-            .date-video-overlay { display:none !important; }
+            .date-video-overlay { display: none !important; }
         }
 
         /* ================================================
-           EVENTS
+           EVENTS — DESKTOP (100% ORIGINAL — UNCHANGED)
            ================================================ */
         .events-grid {
             flex:1; min-height:0;
@@ -505,9 +475,7 @@
             position:absolute; inset:0; width:100%; height:100%;
             object-fit:cover; transition:transform .7s ease;
         }
-        /* VIDEO ekleme: <img> yerine <video data-video-src="..."></video> */
         .event-card video { display:block; }
-
         .event-card:hover img,
         .event-card:hover video { transform:scale(1.05); }
         .event-overlay {
@@ -535,7 +503,7 @@
             font-family:'Metropolis', sans-serif;
         }
 
-        /* Events mobile: horizontal scroll */
+        /* Events mobile */
         @media (max-width: 768px) {
             .events-grid {
                 display:flex; overflow-x:auto; overflow-y:hidden;
@@ -552,11 +520,6 @@
                 height:100%; scroll-snap-align:center;
             }
             .event-card.md-span-2 { grid-column:auto; }
-
-            /* Mobilde ortadaki video loop oynar */
-            .events-grid .event-card.center-playing video {
-                /* JS ile kontrol edilecek */
-            }
         }
 
         /* ================================================
@@ -651,6 +614,7 @@
                         How it works
                     </button>
                 </div>
+                
             </div>
             <div class="w-full text-center pb-4 px-6 flex-shrink-0">
                 <div class="max-w-2xl mx-auto drop-shadow-md text-white">
@@ -669,23 +633,19 @@
              ==================================================== -->
         <section id="getting-started" style="display:none;" class="fade-in flex flex-col h-full w-full">
 
+            <!-- FIX #5: Single header — JS swaps text between
+                 "How Laila Works" and "Popular Date Ideas" in place -->
             <div class="section-header">
-                <h2 class="section-title text-white drop-shadow-lg">How Laila Works</h2>
+                <h2 id="hiw-section-title" class="section-title text-white drop-shadow-lg">How Laila Works</h2>
             </div>
 
             <div class="hiw-wrapper">
 
                 <!-- TOP ROW: Step cards -->
                 <div class="hiw-top-row">
-                    <!-- VIDEO ekleme: <img> tagini <video> ile değiştir, data-video-src ekle -->
                     <div class="hiw-item glass-card">
                         <div class="step-img-wrap">
                             <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date">
-                            <!-- VIDEO eklemek için:
-                            <video muted loop playsinline data-video-src="URL_BURAYA.mp4">
-                                <source src="URL_BURAYA.mp4" type="video/mp4">
-                            </video>
-                            -->
                         </div>
                         <div class="hiw-step-text"><h3 class="card-title">Post A Date</h3></div>
                     </div>
@@ -709,14 +669,13 @@
                     </div>
                 </div>
 
-                <!-- MID: "Popular Date Ideas" -->
+                <!-- MID: Desktop only — visible on desktop, hidden on mobile -->
                 <div class="hiw-mid-title">
                     <h3 class="card-title text-white drop-shadow-lg" style="font-size:clamp(.85rem, 1.3vw, 1.15rem);">Popular Date Ideas</h3>
                 </div>
 
                 <!-- BOTTOM ROW: date ideas -->
                 <div class="hiw-bottom-row">
-                    <!-- VIDEO eklemek için: data-video-src ekle, class="has-video" ekle -->
                     <div class="hiw-item hiw-item-center glass-card">
                         <div class="hiw-badge-row">
                             <div class="hiw-badge-icon bg-amber-400/20"><i data-lucide="coffee" class="text-amber-900"></i></div>
@@ -724,14 +683,6 @@
                         </div>
                         <h4 class="detail-title">Coffee at Central Park</h4>
                         <p class="detail-text">Latte & walk around reservoir.</p>
-                        <!-- VIDEO ekleme örneği:
-                        <div class="date-video-overlay">
-                            <video muted loop playsinline data-video-src="URL_BURAYA.mp4">
-                                <source src="URL_BURAYA.mp4" type="video/mp4">
-                            </video>
-                        </div>
-                        Sonra hiw-item'e class="has-video" ekle
-                        -->
                     </div>
                     <div class="hiw-item hiw-item-center glass-card">
                         <div class="hiw-badge-row">
@@ -806,14 +757,8 @@
             </div>
 
             <div class="events-grid">
-                <!-- VIDEO ekleme: <img> yerine <video data-video-src="..."> kullan -->
                 <div class="event-card">
                     <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" alt="Laila x D8 Time">
-                    <!-- VIDEO eklemek için:
-                    <video muted loop playsinline data-video-src="URL_BURAYA.mp4">
-                        <source src="URL_BURAYA.mp4" type="video/mp4">
-                    </video>
-                    -->
                     <div class="event-overlay"></div>
                     <div class="event-info">
                         <span class="event-tag" style="background:rgba(157,106,192,.9);">Speed Dating</span>
@@ -821,7 +766,6 @@
                         <p>Fast-paced speed dating at Time Again, Dimes Square.</p>
                     </div>
                 </div>
-
                 <div class="event-card">
                     <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" alt="Good Girls Gone Social">
                     <div class="event-overlay"></div>
@@ -831,7 +775,6 @@
                         <p>A flirty singles mixer where roses flowed all night.</p>
                     </div>
                 </div>
-
                 <div class="event-card">
                     <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" alt="Cupid's Hit List">
                     <div class="event-overlay"></div>
@@ -841,7 +784,6 @@
                         <p>Retro 80s disco party at Early Terrible.</p>
                     </div>
                 </div>
-
                 <div class="event-card">
                     <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" alt="Laila's Friends">
                     <div class="event-overlay"></div>
@@ -851,7 +793,6 @@
                         <p>Our friends and family launch at Bar Nena.</p>
                     </div>
                 </div>
-
                 <div class="event-card md:col-span-2">
                     <img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" alt="Pregame at Cosmo">
                     <div class="event-overlay"></div>
@@ -861,7 +802,6 @@
                         <p>A cheeky martini-fueled soiree.</p>
                     </div>
                 </div>
-
             </div>
         </section>
 
@@ -876,8 +816,6 @@
 
             <div class="overflow-y-auto custom-scroll flex-1 pb-2">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-start">
-
-                    <!-- LEFT -->
                     <div class="space-y-3">
                         <div class="glass-card overflow-hidden">
                             <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
@@ -908,8 +846,6 @@
                             <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Post a date idea or like others' ideas. If someone likes your date or you both like each other's, it's a match!</div>
                         </div>
                     </div>
-
-                    <!-- RIGHT -->
                     <div class="space-y-3">
                         <div class="glass-card overflow-hidden">
                             <button class="w-full px-5 py-4 text-left flex justify-between items-center focus:outline-none" onclick="toggleAccordion(this)">
@@ -940,7 +876,6 @@
                             <div class="hidden px-5 pb-4 text-black/80 text-sm leading-relaxed font-mulish">Absolutely! Email us at contact@laila.nyc. We love feedback.</div>
                         </div>
                     </div>
-
                 </div>
             </div>
 
@@ -1002,6 +937,16 @@
             document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
             const btn = document.getElementById('btn-' + id);
             if (btn) btn.classList.add('active');
+
+            /* Reset HIW mobile state on re-entry */
+            if (id === 'getting-started' && window.innerWidth <= 768) {
+                setTimeout(() => {
+                    const topRow = document.querySelector('.hiw-top-row');
+                    if (topRow) topRow.scrollLeft = 0;
+                    /* Reset title to "How Laila Works" */
+                    setHiwTitle('How Laila Works', 1);
+                }, 30);
+            }
         }
 
         /* ========================================
@@ -1027,225 +972,207 @@
         }
 
         /* ========================================
-           MOBILE: DATE CARDS İKİŞER İKİŞER
+           MOBILE: BUILD DATE PAIR WRAPPERS
            ======================================== */
         function setupMobileLayout() {
             if (window.innerWidth > 768) return;
 
-            const topRow = document.querySelector('.hiw-top-row');
+            const topRow    = document.querySelector('.hiw-top-row');
             const bottomRow = document.querySelector('.hiw-bottom-row');
-            
             if (!topRow || !bottomRow) return;
 
-            // Date cards'ı al
+            /* Already set up? Skip. */
+            if (topRow.querySelector('.date-pair-wrapper')) return;
+
             const dateCards = Array.from(bottomRow.querySelectorAll('.hiw-item'));
-            
-            // İkişer ikişer wrapper'lara sar
+
             for (let i = 0; i < dateCards.length; i += 2) {
                 const wrapper = document.createElement('div');
                 wrapper.className = 'date-pair-wrapper';
-                
+
                 const card1 = dateCards[i];
                 const card2 = dateCards[i + 1];
-                
+
                 card1.classList.add('date-card');
                 wrapper.appendChild(card1);
-                
+
                 if (card2) {
                     card2.classList.add('date-card');
                     wrapper.appendChild(card2);
                 }
-                
-                // Video infrastructure
+
+                /* Optional video injection per card */
                 [card1, card2].forEach(card => {
                     if (!card) return;
                     const videoSrc = card.getAttribute('data-video-src');
-                    if (videoSrc) {
-                        const video = document.createElement('video');
-                        video.className = 'card-video-bg';
-                        video.muted = true;
-                        video.loop = true;
-                        video.playsInline = true;
-                        video.autoplay = false;
-                        
-                        const source = document.createElement('source');
-                        source.src = videoSrc;
-                        source.type = 'video/mp4';
-                        video.appendChild(source);
-                        
-                        card.insertBefore(video, card.firstChild);
-                    }
+                    if (!videoSrc) return;
+                    const video = document.createElement('video');
+                    video.className = 'card-video-bg';
+                    video.muted = true; video.loop = true;
+                    video.playsInline = true; video.autoplay = false;
+                    const source = document.createElement('source');
+                    source.src = videoSrc; source.type = 'video/mp4';
+                    video.appendChild(source);
+                    card.insertBefore(video, card.firstChild);
                 });
-                
+
                 topRow.appendChild(wrapper);
             }
         }
 
         /* ========================================
-           MOBILE: FADE + VIDEO CONTROL
+           FIX #5: Title swap helper
+           Changes the section-header h2 text with a
+           fade so "Popular Date Ideas" appears at
+           EXACTLY the same position as "How Laila Works"
            ======================================== */
-        function initMobileFade() {
+        let currentHiwTitle = 'How Laila Works';
+        let titleSwapping = false;
+
+        function setHiwTitle(newText, targetOpacity) {
+            const h2 = document.getElementById('hiw-section-title');
+            if (!h2) return;
+
+            if (newText !== currentHiwTitle && !titleSwapping) {
+                titleSwapping = true;
+                h2.style.opacity = '0';
+                setTimeout(() => {
+                    h2.textContent = newText;
+                    currentHiwTitle = newText;
+                    h2.style.opacity = String(targetOpacity);
+                    titleSwapping = false;
+                }, 220);
+            } else {
+                h2.style.opacity = String(targetOpacity);
+            }
+        }
+
+        /* ========================================
+           MOBILE: SCROLL HANDLER
+           — Title swap on scroll (FIX #5)
+           — Video playback for date cards
+           ======================================== */
+        function initMobileScroll() {
             if (window.innerWidth > 768) return;
 
             const scrollContainer = document.querySelector('.hiw-top-row');
-            const midTitle = document.querySelector('.hiw-mid-title');
-            const sectionHeader = document.querySelector('#getting-started .section-header h2');
-            
-            if (!scrollContainer || !midTitle || !sectionHeader) return;
+            if (!scrollContainer) return;
+
+            /* Step cards = items 0–3, each snaps at multiples of container width */
+            /* date-pair-wrappers start at snap position 4 */
 
             scrollContainer.addEventListener('scroll', () => {
-                const scrollLeft = scrollContainer.scrollLeft;
-                const viewportWidth = window.innerWidth;
-                
-                // 4 full screen kart sonrası fade başlar
-                const fadeStart = viewportWidth * 3.6;
-                const fadeEnd = viewportWidth * 4.3;
-                
-                let titleOpacity = 0;
-                if (scrollLeft >= fadeStart && scrollLeft <= fadeEnd) {
-                    titleOpacity = (scrollLeft - fadeStart) / (fadeEnd - fadeStart);
-                } else if (scrollLeft > fadeEnd) {
-                    titleOpacity = 1;
-                }
-                
-                // Popular Date Ideas fade IN
-                midTitle.style.opacity = titleOpacity;
-                
-                // How Laila Works fade OUT
-                sectionHeader.style.opacity = Math.max(0, 1 - titleOpacity);
+                const scrollLeft  = scrollContainer.scrollLeft;
+                const containerW  = scrollContainer.clientWidth; /* = content-area width */
 
-                // Ortadaki date pair wrapper'ın videolarını oynat
+                /* position of 4th step card start */
+                const lastStepStart  = containerW * 3;
+                /* first date pair starts at position 4 * containerW */
+                const firstPairStart = containerW * 4;
+
+                /* Progress: 0 = showing step cards, 1 = showing date pairs */
+                let progress = 0;
+                if (scrollLeft >= lastStepStart) {
+                    progress = Math.min(1, (scrollLeft - lastStepStart) / containerW);
+                }
+
+                /* FIX #5: swap title exactly as first pair appears */
+                if (progress < 0.5) {
+                    setHiwTitle('How Laila Works', 1);
+                } else {
+                    setHiwTitle('Popular Date Ideas', 1);
+                }
+
+                /* Video playback: play only the centered pair's videos */
                 const pairWrappers = scrollContainer.querySelectorAll('.date-pair-wrapper');
-                if (pairWrappers.length === 0) return;
-                
-                const containerRect = scrollContainer.getBoundingClientRect();
+                if (!pairWrappers.length) return;
+
+                const containerRect   = scrollContainer.getBoundingClientRect();
                 const containerCenter = containerRect.left + containerRect.width / 2;
-                
+
                 let closestWrapper = null;
-                let minDistance = Infinity;
-                
-                pairWrappers.forEach(wrapper => {
-                    const rect = wrapper.getBoundingClientRect();
-                    const wrapperCenter = rect.left + rect.width / 2;
-                    const distance = Math.abs(wrapperCenter - containerCenter);
-                    
-                    if (distance < minDistance) {
-                        minDistance = distance;
-                        closestWrapper = wrapper;
-                    }
+                let minDist = Infinity;
+                pairWrappers.forEach(w => {
+                    const r    = w.getBoundingClientRect();
+                    const dist = Math.abs((r.left + r.width / 2) - containerCenter);
+                    if (dist < minDist) { minDist = dist; closestWrapper = w; }
                 });
-                
-                // Ortadaki wrapper'daki videoları oynat
-                pairWrappers.forEach(wrapper => {
-                    const videos = wrapper.querySelectorAll('.card-video-bg');
-                    videos.forEach(video => {
-                        if (wrapper === closestWrapper) {
-                            video.play().catch(() => {});
-                        } else {
-                            video.pause();
-                        }
+
+                pairWrappers.forEach(w => {
+                    w.querySelectorAll('.card-video-bg').forEach(v => {
+                        if (w === closestWrapper) v.play().catch(() => {});
+                        else v.pause();
                     });
                 });
             });
         }
 
         /* ========================================
-           VIDEO HOVER CONTROLS
-           ======================================== */
-        /* ========================================
-           VIDEO HOVER CONTROLS
+           VIDEO HOVER CONTROLS (DESKTOP ONLY)
            ======================================== */
         function initVideoHovers() {
-            const isMobile = window.innerWidth <= 768;
-            if (!isMobile) {
-                // === DESKTOP ONLY ===
-                
-                // HIW top row step videos
-                document.querySelectorAll('.hiw-top-row .step-img-wrap video').forEach(vid => {
-                    const wrapper = vid.closest('.step-img-wrap');
-                    if (!wrapper) return;
-                    wrapper.addEventListener('mouseenter', () => {
-                        vid.play().catch(() => {});
-                    });
-                    wrapper.addEventListener('mouseleave', () => {
-                        vid.pause();
-                    });
-                });
-
-                // HIW bottom row: date cards overlay video (hover)
-                document.querySelectorAll('.hiw-bottom-row .hiw-item').forEach(item => {
-                    const videoSrc = item.getAttribute('data-video-src');
-                    if (!videoSrc) return;
-                    
-                    // Overlay video container oluştur
-                    const overlay = document.createElement('div');
-                    overlay.className = 'date-video-overlay';
-                    overlay.style.cssText = 'position:absolute; inset:0; background:rgba(0,0,0,.75); display:none; align-items:center; justify-content:center; z-index:10;';
-                    
-                    const video = document.createElement('video');
-                    video.muted = true;
-                    video.loop = true;
-                    video.playsInline = true;
-                    video.style.cssText = 'max-width:90%; max-height:90%; object-fit:contain;';
-                    
-                    const source = document.createElement('source');
-                    source.src = videoSrc;
-                    source.type = 'video/mp4';
-                    video.appendChild(source);
-                    
-                    overlay.appendChild(video);
-                    item.style.position = 'relative';
-                    item.appendChild(overlay);
-                    
-                    // Hover events
-                    item.addEventListener('mouseenter', () => {
-                        overlay.style.display = 'flex';
-                        video.play().catch(() => {});
-                    });
-                    item.addEventListener('mouseleave', () => {
-                        overlay.style.display = 'none';
-                        video.pause();
-                    });
-                });
-
-                // Events: hover videos
-                document.querySelectorAll('.event-card video').forEach(vid => {
-                    const card = vid.closest('.event-card');
-                    if (!card) return;
-                    card.addEventListener('mouseenter', () => {
-                        vid.play().catch(() => {});
-                    });
-                    card.addEventListener('mouseleave', () => {
-                        vid.pause();
-                    });
-                });
-            } else {
-                // === MOBILE ONLY ===
-                // Events: ortadaki video loop
+            if (window.innerWidth <= 768) {
+                /* Mobile: events intersection observer */
                 const eventsGrid = document.querySelector('.events-grid');
-                if (eventsGrid && window.getComputedStyle(eventsGrid).display === 'flex') {
-                    const observer = new IntersectionObserver((entries) => {
+                if (eventsGrid) {
+                    const obs = new IntersectionObserver((entries) => {
                         entries.forEach(entry => {
                             const vid = entry.target.querySelector('video');
                             if (!vid) return;
-                            if (entry.isIntersecting && entry.intersectionRatio > 0.5) {
-                                vid.play().catch(() => {});
-                            } else {
-                                vid.pause();
-                            }
+                            if (entry.isIntersecting && entry.intersectionRatio > 0.5) vid.play().catch(() => {});
+                            else vid.pause();
                         });
                     }, { threshold: 0.5 });
-                    document.querySelectorAll('.events-grid .event-card').forEach(card => observer.observe(card));
+                    document.querySelectorAll('.events-grid .event-card').forEach(c => obs.observe(c));
                 }
+                return;
             }
+
+            /* Desktop: hover on step cards */
+            document.querySelectorAll('.hiw-top-row .step-img-wrap video').forEach(vid => {
+                const wrapper = vid.closest('.step-img-wrap');
+                if (!wrapper) return;
+                wrapper.addEventListener('mouseenter', () => vid.play().catch(() => {}));
+                wrapper.addEventListener('mouseleave', () => vid.pause());
+            });
+
+            /* Desktop: hover on date cards with overlay */
+            document.querySelectorAll('.hiw-bottom-row .hiw-item').forEach(item => {
+                const videoSrc = item.getAttribute('data-video-src');
+                if (!videoSrc) return;
+                const overlay = document.createElement('div');
+                overlay.style.cssText = 'position:absolute;inset:0;background:rgba(0,0,0,.75);display:none;align-items:center;justify-content:center;z-index:10;';
+                const video   = document.createElement('video');
+                video.muted = true; video.loop = true; video.playsInline = true;
+                video.style.cssText = 'max-width:90%;max-height:90%;object-fit:contain;';
+                const source  = document.createElement('source');
+                source.src = videoSrc; source.type = 'video/mp4';
+                video.appendChild(source);
+                overlay.appendChild(video);
+                item.style.position = 'relative';
+                item.appendChild(overlay);
+                item.addEventListener('mouseenter', () => { overlay.style.display = 'flex'; video.play().catch(() => {}); });
+                item.addEventListener('mouseleave', () => { overlay.style.display = 'none'; video.pause(); });
+            });
+
+            /* Desktop: hover on event cards */
+            document.querySelectorAll('.event-card video').forEach(vid => {
+                const card = vid.closest('.event-card');
+                if (!card) return;
+                card.addEventListener('mouseenter', () => vid.play().catch(() => {}));
+                card.addEventListener('mouseleave', () => vid.pause());
+            });
         }
 
-        // Init all features after page load
+        /* ========================================
+           INIT
+           ======================================== */
         window.addEventListener('load', () => {
-            setupMobileLayout(); // Mobilde 2x2 grid + date cards
+            setupMobileLayout();
             initVideoHovers();
-            initMobileFade();
+            initMobileScroll();
         });
+
         showSection('home');
     </script>
 </body>
