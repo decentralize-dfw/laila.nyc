@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Laila - Date Better.</title>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+@font-face{font-family:'Mulish';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd060_Mulish-VariableFont_wght.ttf") format("truetype");font-weight:200 1000;font-display:swap}
+@font-face{font-family:'Silk Flower';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd05f_Silk%20Flower.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:'Bookmania';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd062_Fontspring-DEMO-bookmania-bold.otf") format("opentype");font-weight:700}
+@font-face{font-family:'Bookmania';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd063_Fontspring-DEMO-bookmania-semibold.otf") format("opentype");font-weight:600}
+@font-face{font-family:'Bookmania';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd065_Fontspring-DEMO-bookmania-regular.otf") format("opentype");font-weight:400}
+@font-face{font-family:'Metropolis';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9d2d108a8275ff8b6_Metropolis-Regular.otf") format("opentype");font-weight:400}
+@font-face{font-family:'Metropolis';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c991c3fb98dc42418b_Metropolis-SemiBold.otf") format("opentype");font-weight:600}
+@font-face{font-family:'Metropolis';src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9c97208ba9db083d5_Metropolis-Bold.otf") format("opentype");font-weight:700}
+
+:root{
+--offline:#0F0F0F;--digi-mauve:#454270;--purple-hash:#753875;--grapelogue:#956BB9;--blueberry:#DBC1EA;--vanilla:#DDD9DB;
+--stripe:repeating-linear-gradient(90deg,var(--purple-hash) 0px,var(--purple-hash) 2px,var(--grapelogue) 2px,var(--grapelogue) 10px);
+--gb:rgba(255,255,255,0.40);--gbh:rgba(255,255,255,0.65);--gbr:1px solid rgba(255,255,255,0.55);
+--gbl:blur(20px) saturate(200%);--gbs:0 4px 24px rgba(0,0,0,0.12);
+--logo-h:36px;--logo-top:20px;--dock-h:48px;--dock-btm:12px;--gap-chr:5vh;
+--ctop:calc(var(--logo-top) + var(--logo-h) + var(--gap-chr));
+--cbtm:calc(var(--dock-btm) + var(--dock-h) + var(--gap-chr));
+--px:4%;--gv:1.5vh;--gh:1.2%;
+--tsz:clamp(1.45rem,2.4vw,2.1rem);--th:5.5vh;--tmb:1.5vh;
+--cpv:1.2vh;--cph:1%;--crad:18px;--prad:100px;
+--hiw-h3:clamp(0.62rem,0.95vw,1rem);--hiw-h4:clamp(0.55rem,0.8vw,0.88rem);--hiw-p:clamp(0.48rem,0.65vw,0.72rem);
+--bsz:clamp(9px,0.9vw,13px);--bicon:clamp(5px,0.55vw,7.5px);--bmb:0.5vh;--blbl:clamp(0.42rem,0.5vw,0.56rem);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;width:100%;overflow:hidden}
+body{font-family:'Mulish',sans-serif;background:var(--offline);color:var(--vanilla)}
+body::after{content:'';position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.04;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+background-size:300px;mix-blend-mode:overlay}
+
+.glass{background:var(--gb)!important;backdrop-filter:var(--gbl)!important;-webkit-backdrop-filter:var(--gbl)!important;border:var(--gbr)!important}
+.glass:hover{background:var(--gbh)!important}
+
+.bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg-wrap video{width:100%;height:100%;object-fit:cover}
+.bg-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(69,66,112,.52) 0%,rgba(15,15,15,.70) 60%,rgba(15,15,15,.90) 100%)}
+
+.stripe-bar{display:inline-block;width:32px;height:4px;background:var(--stripe);border-radius:2px;flex-shrink:0}
+
+#logo{position:fixed;top:var(--logo-top);left:var(--px);z-index:200;cursor:pointer;height:var(--logo-h);display:flex;align-items:center}
+#logo img{height:100%;width:auto;filter:brightness(0) saturate(100%) invert(62%) sepia(22%) saturate(900%) hue-rotate(245deg) brightness(95%) contrast(90%);transition:filter .3s}
+#logo:hover img{filter:brightness(0) invert(1)}
+
+#amb-btn{position:fixed;top:var(--logo-top);right:var(--px);z-index:200;height:var(--logo-h);display:flex;align-items:center}
+#amb-btn a{display:flex;align-items:center;gap:6px;font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.58rem,.82vw,.75rem);color:var(--grapelogue);text-decoration:none;white-space:nowrap;padding:.42rem 1rem .42rem .8rem;border-radius:var(--prad);box-shadow:var(--gbs);transition:background .22s,color .22s,box-shadow .22s}
+#amb-btn a:hover{background:var(--grapelogue)!important;color:#fff!important;border-color:var(--grapelogue)!important;box-shadow:0 4px 20px rgba(149,107,185,.45)}
+
+#socials{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);left:var(--px);transform:translateY(50%);z-index:200;display:flex;align-items:center;gap:8px}
+#socials a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:var(--grapelogue);text-decoration:none;box-shadow:var(--gbs);transition:background .22s,color .22s}
+#socials a:hover{background:var(--grapelogue)!important;color:#fff!important;border-color:var(--grapelogue)!important}
+#socials a svg{width:14px;height:14px;display:block}
+
+#legal{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);right:var(--px);transform:translateY(50%);z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+#legal .ll{display:flex;gap:12px}
+#legal a{font-family:'Metropolis',sans-serif;font-size:clamp(.42rem,.6vw,.58rem);color:rgba(221,217,219,.6);text-decoration:underline;text-underline-offset:2px;white-space:nowrap;transition:color .2s}
+#legal a:hover{color:var(--vanilla)}
+#legal .cp{font-family:'Metropolis',sans-serif;font-size:clamp(.38rem,.5vw,.5rem);color:rgba(221,217,219,.28);white-space:nowrap}
+
+#dock{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);left:50%;transform:translate(-50%,50%);z-index:200;height:var(--dock-h);display:flex;align-items:center;gap:2px;padding:0 clamp(8px,1.8vw,14px);border-radius:var(--prad);box-shadow:0 4px 28px rgba(0,0,0,.18)}
+.nbtn{display:flex;align-items:center;gap:6px;padding:6px clamp(10px,1.5vw,14px);border-radius:var(--prad);border:none;background:transparent;cursor:pointer;color:#555;font-family:'Mulish',sans-serif;font-weight:600;font-size:clamp(.6rem,.9vw,.75rem);letter-spacing:.02em;transition:color .2s,background .2s}
+.nbtn:hover{color:var(--grapelogue)}
+.nbtn.active{background:rgba(149,107,185,.18)!important;color:var(--grapelogue)!important;border:1px solid rgba(149,107,185,.38)!important}
+.nbtn i{width:16px;height:16px;flex-shrink:0}
+.nl{display:none}
+@media(min-width:640px){.nl{display:inline}}
+
+#content{position:fixed;top:var(--ctop);bottom:var(--cbtm);left:var(--px);right:var(--px);z-index:10}
+#content > section{display:none;width:100%;height:100%;flex-direction:column;overflow:hidden}
+#content > section.active{display:flex;animation:fadeUp .38s ease both}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.sh{flex:0 0 var(--th);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:var(--tmb);position:relative}
+.st{font-family:'Bookmania',serif;font-weight:700;font-size:var(--tsz);color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.4);transition:opacity .3s}
+
+/* HOME */
+#home{justify-content:space-between;align-items:center}
+.h-hero{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;padding:0 4%}
+.h-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:clamp(.6rem,1.5vh,1.2rem);opacity:.75}
+.h-eyebrow span{font-family:'Metropolis',sans-serif;font-weight:600;font-size:clamp(.52rem,.85vw,.72rem);letter-spacing:.18em;text-transform:uppercase;color:var(--blueberry)}
+.h-main{font-family:'Silk Flower',cursive;font-size:clamp(3.8rem,10vw,9rem);line-height:1.0;color:#fff;text-shadow:0 4px 40px rgba(149,107,185,.3);margin-bottom:clamp(.2rem,.8vh,.6rem);white-space:nowrap}
+.h-rotwrap{height:clamp(2.6rem,7vw,6rem);display:flex;align-items:center;justify-content:center;overflow:hidden;width:100%;margin-bottom:clamp(1.2rem,3vh,2.4rem)}
+#rottext{font-family:'Silk Flower',cursive;font-size:clamp(1.8rem,5.5vw,4.8rem);background:linear-gradient(135deg,var(--blueberry) 0%,var(--grapelogue) 60%,var(--purple-hash) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.0;display:block;transition:opacity .28s,transform .28s}
+.h-cta{display:flex;flex-direction:row;gap:10px;justify-content:center;flex-wrap:wrap}
+
+.btn-pill{display:inline-flex;align-items:center;gap:8px;font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.72rem,1.1vw,.9rem);color:var(--grapelogue);border-radius:var(--prad);padding:.7rem 1.5rem;text-decoration:none;cursor:pointer;border:none;box-shadow:var(--gbs);transition:background .22s,color .22s}
+.btn-pill:hover{background:var(--grapelogue)!important;color:#fff!important;border-color:var(--grapelogue)!important}
+
+.h-mission{flex:0 0 auto;width:100%;text-align:center;padding:0 6% clamp(.6rem,1.5vh,1.2rem)}
+.h-mission-inner{max-width:640px;margin:0 auto;padding-top:clamp(.5rem,1.2vh,1rem);border-top:1px solid rgba(221,193,234,.18)}
+.h-mission-lead{font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.7rem,1.4vw,1rem);color:#fff;margin-bottom:.4em;line-height:1.3}
+.h-mission-body{font-family:'Metropolis',sans-serif;font-size:clamp(.52rem,.85vw,.7rem);color:rgba(221,217,219,.65);line-height:1.45;letter-spacing:-.01em}
+.h-socials{display:none;align-items:center;justify-content:center;gap:28px;padding:2.5vh 0}
+.h-socials a{color:rgba(255,255,255,.75);transition:color .2s}
+.h-socials a:hover{color:#fff}
+
+/* HOW IT WORKS */
+.hiw-toggle{position:absolute;right:0;font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.56rem,.95vw,.72rem);color:var(--grapelogue);cursor:pointer;white-space:nowrap;padding:.3rem .85rem;border-radius:var(--prad);box-shadow:var(--gbs);transition:color .22s}
+.hiw-cards{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:var(--gh);overflow:visible}
+.hiw-cards.hidden{display:none}
+.hiw-card{display:flex;flex-direction:column;height:100%;min-height:0;padding:var(--cpv) var(--cph);padding-bottom:calc(var(--cpv)*1.5);overflow:hidden;border-radius:var(--crad)}
+.step-num{font-family:'Silk Flower',cursive;font-size:clamp(1.2rem,2vw,1.8rem);color:var(--grapelogue);opacity:.5;line-height:1;margin-bottom:.3vh;text-align:center}
+.step-img{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.step-img img,.step-img video{max-width:100%;max-height:100%;object-fit:contain}
+.step-img video{display:block;pointer-events:none}
+.step-lbl{flex:0 0 auto;display:flex;align-items:center;justify-content:center;margin-top:.6vh}
+.step-lbl h3{font-family:'Bookmania',serif;font-weight:600;font-size:var(--hiw-h3);color:#000;text-align:center}
+.date-grid{flex:1;min-height:0;display:none;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:var(--gv) var(--gh)}
+.date-grid.active{display:grid}
+.date-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--cpv) var(--cph);border-radius:var(--crad)}
+.dbrow{display:flex;align-items:center;gap:4px;margin-bottom:var(--bmb)}
+.dbicon{width:var(--bsz);height:var(--bsz);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dbicon svg,.dbicon i{width:var(--bicon)!important;height:var(--bicon)!important}
+.dblbl{font-size:var(--blbl);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-family:'Mulish',sans-serif;color:#000}
+.date-card h4{font-family:'Metropolis',sans-serif;font-weight:700;font-size:var(--hiw-h4);color:#000;text-align:center;line-height:1.3;margin-bottom:.25vh}
+.date-card p{font-family:'Metropolis',sans-serif;font-size:var(--hiw-p);color:rgba(0,0,0,.6);text-align:center;line-height:1.35}
+
+/* EVENTS */
+.events-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:var(--gv) var(--gh)}
+.ecard{position:relative;border-radius:var(--crad);overflow:hidden;cursor:pointer}
+.ecard img,.ecard video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.ecard:hover img,.ecard:hover video{transform:scale(1.05)}
+.eoverlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35) 55%,transparent)}
+.estripe{position:absolute;top:0;left:0;right:0;height:3px;background:var(--stripe);z-index:2}
+.einfo{position:absolute;bottom:0;left:0;width:100%;padding:clamp(.6rem,1.2vh,1rem) clamp(.7rem,1.2vw,1.1rem);z-index:2}
+.etag{font-family:'Mulish',sans-serif;font-weight:700;font-size:clamp(.36rem,.52vw,.5rem);letter-spacing:.08em;text-transform:uppercase;padding:.15rem .4rem;border-radius:3px;margin-bottom:.3rem;display:inline-block;color:#fff}
+.ecard h4{font-family:'Bookmania',serif;font-weight:700;font-size:clamp(.7rem,1.15vw,.96rem);margin-bottom:.12rem;line-height:1.15}
+.ecard p{font-family:'Metropolis',sans-serif;font-size:clamp(.48rem,.7vw,.62rem);line-height:1.25;color:rgba(255,255,255,.72)}
+
+/* FAQ */
+.faq-scroll{flex:1;min-height:0;overflow-y:auto;scrollbar-width:thin;scrollbar-color:rgba(149,107,185,.4) transparent}
+.faq-scroll::-webkit-scrollbar{width:3px}
+.faq-scroll::-webkit-scrollbar-thumb{background:rgba(149,107,185,.4);border-radius:2px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.5vh,1.2rem) var(--gh)}
+.faq-col{display:flex;flex-direction:column;gap:clamp(.5rem,1.2vh,.9rem)}
+.faq-item{border-radius:14px;overflow:hidden}
+.faq-btn{width:100%;padding:.85rem 1.1rem;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;text-align:left}
+.faq-q{font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.82rem,1.2vw,1rem);color:#000;line-height:1.3}
+.faq-ic{transition:transform .3s;flex-shrink:0;color:rgba(0,0,0,.45)}
+.faq-ic svg{width:15px;height:15px}
+.faq-body{display:none;padding:0 1.1rem .85rem;font-family:'Metropolis',sans-serif;font-size:clamp(.72rem,1vw,.88rem);color:rgba(0,0,0,.72);line-height:1.45}
+.faq-body.open{display:block}
+.faq-ic.open{transform:rotate(180deg)}
+.faq-footer{flex:0 0 auto;display:flex;align-items:center;justify-content:center;gap:clamp(.5rem,2vw,1.2rem);padding-top:1.4vh;border-top:1px solid rgba(255,255,255,.1);margin-top:.8vh;flex-wrap:nowrap}
+.faq-footer h3{font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.68rem,1.3vw,.9rem);white-space:nowrap;color:#fff}
+.fpbtn{font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.6rem,1vw,.78rem);white-space:nowrap;padding:.32rem clamp(.6rem,1.2vw,.9rem);border-radius:var(--prad);border:none;cursor:pointer;color:var(--grapelogue);text-decoration:none;box-shadow:var(--gbs);transition:background .22s,color .22s}
+.fpbtn:hover{background:var(--grapelogue)!important;color:#fff!important;border-color:var(--grapelogue)!important}
+
+/* MOBILE */
+@media(max-width:768px){
+#content{left:0!important;right:0!important;top:calc(var(--logo-top) + var(--logo-h) + 2.5vh)!important;bottom:calc(var(--dock-btm) + var(--dock-h) + 2.5vh)!important}
+#dock{bottom:calc(var(--dock-btm) + var(--dock-h)/2 + 2.5vh/2)!important}
+#socials{display:none!important}
+#legal{display:none!important}
+#amb-btn{top:var(--logo-top);right:3%}
+#amb-btn a{font-size:.56rem;padding:.26rem .6rem;max-width:90px;white-space:normal;text-align:center;line-height:1.25;justify-content:center}
+#amb-btn a svg{display:none!important}
+.sh{padding:0 15vw}
+.hiw-toggle{display:none!important}
+.date-grid,.date-grid.active{display:none!important}
+.mob-scroll{flex:1!important;min-height:0!important;display:flex!important;flex-direction:row!important;overflow-x:scroll!important;overflow-y:hidden!important;scroll-snap-type:x mandatory;padding-inline:15vw;scroll-padding-inline-start:15vw;gap:10vw;align-items:stretch;scrollbar-width:none;-webkit-overflow-scrolling:touch;grid-template-columns:unset!important;grid-template-rows:unset!important;column-gap:0!important}
+.mob-scroll::-webkit-scrollbar{display:none}
+.mob-scroll > *{flex:0 0 70vw;width:70vw;min-width:0;height:100%;scroll-snap-align:start}
+.mob-scroll > .hiw-card{background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border:none!important;border-radius:0!important;padding:0!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:flex-start!important;overflow:visible!important}
+.mob-scroll > .hiw-card .step-img{width:100%}
+.mob-scroll > .hiw-card .step-img img{width:auto;height:100%;max-width:100%;object-fit:contain}
+.mob-scroll > .hiw-card .step-img video{display:none}
+.mob-scroll > .hiw-card .step-lbl{background:rgba(255,255,255,.72)!important;backdrop-filter:blur(16px) saturate(180%)!important;-webkit-backdrop-filter:blur(16px) saturate(180%)!important;border:1px solid rgba(255,255,255,.55)!important;border-radius:100px!important;padding:.32rem 1rem;margin-top:1.5vh;align-self:center}
+.mob-scroll > .hiw-card .step-lbl h3{font-size:clamp(.65rem,2.8vw,.8rem);white-space:nowrap}
+.step-num{display:none}
+#events-grid.mob-scroll{gap:0!important}
+.mob-scroll > .ecard{border-radius:0!important}
+.faq-grid{grid-template-columns:1fr!important}
+#faq .faq-scroll{padding:0 15vw}
+#faq .faq-footer{padding-left:15vw;padding-right:15vw}
+.faq-q{font-size:clamp(.72rem,2.5vw,.9rem)!important}
+.faq-body{font-size:clamp(.62rem,2vw,.78rem)!important}
+#home{flex-direction:column!important;justify-content:flex-start!important;align-items:stretch!important}
+.h-hero{flex:1!important}
+.h-socials{display:flex!important}
+.h-main{font-size:clamp(3rem,12vw,5rem)!important;white-space:nowrap!important}
+#rottext{font-size:clamp(1.5rem,6.5vw,2.8rem)!important}
+.mob-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:30;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.65)!important;backdrop-filter:blur(16px) saturate(180%)!important;-webkit-backdrop-filter:blur(16px) saturate(180%)!important;border:1px solid rgba(149,107,185,.4)!important;cursor:pointer;transition:opacity .2s;color:var(--grapelogue);pointer-events:auto}
+.mob-arrow.hidden{opacity:0;pointer-events:none}
+.mob-arrow-prev{left:3vw}
+.mob-arrow-next{right:3vw}
+.mob-arrow svg{width:18px;height:18px;stroke:var(--grapelogue)}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-wrap" id="bg-home"><video autoplay muted loop playsinline><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div class="bg-wrap" id="bg-getting-started" style="display:none"><video autoplay muted loop playsinline><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div class="bg-wrap" id="bg-events" style="display:none"><video autoplay muted loop playsinline><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div class="bg-wrap" id="bg-faq" style="display:none"><video autoplay muted loop playsinline><source src="https://freight.cargo.site/m/R2798135865809267556878366630148/WhatsApp-Video-2026-02-16-at-18.20.30.mp4" type="video/mp4"></video></div>
+
+<div id="logo" onclick="go('home')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
+
+<div id="amb-btn">
+<a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener" class="glass">
+<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+Become an Ambassador
+</a>
+</div>
+
+<div id="socials">
+<a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" class="glass">
+<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+</a>
+<a href="https://x.com/LailaSocial" target="_blank" rel="noopener" class="glass">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg>
+</a>
+<a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" class="glass">
+<svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg>
+</a>
+</div>
+
+<div id="legal">
+<div class="ll">
+<a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68acc0133df6f03948a48732_Laila%20Dating%20-%20Terms%20of%20Use%20(8%3A25%3A25).pdf" target="_blank" rel="noopener">Terms of Use</a>
+<a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/6846fbfc59f3b042ad4628ae_Laila%20Dating%20Privacy%20Policy%20(6_9_2025).docx.pdf" target="_blank" rel="noopener">Privacy Policy</a>
+</div>
+<div class="cp">&#169; 2024 Laila Dating Inc.</div>
+</div>
+
+<nav id="dock" class="glass">
+<button class="nbtn active" id="btn-home" onclick="go('home')"><i data-lucide="home"></i><span class="nl">Home</span></button>
+<button class="nbtn" id="btn-getting-started" onclick="go('getting-started')"><i data-lucide="route"></i><span class="nl">How it Works</span></button>
+<button class="nbtn" id="btn-events" onclick="go('events')"><i data-lucide="calendar-heart"></i><span class="nl">Events</span></button>
+<button class="nbtn" id="btn-faq" onclick="go('faq')"><i data-lucide="help-circle"></i><span class="nl">FAQ</span></button>
+</nav>
+
+<div id="content">
+
+<section id="home">
+<div class="h-hero">
+<div class="h-eyebrow"><div class="stripe-bar"></div><span>The first first date app</span><div class="stripe-bar"></div></div>
+<h1 class="h-main">Let's go</h1>
+<div class="h-rotwrap"><span id="rottext">to a Broadway show</span></div>
+<div class="h-cta">
+<a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="btn-pill glass">Join Laila <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+<button class="btn-pill glass" onclick="go('getting-started')">How it works</button>
+</div>
+</div>
+<div class="h-socials">
+<a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+<a href="https://x.com/LailaSocial" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></a>
+<a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" style="color:rgba(255,255,255,.75)"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg></a>
+</div>
+<div class="h-mission">
+<div class="h-mission-inner">
+<p class="h-mission-lead">Our mission is to turn every match into a real-life connection.</p>
+<p class="h-mission-body">Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk. Post a date you actually want to go on and connect with people who are ready to join you.</p>
+</div>
+</div>
+</section>
+
+<section id="getting-started" style="position:relative">
+<div class="sh">
+<div class="stripe-bar"></div>
+<h2 id="hiw-title" class="st">How Laila Works</h2>
+<div class="stripe-bar"></div>
+<button id="hiw-toggle" class="hiw-toggle glass" onclick="toggleDates()">Popular Date Ideas</button>
+</div>
+<div class="hiw-cards" id="hiw-cards">
+<div class="hiw-card glass"><div class="step-num">01</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date"></div><div class="step-lbl"><h3>Post A Date</h3></div></div>
+<div class="hiw-card glass"><div class="step-num">02</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Joins"></div><div class="step-lbl"><h3>See Who Joins</h3></div></div>
+<div class="hiw-card glass"><div class="step-num">03</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out"></div><div class="step-lbl"><h3>Ask Someone Out</h3></div></div>
+<div class="hiw-card glass"><div class="step-num">04</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match and Meet"></div><div class="step-lbl"><h3>Match &amp; Meet</h3></div></div>
+</div>
+<div class="date-grid" id="date-grid">
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(251,191,36,.2)"><i data-lucide="coffee" style="color:#92400e;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">UES</span></div><h4>Coffee at Central Park</h4><p>Latte &amp; walk around reservoir.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(149,107,185,.25)"><i data-lucide="music" style="color:#454270;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">SoHo</span></div><h4>Live Jazz Night</h4><p>Blue Note quartet playing.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(244,63,94,.2)"><i data-lucide="utensils" style="color:#9f1239;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Village</span></div><h4>Try New Italian</h4><p>Craving pasta at Carbone.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(59,130,246,.2)"><i data-lucide="camera" style="color:#1e40af;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Midtown</span></div><h4>MoMA Gallery</h4><p>Checking out modern art.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(34,197,94,.2)"><i data-lucide="footprints" style="color:#14532d;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Central Park</span></div><h4>Run a 5k</h4><p>Morning jog and smoothies.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(234,179,8,.2)"><i data-lucide="laugh" style="color:#713f12;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Village</span></div><h4>Comedy Cellar</h4><p>Stand-up comedy night.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(239,68,68,.2)"><i data-lucide="shopping-bag" style="color:#7f1d1d;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Chinatown</span></div><h4>Dumpling Crawl</h4><p>Taste the best spots.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(99,102,241,.2)"><i data-lucide="activity" style="color:#3730a3;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">West Side</span></div><h4>Play Padel</h4><p>Active match &amp; drinks.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(14,165,233,.2)"><i data-lucide="sailboat" style="color:#0c4a6e;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Hudson</span></div><h4>Sunset Sail</h4><p>Cruise at golden hour.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(249,115,22,.2)"><i data-lucide="flame" style="color:#7c2d12;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">LES</span></div><h4>Cooking Class</h4><p>Make pasta, eat better.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(20,184,166,.2)"><i data-lucide="book-open" style="color:#134e4a;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Midtown</span></div><h4>Bookstore Browse</h4><p>Strand Books then coffee.</p></div>
+<div class="date-card glass"><div class="dbrow"><div class="dbicon" style="background:rgba(236,72,153,.2)"><i data-lucide="ferris-wheel" style="color:#831843;width:var(--bicon);height:var(--bicon)"></i></div><span class="dblbl">Coney Island</span></div><h4>Amusement Park</h4><p>Rides, boardwalk, cotton candy.</p></div>
+</div>
+</section>
+
+<section id="events">
+<div class="sh">
+<div class="stripe-bar"></div>
+<h2 class="st">Latest Events</h2>
+<div class="stripe-bar"></div>
+<span class="glass" style="position:absolute;right:0;font-family:'Bookmania',serif;font-weight:600;font-size:clamp(.54rem,.9vw,.7rem);color:var(--grapelogue);padding:.28rem .75rem;border-radius:100px;">Curated by Laila</span>
+</div>
+<div class="events-grid" id="events-grid">
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" alt="Laila x D8 Time"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(149,107,185,.9)">Speed Dating</span><h4>Laila x D8 Time</h4><p>Fast-paced speed dating at Time Again, Dimes Square.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" alt="Good Girls Gone Social"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(219,39,119,.9)">Mixer</span><h4>Good Girls Gone Social</h4><p>A flirty singles mixer where roses flowed all night.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" alt="Cupid's Hit List"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(220,38,38,.9)">Party</span><h4>Cupid's Hit List</h4><p>Retro 80s disco at Early Terrible.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" alt="Laila's Friends"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(37,99,235,.9)">Community</span><h4>Laila's Friends</h4><p>Our friends and family launch at Bar Nena.</p></div></div>
+<div class="ecard" style="grid-column:span 2"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" alt="Pregame at Cosmo"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(217,119,6,.9)">Social</span><h4>Pregame at Cosmo</h4><p>A cheeky martini-fueled soiree.</p></div></div>
+</div>
+</section>
+
+<section id="faq">
+<div class="sh"><div class="stripe-bar"></div><h2 class="st">FAQ</h2><div class="stripe-bar"></div></div>
+<div class="faq-scroll">
+<div class="faq-grid">
+<div class="faq-col">
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">What is Laila and how does it work?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Laila is an event-based dating app that helps you skip the small talk and get to real-life connections faster. Instead of swiping endlessly, you post or ask to join specific date ideas.</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How do I post a date idea?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Open the app, click "Post a Date", and share your idea or use our AI planner. Once live, others can ask to join you.</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Is Laila available everywhere?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Right now, Laila is live in New York City. We're working on expanding to more cities soon!</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How do I get matches?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Post a date idea or like others' ideas. If someone likes your date or you both like each other's, it's a match!</div></div>
+</div>
+<div class="faq-col">
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How is Laila different?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Unlike traditional apps, Laila is all about action. We encourage users to post date ideas like "Coffee at Central Park" instead of just swiping on photos.</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Can I join a posted date?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Yes! If you see an idea you like, send a like. If there's mutual interest, you'll match and can chat to finalize details.</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Is it safe?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Yes! We vet every profile. You can post date ideas without revealing exact locations until you match and chat.</div></div>
+<div class="faq-item glass"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Can I suggest improvements?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Absolutely! Email us at contact@laila.nyc. We love feedback.</div></div>
+</div>
+</div>
+</div>
+<div class="faq-footer">
+<h3>Still have questions?</h3>
+<a href="https://www.instagram.com/laila.social/" target="_blank" class="fpbtn glass">DM Us</a>
+<a href="mailto:contact@laila.nyc" class="fpbtn glass">Email Us</a>
+</div>
+</section>
+
+</div>
+
+<script>
+lucide.createIcons();
+
+var ideas=['to a Broadway show','do a dumpling crawl','play tennis',"to Farmer's Market",'bowling','to a comedy show','hiking','to a Mets game','play padel','to brunch'];
+var idx=0;
+var el=document.getElementById('rottext');
+function rot(){
+  el.style.opacity='0';
+  el.style.transform='translateY(10px)';
+  setTimeout(function(){
+    el.textContent=ideas[idx];
+    el.style.opacity='1';
+    el.style.transform='translateY(0)';
+    idx=(idx+1)%ideas.length;
+  },280);
+}
+setInterval(rot,3000);
+
+var datesActive=false;
+function go(id){
+  document.querySelectorAll('#content > section').forEach(function(s){s.classList.remove('active');});
+  document.querySelectorAll('.bg-wrap').forEach(function(b){b.style.display='none';});
+  document.querySelectorAll('.nbtn').forEach(function(b){b.classList.remove('active');});
+  var s=document.getElementById(id);
+  var bg=document.getElementById('bg-'+id);
+  var bn=document.getElementById('btn-'+id);
+  if(s){requestAnimationFrame(function(){s.classList.add('active');});}
+  if(bg){bg.style.display='block';}
+  if(bn){bn.classList.add('active');}
+  if(id==='getting-started'&&isMob()){
+    setTimeout(function(){var t=document.getElementById('hiw-cards');if(t){t.scrollLeft=0;upArr(0);}},30);
+  }
+  if(id!=='getting-started'&&datesActive){
+    datesActive=false;
+    var hc=document.getElementById('hiw-cards');
+    var dg=document.getElementById('date-grid');
+    var ht=document.getElementById('hiw-title');
+    var hb=document.getElementById('hiw-toggle');
+    if(hc){hc.classList.remove('hidden');}
+    if(dg){dg.classList.remove('active');}
+    if(ht){ht.textContent='How Laila Works';}
+    if(hb){hb.textContent='Popular Date Ideas';}
+  }
+}
+
+function toggleDates(){
+  datesActive=!datesActive;
+  var c=document.getElementById('hiw-cards');
+  var g=document.getElementById('date-grid');
+  var t=document.getElementById('hiw-title');
+  var b=document.getElementById('hiw-toggle');
+  if(!c||!g||!t||!b){return;}
+  if(datesActive){
+    c.classList.add('hidden');
+    g.classList.add('active');
+    t.style.opacity='0';
+    setTimeout(function(){t.textContent='Popular Date Ideas';t.style.opacity='1';},180);
+    b.textContent='How Laila Works';
+  } else {
+    c.classList.remove('hidden');
+    g.classList.remove('active');
+    t.style.opacity='0';
+    setTimeout(function(){t.textContent='How Laila Works';t.style.opacity='1';},180);
+    b.textContent='Popular Date Ideas';
+  }
+  lucide.createIcons();
+}
+
+function tFaq(btn){
+  var body=btn.nextElementSibling;
+  var icon=btn.querySelector('.faq-ic');
+  var open=body.classList.contains('open');
+  document.querySelectorAll('.faq-body').forEach(function(b){b.classList.remove('open');});
+  document.querySelectorAll('.faq-ic').forEach(function(i){i.classList.remove('open');});
+  if(!open){body.classList.add('open');icon.classList.add('open');}
+}
+
+function isMob(){return window.innerWidth<=768;}
+var mobReady=false;
+var pBtn=null,nBtn=null,curStep=0;
+var STEPS=4;
+
+function setupMob(){
+  if(!isMob()||mobReady){return;}
+  mobReady=true;
+  var hc=document.getElementById('hiw-cards');
+  var eg=document.getElementById('events-grid');
+  if(hc){hc.classList.add('mob-scroll');}
+  if(eg){
+    eg.classList.add('mob-scroll');
+    var last=eg.querySelector('.ecard:last-child');
+    if(last){last.style.gridColumn='auto';}
+  }
+  var sec=document.getElementById('getting-started');
+  if(sec&&hc){
+    pBtn=document.createElement('button');
+    pBtn.className='mob-arrow mob-arrow-prev hidden';
+    pBtn.setAttribute('aria-label','Previous');
+    pBtn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>';
+    pBtn.addEventListener('click',function(){step(curStep-1);});
+    nBtn=document.createElement('button');
+    nBtn.className='mob-arrow mob-arrow-next';
+    nBtn.setAttribute('aria-label','Next');
+    nBtn.innerHTML='<svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>';
+    nBtn.addEventListener('click',function(){step(curStep+1);});
+    sec.appendChild(pBtn);
+    sec.appendChild(nBtn);
+    hc.addEventListener('scroll',function(){upArr(this.scrollLeft);},{passive:true});
+    upArr(0);
+  }
+}
+
+function step(i){
+  var t=document.getElementById('hiw-cards');
+  if(!t){return;}
+  i=Math.max(0,Math.min(STEPS-1,i));
+  t.scrollTo({left:i*window.innerWidth*0.8,behavior:'smooth'});
+}
+
+function upArr(sl){
+  if(!pBtn||!nBtn){return;}
+  curStep=Math.max(0,Math.min(STEPS-1,Math.round(sl/(window.innerWidth*0.8))));
+  pBtn.classList.toggle('hidden',curStep===0);
+  nBtn.classList.toggle('hidden',curStep>=STEPS-1);
+}
+
+function initHovers(){
+  if(isMob()){return;}
+  document.querySelectorAll('.step-img video').forEach(function(v){
+    var w=v.closest('.step-img');
+    if(!w){return;}
+    w.addEventListener('mouseenter',function(){v.play().catch(function(){});});
+    w.addEventListener('mouseleave',function(){v.pause();});
+  });
+  document.querySelectorAll('.ecard video').forEach(function(v){
+    var c=v.closest('.ecard');
+    if(!c){return;}
+    c.addEventListener('mouseenter',function(){v.play().catch(function(){});});
+    c.addEventListener('mouseleave',function(){v.pause();});
+  });
+}
+
+window.addEventListener('load',function(){setupMob();initHovers();});
+go('home');
+</script>
+</body>
+</html>

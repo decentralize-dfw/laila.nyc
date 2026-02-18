@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laila — The First First Date App</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --offline: #0F0F0F;
+  --digi-mauve: #454270;
+  --purple-hash: #753875;
+  --grapelogue: #956BB9;
+  --blueberry-lilac: #DBC1EA;
+  --vanilla: #DDD9DB;
+  --glass-bg: rgba(219, 193, 234, 0.12);
+  --glass-border: rgba(219, 193, 234, 0.25);
+  --glass-bg-strong: rgba(219, 193, 234, 0.18);
+  --glass-border-strong: rgba(219, 193, 234, 0.35);
+  --glass-white: rgba(255, 255, 255, 0.08);
+  --glass-white-border: rgba(255, 255, 255, 0.15);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--offline);
+  color: #fff;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ====== ANIMATED BACKGROUND ====== */
+.bg-canvas {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  background: linear-gradient(160deg, #0a0a12 0%, #1a1035 30%, #0F0F0F 60%, #1c0f2e 100%);
+}
+
+.bg-canvas .orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(120px);
+  opacity: 0.35;
+  animation: orbFloat 20s ease-in-out infinite;
+}
+
+.bg-canvas .orb:nth-child(1) {
+  width: 600px; height: 600px;
+  background: var(--purple-hash);
+  top: -10%; left: -5%;
+  animation-delay: 0s;
+  animation-duration: 22s;
+}
+
+.bg-canvas .orb:nth-child(2) {
+  width: 500px; height: 500px;
+  background: var(--digi-mauve);
+  top: 40%; right: -10%;
+  animation-delay: -5s;
+  animation-duration: 18s;
+}
+
+.bg-canvas .orb:nth-child(3) {
+  width: 450px; height: 450px;
+  background: var(--grapelogue);
+  bottom: -10%; left: 30%;
+  animation-delay: -10s;
+  animation-duration: 25s;
+}
+
+.bg-canvas .orb:nth-child(4) {
+  width: 300px; height: 300px;
+  background: var(--blueberry-lilac);
+  top: 60%; left: 10%;
+  animation-delay: -7s;
+  animation-duration: 20s;
+  opacity: 0.2;
+}
+
+@keyframes orbFloat {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(60px, -40px) scale(1.1); }
+  50% { transform: translate(-30px, 50px) scale(0.95); }
+  75% { transform: translate(40px, 20px) scale(1.05); }
+}
+
+/* ====== NOISE OVERLAY ====== */
+.noise-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0.03;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+}
+
+/* ====== STRIPE PATTERN (brand element) ====== */
+.stripe-accent {
+  position: absolute;
+  width: 200px;
+  height: 100%;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--purple-hash) 0px,
+    var(--purple-hash) 12px,
+    var(--grapelogue) 12px,
+    var(--grapelogue) 24px
+  );
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+/* ====== GLASSMORPHISM UTILITIES ====== */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid var(--glass-border);
+  box-shadow: 
+    0 8px 32px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.06);
+}
+
+.glass-strong {
+  background: var(--glass-bg-strong);
+  backdrop-filter: blur(32px) saturate(1.6);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  border: 1px solid var(--glass-border-strong);
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.glass-subtle {
+  background: var(--glass-white);
+  backdrop-filter: blur(16px) saturate(1.3);
+  -webkit-backdrop-filter: blur(16px) saturate(1.3);
+  border: 1px solid var(--glass-white-border);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+
+/* ====== CONTENT WRAPPER ====== */
+.content-wrapper {
+  position: relative;
+  z-index: 2;
+}
+
+/* ====== TOP NAV ====== */
+.top-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.4s ease;
+}
+
+.top-nav.scrolled {
+  background: rgba(15, 15, 15, 0.6);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.nav-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--grapelogue);
+  text-decoration: none;
+  letter-spacing: -0.5px;
+  transition: color 0.3s;
+}
+
+.nav-logo:hover { color: var(--blueberry-lilac); }
+
+.nav-ambassador {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--blueberry-lilac);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: rgba(149, 107, 185, 0.12);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.25);
+}
+
+.nav-ambassador:hover {
+  background: rgba(149, 107, 185, 0.22);
+  border-color: rgba(219, 193, 234, 0.4);
+  transform: translateY(-1px);
+}
+
+.nav-ambassador svg {
+  width: 16px; height: 16px;
+  fill: currentColor;
+}
+
+/* ====== SOCIAL SIDEBAR ====== */
+.social-sidebar {
+  position: fixed;
+  left: 28px;
+  bottom: 100px;
+  z-index: 90;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.social-sidebar a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px; height: 42px;
+  border-radius: 50%;
+  color: var(--blueberry-lilac);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  background: rgba(149, 107, 185, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(149, 107, 185, 0.2);
+}
+
+.social-sidebar a:hover {
+  background: rgba(149, 107, 185, 0.25);
+  border-color: var(--grapelogue);
+  transform: translateY(-2px) scale(1.05);
+}
+
+.social-sidebar a svg {
+  width: 18px; height: 18px;
+  fill: currentColor;
+}
+
+/* ====== HERO SECTION ====== */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 120px 24px 60px;
+  position: relative;
+}
+
+.hero .stripe-accent {
+  right: 0;
+  top: 0;
+  opacity: 0.04;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--blueberry-lilac);
+  margin-bottom: 32px;
+  background: rgba(149, 107, 185, 0.1);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.2);
+  animation: fadeInUp 0.8s ease both;
+}
+
+.hero-badge .dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--grapelogue);
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 10vw, 8rem);
+  font-weight: 900;
+  line-height: 0.95;
+  margin-bottom: 8px;
+  color: #fff;
+  animation: fadeInUp 0.8s ease 0.15s both;
+}
+
+.hero-activity {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 4.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--grapelogue);
+  min-height: 1.2em;
+  margin-bottom: 40px;
+  animation: fadeInUp 0.8s ease 0.3s both;
+  position: relative;
+}
+
+.hero-activity .word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: wordCycle 0.5s ease forwards;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+  animation: fadeInUp 0.8s ease 0.45s both;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  border: none;
+  background: linear-gradient(135deg, var(--purple-hash), var(--grapelogue));
+  box-shadow: 0 8px 30px rgba(117, 56, 117, 0.35);
+  position: relative;
+  overflow: hidden;
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--grapelogue), var(--blueberry-lilac));
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+
+.btn-primary:hover::before { opacity: 1; }
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 40px rgba(117, 56, 117, 0.5);
+}
+
+.btn-primary span, .btn-primary svg {
+  position: relative; z-index: 1;
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 16px 36px;
+  border-radius: 100px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--blueberry-lilac);
+  text-decoration: none;
+  transition: all 0.35s ease;
+  cursor: pointer;
+  background: rgba(149, 107, 185, 0.1);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.25);
+}
+
+.btn-secondary:hover {
+  background: rgba(149, 107, 185, 0.2);
+  border-color: rgba(219, 193, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+/* ====== MISSION SECTION ====== */
+.mission {
+  padding: 80px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.mission-card {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 48px 40px;
+  border-radius: 24px;
+  background: rgba(149, 107, 185, 0.08);
+  backdrop-filter: blur(28px) saturate(1.5);
+  -webkit-backdrop-filter: blur(28px) saturate(1.5);
+  border: 1px solid rgba(149, 107, 185, 0.18);
+  box-shadow: 
+    0 16px 48px rgba(0,0,0,0.2),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.mission-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+
+.mission-card h2 em {
+  color: var(--grapelogue);
+  font-style: italic;
+}
+
+.mission-card p {
+  font-size: 1rem;
+  color: rgba(219, 193, 234, 0.7);
+  line-height: 1.7;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* ====== HOW IT WORKS ====== */
+.how-it-works {
+  padding: 100px 24px;
+  position: relative;
+}
+
+.how-it-works .stripe-accent {
+  left: 0;
+  top: 0;
+  width: 120px;
+  opacity: 0.03;
+}
+
+.section-header {
+  text-align: center;
+  margin-bottom: 64px;
+}
+
+.section-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--grapelogue);
+  margin-bottom: 16px;
+  padding: 8px 20px;
+  border-radius: 100px;
+  background: rgba(149, 107, 185, 0.1);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(149, 107, 185, 0.15);
+}
+
+.section-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+}
+
+.section-title em {
+  color: var(--grapelogue);
+  font-style: italic;
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.step-card {
+  padding: 36px 28px;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(149, 107, 185, 0.08);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.18);
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: all 0.4s ease;
+}
+
+.step-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(149, 107, 185, 0.35);
+  box-shadow: 
+    0 20px 60px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.step-number {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(149, 107, 185, 0.2);
+  line-height: 1;
+  margin-bottom: 16px;
+}
+
+.step-icon {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: rgba(149, 107, 185, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(149, 107, 185, 0.2);
+}
+
+.step-icon svg {
+  width: 22px; height: 22px;
+  color: var(--blueberry-lilac);
+}
+
+.step-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.step-card p {
+  font-size: 0.9rem;
+  color: rgba(219, 193, 234, 0.6);
+  line-height: 1.6;
+}
+
+/* ====== TAGLINES SECTION ====== */
+.taglines {
+  padding: 100px 24px;
+  position: relative;
+  overflow: hidden;
+}
+
+.taglines-marquee {
+  display: flex;
+  gap: 40px;
+  animation: marquee 30s linear infinite;
+  white-space: nowrap;
+}
+
+.taglines-marquee .tag {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3vw, 2.5rem);
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(149, 107, 185, 0.3);
+  flex-shrink: 0;
+}
+
+.taglines-marquee .tag .sep {
+  color: var(--grapelogue);
+  margin: 0 20px;
+  opacity: 0.5;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ====== FEATURES SECTION ====== */
+.features {
+  padding: 100px 24px;
+  position: relative;
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  padding: 40px 32px;
+  border-radius: 20px;
+  background: rgba(149, 107, 185, 0.08);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.18);
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: all 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(149, 107, 185, 0.3);
+}
+
+.feature-card.wide {
+  grid-column: span 2;
+}
+
+.feature-emoji {
+  font-size: 2rem;
+  margin-bottom: 16px;
+}
+
+.feature-card h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.95rem;
+  color: rgba(219, 193, 234, 0.6);
+  line-height: 1.6;
+}
+
+/* ====== EVENTS SECTION ====== */
+.events {
+  padding: 100px 24px;
+  position: relative;
+}
+
+.events-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.event-card {
+  border-radius: 20px;
+  overflow: hidden;
+  background: rgba(149, 107, 185, 0.08);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.18);
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.15),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: all 0.4s ease;
+}
+
+.event-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(149, 107, 185, 0.35);
+}
+
+.event-visual {
+  height: 180px;
+  background: linear-gradient(135deg, var(--digi-mauve), var(--purple-hash));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.event-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    rgba(255,255,255,0.03) 0px,
+    rgba(255,255,255,0.03) 12px,
+    transparent 12px,
+    transparent 24px
+  );
+}
+
+.event-info {
+  padding: 24px;
+}
+
+.event-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--grapelogue);
+  margin-bottom: 8px;
+}
+
+.event-info h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.event-info p {
+  font-size: 0.85rem;
+  color: rgba(219, 193, 234, 0.5);
+}
+
+/* ====== FAQ SECTION ====== */
+.faq {
+  padding: 100px 24px;
+  position: relative;
+}
+
+.faq-container {
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  border-radius: 16px;
+  margin-bottom: 12px;
+  overflow: hidden;
+  background: rgba(149, 107, 185, 0.07);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  border: 1px solid rgba(149, 107, 185, 0.15);
+  box-shadow: 
+    0 4px 16px rgba(0,0,0,0.1),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+  transition: all 0.3s ease;
+}
+
+.faq-item:hover {
+  border-color: rgba(149, 107, 185, 0.28);
+}
+
+.faq-question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  cursor: pointer;
+  user-select: none;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #fff;
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  transition: color 0.3s;
+}
+
+.faq-question:hover { color: var(--blueberry-lilac); }
+
+.faq-chevron {
+  width: 20px; height: 20px;
+  color: var(--grapelogue);
+  transition: transform 0.3s ease;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.faq-item.open .faq-chevron {
+  transform: rotate(180deg);
+}
+
+.faq-answer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease, padding 0.4s ease;
+}
+
+.faq-item.open .faq-answer {
+  max-height: 300px;
+}
+
+.faq-answer-inner {
+  padding: 0 24px 20px;
+  font-size: 0.95rem;
+  color: rgba(219, 193, 234, 0.6);
+  line-height: 1.7;
+}
+
+/* ====== CTA SECTION ====== */
+.cta {
+  padding: 100px 24px;
+  text-align: center;
+  position: relative;
+}
+
+.cta-card {
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 60px 48px;
+  border-radius: 28px;
+  position: relative;
+  overflow: hidden;
+  background: rgba(149, 107, 185, 0.12);
+  backdrop-filter: blur(32px) saturate(1.6);
+  -webkit-backdrop-filter: blur(32px) saturate(1.6);
+  border: 1px solid rgba(149, 107, 185, 0.25);
+  box-shadow: 
+    0 24px 64px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.cta-card::before {
+  content: '';
+  position: absolute;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background: radial-gradient(circle at 30% 30%, rgba(149,107,185,0.1) 0%, transparent 50%);
+  pointer-events: none;
+}
+
+.cta-card h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: #fff;
+  margin-bottom: 16px;
+  position: relative;
+}
+
+.cta-card h2 em {
+  color: var(--grapelogue);
+  font-style: italic;
+}
+
+.cta-card p {
+  font-size: 1.05rem;
+  color: rgba(219, 193, 234, 0.6);
+  margin-bottom: 32px;
+  position: relative;
+}
+
+/* ====== BOTTOM NAV ====== */
+.bottom-nav {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  border-radius: 100px;
+  background: rgba(15, 15, 15, 0.5);
+  backdrop-filter: blur(28px) saturate(1.6);
+  -webkit-backdrop-filter: blur(28px) saturate(1.6);
+  border: 1px solid rgba(149, 107, 185, 0.2);
+  box-shadow: 
+    0 12px 40px rgba(0,0,0,0.3),
+    inset 0 1px 0 rgba(255,255,255,0.05);
+}
+
+.bottom-nav a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  border-radius: 100px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgba(219, 193, 234, 0.6);
+  text-decoration: none;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.bottom-nav a svg {
+  width: 18px; height: 18px;
+  flex-shrink: 0;
+}
+
+.bottom-nav a:hover,
+.bottom-nav a.active {
+  color: #fff;
+  background: rgba(149, 107, 185, 0.2);
+}
+
+.bottom-nav a.active {
+  background: rgba(149, 107, 185, 0.25);
+  border: 1px solid rgba(149, 107, 185, 0.3);
+}
+
+/* ====== FOOTER ====== */
+.footer {
+  padding: 40px 24px 100px;
+  text-align: center;
+  position: relative;
+}
+
+.footer-content {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.footer-logo {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--grapelogue);
+  margin-bottom: 12px;
+}
+
+.footer-links {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.footer-links a {
+  font-size: 0.85rem;
+  color: rgba(219, 193, 234, 0.4);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.footer-links a:hover { color: var(--blueberry-lilac); }
+
+.footer-copy {
+  font-size: 0.75rem;
+  color: rgba(219, 193, 234, 0.25);
+}
+
+/* ====== ANIMATIONS ====== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes wordCycle {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ====== RESPONSIVE ====== */
+@media (max-width: 1024px) {
+  .steps-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .events-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 12px 20px;
+  }
+  
+  .nav-logo {
+    font-size: 1.6rem;
+  }
+  
+  .nav-ambassador span.full-text { display: none; }
+  .nav-ambassador span.short-text { display: inline; }
+  
+  .social-sidebar {
+    display: none;
+  }
+  
+  .hero {
+    padding: 100px 20px 60px;
+    min-height: 85vh;
+  }
+  
+  .mission-card {
+    padding: 36px 24px;
+  }
+  
+  .steps-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+  }
+  
+  .features-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .feature-card.wide {
+    grid-column: span 1;
+  }
+  
+  .events-list {
+    grid-template-columns: 1fr;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .cta-card {
+    padding: 40px 24px;
+  }
+  
+  .bottom-nav {
+    left: 12px;
+    right: 12px;
+    transform: none;
+    justify-content: space-around;
+    padding: 6px 8px;
+    bottom: 12px;
+  }
+  
+  .bottom-nav a {
+    flex-direction: column;
+    gap: 4px;
+    padding: 8px 12px;
+    font-size: 0.7rem;
+  }
+  
+  .bottom-nav a svg {
+    width: 20px; height: 20px;
+  }
+  
+  .footer {
+    padding-bottom: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-badge {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    padding: 8px 16px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 14px 28px;
+    font-size: 0.9rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+/* Short text visibility */
+.nav-ambassador span.short-text { display: none; }
+@media (max-width: 768px) {
+  .nav-ambassador span.full-text { display: none !important; }
+  .nav-ambassador span.short-text { display: inline !important; }
+}
+</style>
+</head>
+<body>
+
+<!-- ANIMATED BG -->
+<div class="bg-canvas">
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+  <div class="orb"></div>
+</div>
+<div class="noise-overlay"></div>
+
+<!-- CONTENT -->
+<div class="content-wrapper">
+
+  <!-- TOP NAV -->
+  <nav class="top-nav" id="topNav">
+    <a href="#" class="nav-logo">Laila</a>
+    <a href="#" class="nav-ambassador">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      <span class="full-text">Become an Ambassador</span>
+      <span class="short-text">Ambassador</span>
+    </a>
+  </nav>
+
+  <!-- SOCIAL SIDEBAR -->
+  <div class="social-sidebar">
+    <a href="#" aria-label="Instagram">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="#" aria-label="X / Twitter">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+    </a>
+    <a href="#" aria-label="TikTok">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.88-2.88 2.89 2.89 0 0 1 2.88-2.88c.28 0 .56.04.81.11v-3.5a6.37 6.37 0 0 0-.81-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.87a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.3z"/></svg>
+    </a>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="stripe-accent"></div>
+    <div class="hero-badge">
+      <span class="dot"></span>
+      THE FIRST FIRST DATE APP
+      <span class="dot"></span>
+    </div>
+    <h1 class="hero-title">Let's go</h1>
+    <div class="hero-activity" id="heroActivity">hiking</div>
+    <div class="hero-buttons">
+      <a href="#" class="btn-primary">
+        <span>Join Laila</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </a>
+      <a href="#how" class="btn-secondary">How it works</a>
+    </div>
+  </section>
+
+  <!-- MISSION -->
+  <section class="mission reveal" id="mission">
+    <div class="mission-card">
+      <h2>Our mission is to turn every match into a <em>real‑life connection.</em></h2>
+      <p>Laila eliminates endless swiping and low match‑to‑date conversion by making dating about action, not small talk. Post a date you actually want to go on and connect with people who are ready to join you — no more "let's chat sometime," just real dates with real people.</p>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how-it-works reveal" id="how">
+    <div class="stripe-accent"></div>
+    <div class="section-header">
+      <div class="section-label">How it works</div>
+      <h2 class="section-title">OK but, how does Laila <em>actually</em> work?</h2>
+    </div>
+    <div class="steps-grid">
+      <div class="step-card reveal">
+        <div class="step-number">01</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        </div>
+        <h3>Post Your Date Idea</h3>
+        <p>Share a date you'd love to go on — a 5K in Central Park, coffee at a hidden gem, or a sunset hike. You set the vibe.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">02</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </div>
+        <h3>Discover & Connect</h3>
+        <p>Others see your date along with your profile. If they're into it, they'll like your date — showing real interest, not just a swipe.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">03</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+        </div>
+        <h3>Match & Coordinate</h3>
+        <p>Choose who joins you. Once you match, a chat opens to finalize the details. One match, one real date — that's the promise.</p>
+      </div>
+      <div class="step-card reveal">
+        <div class="step-number">04</div>
+        <div class="step-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        </div>
+        <h3>Real‑Life Experience</h3>
+        <p>Every match leads to a real date because you matched on the activity. Attract people who share your interests — not just your photos.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MARQUEE TAGLINES -->
+  <section class="taglines">
+    <div class="taglines-marquee" id="marquee">
+      <span class="tag">Stop Swiping, Start Dating <span class="sep">✦</span></span>
+      <span class="tag">Attract who you are <span class="sep">✦</span></span>
+      <span class="tag">Old-school dating for a new generation <span class="sep">✦</span></span>
+      <span class="tag">Real life has entered the chat <span class="sep">✦</span></span>
+      <span class="tag">Don't be led on. Be led out. <span class="sep">✦</span></span>
+      <span class="tag">Meet here. Connect out there. <span class="sep">✦</span></span>
+      <!-- duplicate for seamless loop -->
+      <span class="tag">Stop Swiping, Start Dating <span class="sep">✦</span></span>
+      <span class="tag">Attract who you are <span class="sep">✦</span></span>
+      <span class="tag">Old-school dating for a new generation <span class="sep">✦</span></span>
+      <span class="tag">Real life has entered the chat <span class="sep">✦</span></span>
+      <span class="tag">Don't be led on. Be led out. <span class="sep">✦</span></span>
+      <span class="tag">Meet here. Connect out there. <span class="sep">✦</span></span>
+    </div>
+  </section>
+
+  <!-- FEATURES / WHY LAILA -->
+  <section class="features reveal" id="features">
+    <div class="section-header">
+      <div class="section-label">Why Laila</div>
+      <h2 class="section-title">Dating just got <em>(real) fun</em> again.</h2>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card reveal">
+        <div class="feature-emoji">🎯</div>
+        <h3>Date-First Matching</h3>
+        <p>You don't just match with a person — you match on a date. Every connection starts with a plan, not just a photo.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-emoji">👩‍💼</div>
+        <h3>Women Set the Pace</h3>
+        <p>Women choose the first date activity. Empowering, safe, and designed to feel natural from the start.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-emoji">🏃‍♂️</div>
+        <h3>Activity-Based Connections</h3>
+        <p>Hiking, concerts, coffee walks, museum visits — match over things you actually love doing.</p>
+      </div>
+      <div class="feature-card reveal">
+        <div class="feature-emoji">💬</div>
+        <h3>No Endless Chatting</h3>
+        <p>Chat opens only after you match. It's for coordinating your date — not for replacing one.</p>
+      </div>
+      <div class="feature-card wide reveal">
+        <div class="feature-emoji">✨</div>
+        <h3>80% Match-to-Date Conversion</h3>
+        <p>Our goal is bold: 80% of matches should lead to real dates. Because what's the point of a dating app if everything stays online?</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EVENTS -->
+  <section class="events reveal" id="events">
+    <div class="events-container">
+      <div class="section-header">
+        <div class="section-label">Events</div>
+        <h2 class="section-title">Real dates, <em>real places.</em></h2>
+      </div>
+      <div class="events-list">
+        <div class="event-card reveal">
+          <div class="event-visual">🌅</div>
+          <div class="event-info">
+            <div class="event-date">Coming Soon</div>
+            <h3>Sunset Yoga in the Park</h3>
+            <p>Stretch, breathe, and meet someone new under the evening sky.</p>
+          </div>
+        </div>
+        <div class="event-card reveal">
+          <div class="event-visual">🎨</div>
+          <div class="event-info">
+            <div class="event-date">Coming Soon</div>
+            <h3>Sip & Paint Night</h3>
+            <p>Get creative with a brush, a glass of wine, and great company.</p>
+          </div>
+        </div>
+        <div class="event-card reveal">
+          <div class="event-visual">🏃</div>
+          <div class="event-info">
+            <div class="event-date">Coming Soon</div>
+            <h3>Central Park 5K Run</h3>
+            <p>Lace up and run with people who actually want to show up.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq reveal" id="faq">
+    <div class="faq-container">
+      <div class="section-header">
+        <div class="section-label">FAQ</div>
+        <h2 class="section-title">Got questions?</h2>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          What makes Laila different from other dating apps?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Laila is built around real dates, not endless swiping. You post a date idea — like a hike, a coffee run, or a concert — and match with someone who actually wants to join you. Every match leads to a real-life experience, not just another message thread.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          How does the matching work?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Post a date with a time, place, and activity. Other users see your date alongside your profile. If they're interested, they like your date. You then pick who you'd like to go with — and a chat opens for you to coordinate the details.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is Laila safe for women?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Absolutely. Women are empowered to dictate the first date — choosing the activity, time, and location. We believe this creates a safer, more comfortable dynamic where everyone feels in control.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Is Laila free to use?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">Yes! Laila is free to download and use. Our core experience — posting dates, matching, and chatting — is completely free. We're focused on getting you out there.</div>
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question">
+          Where is Laila available?
+          <svg class="faq-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="faq-answer">
+          <div class="faq-answer-inner">We're starting in major US cities and expanding quickly. If we're not in your city yet — stay tuned. We're coming to you soon.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <div class="cta-card">
+      <h2>Stop swiping.<br>Start <em>dating.</em></h2>
+      <p>Real people. Real dates. Real connections. Download Laila and experience dating the way it should be.</p>
+      <a href="#" class="btn-primary" style="display: inline-flex;">
+        <span>Download Laila</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-logo">Laila</div>
+      <div class="footer-links">
+        <a href="#">Terms of Use</a>
+        <a href="#">Privacy Policy</a>
+        <a href="#">contact@laila.nyc</a>
+      </div>
+      <div class="footer-copy">&copy; 2025 Laila Dating Inc. All rights reserved.</div>
+    </div>
+  </footer>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom-nav" id="bottomNav">
+  <a href="#home" class="active" data-section="home">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home
+  </a>
+  <a href="#how" data-section="how">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+    How it Works
+  </a>
+  <a href="#events" data-section="events">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+    Events
+  </a>
+  <a href="#faq" data-section="faq">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+    FAQ
+  </a>
+</nav>
+
+<script>
+// ====== ACTIVITY WORD ROTATION ======
+const activities = ['hiking', 'running', 'cooking', 'exploring', 'skating', 'painting', 'dancing', 'kayaking', 'stargazing', 'brunching'];
+let activityIndex = 0;
+const heroActivity = document.getElementById('heroActivity');
+
+function cycleActivity() {
+  heroActivity.style.opacity = '0';
+  heroActivity.style.transform = 'translateY(15px)';
+  
+  setTimeout(() => {
+    activityIndex = (activityIndex + 1) % activities.length;
+    heroActivity.textContent = activities[activityIndex];
+    heroActivity.style.opacity = '1';
+    heroActivity.style.transform = 'translateY(0)';
+  }, 300);
+}
+
+heroActivity.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+setInterval(cycleActivity, 2500);
+
+// ====== NAV SCROLL EFFECT ======
+const topNav = document.getElementById('topNav');
+window.addEventListener('scroll', () => {
+  topNav.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// ====== FAQ TOGGLE ======
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.parentElement;
+    const isOpen = item.classList.contains('open');
+    
+    // Close all
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+    
+    // Toggle current
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+// ====== SCROLL REVEAL ======
+const revealElements = document.querySelectorAll('.reveal');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, i) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.classList.add('visible');
+      }, i * 80);
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+revealElements.forEach(el => revealObserver.observe(el));
+
+// ====== BOTTOM NAV ACTIVE STATE ======
+const sections = ['home', 'how', 'events', 'faq'];
+const navLinks = document.querySelectorAll('.bottom-nav a');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.dataset.section === id);
+      });
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(id => {
+  const el = document.getElementById(id);
+  if (el) sectionObserver.observe(el);
+});
+
+// ====== SMOOTH SCROLL FOR NAV LINKS ======
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    e.preventDefault();
+    const target = document.querySelector(href);
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>
