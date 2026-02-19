@@ -112,7 +112,8 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 .h-socials a:hover{color:#fff}
 
 /* HOW IT WORKS */
-.hiw-toggle{position:absolute;right:0;font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.56rem,.95vw,.72rem);color:var(--grapelogue);cursor:pointer;white-space:nowrap;padding:.3rem .85rem;border-radius:var(--prad)}
+.hiw-toggle{position:absolute;right:0;font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.56rem,.95vw,.72rem);color:#fff;cursor:pointer;white-space:nowrap;padding:.3rem .85rem;border-radius:var(--prad);transition:background .22s,border-color .22s}
+.hiw-toggle:hover{background:rgba(117,56,117,0.80)!important;border-color:rgba(149,107,185,0.90)!important;color:#fff!important}
 .hiw-cards{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:var(--gh);overflow:visible}
 .hiw-cards.hidden{display:none}
 .hiw-card{display:flex;flex-direction:column;height:100%;min-height:0;padding:var(--cpv) var(--cph);padding-bottom:calc(var(--cpv)*1.5);border-radius:var(--crad)}
@@ -135,18 +136,18 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 /* EVENTS desktop */
 #events{position:relative}
 .curated-badge{
-  position:absolute;top:0;right:0;
+  position:absolute;top:calc(var(--th)/2);right:0;
+  transform:translateY(-50%);
   display:flex;align-items:center;
   font-family:"Bookmania",serif;font-weight:600;
   font-size:clamp(.56rem,.9vw,.72rem);
   color:#fff;
-  padding:.3rem .9rem;border-radius:100px;
+  padding:.45rem .9rem;border-radius:100px;
   background:rgba(117,56,117,0.55);
   backdrop-filter:blur(20px) saturate(180%);
   -webkit-backdrop-filter:blur(20px) saturate(180%);
   border:1px solid rgba(149,107,185,0.70);
   z-index:5;white-space:nowrap;
-  height:var(--th);
 }
 .events-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:var(--gv) var(--gh)}
 .ecard{
@@ -220,7 +221,7 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
     transform:none!important;
     margin: 0 auto 16px auto!important; /* Centered below title */
     height:auto!important;
-    padding:.3rem .6rem!important;
+    padding:.3rem .7rem!important;
     font-size:.54rem!important;
     line-height:1;
     width: fit-content;
@@ -409,16 +410,26 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
   .mob-arrow-next{right:3vw}
   .mob-arrow svg{width:18px;height:18px;stroke:var(--grapelogue);fill:none}
 }
+
+/* HOVER EFFECTS - DESKTOP ONLY */
+@media(min-width:769px){
+  .btn-pill{transition:background .22s,border-color .22s,color .22s}
+  .btn-pill:hover{background:rgba(117,56,117,0.65)!important;border-color:rgba(149,107,185,0.85)!important;color:#fff!important}
+  #amb-btn a{transition:background .22s,border-color .22s,color .22s}
+  #amb-btn a:hover{background:rgba(117,56,117,0.65)!important;border-color:rgba(149,107,185,0.85)!important;color:#fff!important}
+  .date-card{cursor:pointer;transition:background .22s,border-color .22s}
+  .date-card:hover{background:rgba(117,56,117,0.45)!important;border-color:rgba(149,107,185,0.65)!important}
+}
 </style>
 </head>
 <body>
-<div class="bg-wrap"><video autoplay muted loop playsinline><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div class="bg-wrap"><video id="bg-video" autoplay muted loop playsinline webkit-playsinline x5-playsinline><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
 <div id="logo" onclick="go('home')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
 <div id="amb-btn"><a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener" class="glass"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Become an Ambassador</a></div>
 <div id="socials">
 <a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
 <a href="https://x.com/LailaSocial" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></a>
-<a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg></a>
+<a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg></a>
 </div>
 <div id="legal"><div class="ll"><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68acc0133df6f03948a48732_Laila%20Dating%20-%20Terms%20of%20Use%20(8%3A25%3A25).pdf" target="_blank" rel="noopener">Terms of Use</a><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/6846fbfc59f3b042ad4628ae_Laila%20Dating%20Privacy%20Policy%20(6_9_2025).docx.pdf" target="_blank" rel="noopener">Privacy Policy</a></div><div class="cp">&#169; 2024 Laila Dating Inc.</div></div>
 <nav id="dock" class="glass">
@@ -581,6 +592,34 @@ function initHovers(){
   document.querySelectorAll(".step-img video").forEach(function(v){var w=v.closest(".step-img");if(!w){return;}w.addEventListener("mouseenter",function(){v.play().catch(function(){});});w.addEventListener("mouseleave",function(){v.pause();});});
 }
 
+// Force video autoplay on mobile (handles cases where autoplay policy blocks it)
+(function(){
+  var v=document.getElementById("bg-video");
+  if(!v){return;}
+  v.muted=true;
+  var tryPlay=function(){v.play().catch(function(){});};
+  tryPlay();
+  document.addEventListener("touchstart",tryPlay,{once:true,passive:true});
+  document.addEventListener("click",tryPlay,{once:true,passive:true});
+  v.addEventListener("canplay",tryPlay,{once:true});
+})();
+
+// Preload HIW backdrop-filter to eliminate lag on first open
+function preloadSectionBlur(){
+  var secs=document.querySelectorAll("#content > section:not(#home)");
+  secs.forEach(function(s){
+    var prev=s.style.cssText;
+    s.style.cssText+="display:flex!important;opacity:0!important;pointer-events:none!important;position:absolute!important;z-index:-999!important;";
+  });
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      secs.forEach(function(s){
+        s.style.cssText="";
+      });
+    });
+  });
+}
+
 // Fixed: Run lucide only when loaded
 window.addEventListener("load",function(){
   if(typeof lucide !== 'undefined') {
@@ -588,6 +627,7 @@ window.addEventListener("load",function(){
   }
   setupMob();
   initHovers();
+  preloadSectionBlur();
 });
 go("home");
 </script>
