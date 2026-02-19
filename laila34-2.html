@@ -614,13 +614,16 @@ document.querySelectorAll("#content > section").forEach(function(s,i){
     if(isMob())return;
 
     var now=Date.now();
+
+    /* Cooldown aktifse tüm event'ları yut — accDelta bile biriktirme */
+    if(now-lastWheel<WHEEL_COOLDOWN){return;}
+
     accDelta+=Math.abs(e.deltaY);
 
-    /* Mouse wheel: büyük deltaY, tek seferde eşiği geçer */
-    /* Trackpad: küçük deltaY, birikiyor */
+    /* Eşiğe ulaşmadıysa bekle */
     if(accDelta<THRESHOLD && Math.abs(e.deltaY)<40){return;}
 
-    if(now-lastWheel<WHEEL_COOLDOWN){accDelta=0;return;}
+    /* Nav tetikle, her şeyi sıfırla */
     lastWheel=now;
     accDelta=0;
 
