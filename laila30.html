@@ -583,6 +583,74 @@ function tFaq(btn){
   if(!open){body.classList.add("open");icon.classList.add("open");}
 }
 function isMob(){return window.innerWidth<=768;}
+
+// ── VERTICAL SWIPE → PAGE NAVIGATION (mobile only) ────────────────────────
+// Swipe finger DOWN → next section   Swipe finger UP → previous section
+// Diagonal tolerance: |deltaX| / |deltaY| must be < 0.10  (10%)
+// FAQ: if touch is inside .faq-scroll, only navigate at scroll boundaries
+// (top boundary for swipe-down / bottom boundary for swipe-up)
+// ──────────────────────────────────────────────────────────────────────────
+(function(){
+  var SECTIONS=['home','getting-started','events','faq'];
+  var MIN_Y=55;        // minimum vertical distance to count as a swipe (px)
+  var MAX_RATIO=0.10;  // max |dx|/|dy| — stricter than 10° from vertical
+
+  var sx=0,sy=0,inFaqScroll=false,faqTopAtStart=0,faqAtBottom=false;
+
+  function activeIdx(){
+    for(var i=0;i<SECTIONS.length;i++){
+      var el=document.getElementById(SECTIONS[i]);
+      if(el&&el.classList.contains("active"))return i;
+    }
+    return 0;
+  }
+
+  function getFaqScroll(){return document.querySelector("#faq .faq-scroll");}
+
+  document.addEventListener("touchstart",function(e){
+    if(!isMob()||e.touches.length!==1)return;
+    sx=e.touches[0].clientX;
+    sy=e.touches[0].clientY;
+    var fs=getFaqScroll();
+    inFaqScroll=!!(fs&&fs.contains(e.target));
+    if(inFaqScroll&&fs){
+      faqTopAtStart=fs.scrollTop;
+      var overflow=fs.scrollHeight-fs.clientHeight;
+      faqAtBottom=overflow>0&&(overflow-fs.scrollTop<4);
+    }
+  },{passive:true});
+
+  document.addEventListener("touchend",function(e){
+    if(!isMob()||e.changedTouches.length!==1)return;
+    var dx=e.changedTouches[0].clientX-sx;
+    var dy=e.changedTouches[0].clientY-sy;
+
+    // 1. Minimum distance
+    if(Math.abs(dy)<MIN_Y)return;
+    // 2. Diagonal check: horizontal deviation must be ≤ 10% of vertical
+    if(Math.abs(dx)/Math.abs(dy)>MAX_RATIO)return;
+
+    // dy > 0 → finger moved DOWN → go NEXT
+    // dy < 0 → finger moved UP   → go PREV
+    var goNext=dy>0;
+
+    // 3. FAQ scroll conflict: only navigate at boundary
+    if(inFaqScroll){
+      var fs=getFaqScroll();
+      if(fs&&fs.scrollHeight>fs.clientHeight+2){
+        if(goNext&&faqTopAtStart>2)return;      // not at top → let FAQ scroll
+        if(!goNext&&!faqAtBottom)return;        // not at bottom → let FAQ scroll
+      }
+    }
+
+    var idx=activeIdx();
+    var next=goNext?idx+1:idx-1;
+    if(next<0||next>=SECTIONS.length)return;
+    go(SECTIONS[next]);
+  },{passive:true});
+})();
+// ── END SWIPE NAV ──────────────────────────────────────────────────────────
+
 var hPrev=null,hNext=null,ePrev=null,eNext=null,hStep=0,eStep=0,mobReady=false;
 function makeArrows(sec,total,onPrev,onNext){
   var p=document.createElement("button");p.className="mob-arrow mob-arrow-prev hidden";p.setAttribute("aria-label","Previous");
