@@ -45,21 +45,7 @@ html,body{height:100%;width:100%;overflow:hidden}
 body{font-family:"Mulish",sans-serif;background:var(--offline);color:var(--vanilla)}
 body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px;mix-blend-mode:overlay}
 
-/* ─── BLUR LAG FIX: GPU'yu baştan ısıt ─── */
-/* Sayfa yüklenir yüklenmez GPU katmanlarını hazırla — blur gecikmesi önlenir */
-body::before{
-  content:"";
-  position:fixed;inset:0;z-index:-1;
-  /* Invisible ama GPU'da backdrop-filter layer'ı açık tutar */
-  backdrop-filter:blur(0px);
-  -webkit-backdrop-filter:blur(0px);
-  transform:translateZ(0);
-  will-change:backdrop-filter;
-  pointer-events:none;
-}
-
-/* ─── GLASS ─── */
-/* transform:translateZ(0) ve will-change GPU katmanını ANINDA oluşturur */
+/* ─── GLASS — orijinal, çalışan hali ─── */
 .glass{
   background:rgba(255,255,255,0.13);
   backdrop-filter:blur(28px) saturate(200%);
@@ -67,8 +53,8 @@ body::before{
   border:1px solid rgba(255,255,255,0.40);
   -webkit-backface-visibility:hidden;
   backface-visibility:hidden;
-  transform:translate3d(0,0,0);
-  will-change:backdrop-filter,transform;
+  transform:translateZ(0);
+  will-change:backdrop-filter;
 }
 .glass-card{
   background:rgba(255,255,255,0.15);
@@ -77,8 +63,8 @@ body::before{
   border:1px solid rgba(255,255,255,0.40);
   -webkit-backface-visibility:hidden;
   backface-visibility:hidden;
-  transform:translate3d(0,0,0);
-  will-change:backdrop-filter,transform;
+  transform:translateZ(0);
+  will-change:backdrop-filter;
 }
 
 /* ─── BACKGROUND VIDEO ─── */
@@ -190,26 +176,7 @@ body::before{
   display:flex;width:100%;height:100%;flex-direction:column;
   opacity:0;
   pointer-events:none;
-  /* Smooth slide transitions */
-  transition:transform 0.38s cubic-bezier(0.4,0,0.2,1), opacity 0.38s cubic-bezier(0.4,0,0.2,1);
-  will-change:transform,opacity;
-  transform:translateY(60px);
-}
-#content > section.active{
-  opacity:1;
-  pointer-events:auto;
-  transform:translateY(0);
-}
-/* Sections above current slide up-out, below slide down-out */
-#content > section.slide-above{
-  opacity:0;
-  transform:translateY(-60px);
-  pointer-events:none;
-}
-#content > section.slide-below{
-  opacity:0;
-  transform:translateY(60px);
-  pointer-events:none;
+  /* Transition JS tarafından dinamik set edilir — fade veya slide */
 }
 
 .sh{flex:0 0 var(--th);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:var(--tmb);position:relative}
@@ -413,7 +380,7 @@ body::before{
   <div id="play-blocker"></div>
 </div>
 
-<div id="logo" onclick="go('home')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
+<div id="logo" onclick="go('home','fade')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
 <div id="amb-btn"><a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener" class="glass"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Become an Ambassador</a></div>
 <div id="socials">
 <a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
@@ -422,10 +389,10 @@ body::before{
 </div>
 <div id="legal"><div class="ll"><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68acc0133df6f03948a48732_Laila%20Dating%20-%20Terms%20of%20Use%20(8%3A25%3A25).pdf" target="_blank" rel="noopener">Terms of Use</a><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/6846fbfc59f3b042ad4628ae_Laila%20Dating%20Privacy%20Policy%20(6_9_2025).docx.pdf" target="_blank" rel="noopener">Privacy Policy</a></div><div class="cp">&#169; 2024 Laila Dating Inc.</div></div>
 <nav id="dock" class="glass">
-<button class="nbtn active" id="btn-home" onclick="go('home')"><i data-lucide="home"></i><span class="nl">Home</span></button>
-<button class="nbtn" id="btn-getting-started" onclick="go('getting-started')"><i data-lucide="route"></i><span class="nl">How it Works</span></button>
-<button class="nbtn" id="btn-events" onclick="go('events')"><i data-lucide="calendar-heart"></i><span class="nl">Events</span></button>
-<button class="nbtn" id="btn-faq" onclick="go('faq')"><i data-lucide="help-circle"></i><span class="nl">FAQ</span></button>
+<button class="nbtn active" id="btn-home" onclick="go('home','fade')"><i data-lucide="home"></i><span class="nl">Home</span></button>
+<button class="nbtn" id="btn-getting-started" onclick="go('getting-started','fade')"><i data-lucide="route"></i><span class="nl">How it Works</span></button>
+<button class="nbtn" id="btn-events" onclick="go('events','fade')"><i data-lucide="calendar-heart"></i><span class="nl">Events</span></button>
+<button class="nbtn" id="btn-faq" onclick="go('faq','fade')"><i data-lucide="help-circle"></i><span class="nl">FAQ</span></button>
 </nav>
 
 <div id="content">
@@ -436,7 +403,7 @@ body::before{
 <div class="h-rotwrap"><span id="rottext">to a Broadway show</span></div>
 <div class="h-cta">
 <a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="btn-pill">Join Laila <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-<button class="btn-pill" onclick="go('getting-started')">How it works</button>
+<button class="btn-pill" onclick="go('getting-started','fade')">How it works</button>
 </div>
 </div>
 <div class="h-socials">
@@ -516,30 +483,100 @@ function rot(){el.style.opacity="0";el.style.transform="translateY(10px)";setTim
 setInterval(rot,3000);
 
 /* =========================================================
-   SECTION NAVIGATION — Smooth Slide
+   SECTION NAVIGATION
+   ─────────────────────────────────────────────────────────
+   transType: 'fade'  → menü tıklaması (desktop & mobile)
+              'slide' → swipe (mobile) veya wheel (desktop)
+   dir:       'next'  → yeni section aşağıdan gelir
+              'prev'  → yeni section yukarıdan gelir
    ========================================================= */
 var SECTIONS=['home','getting-started','events','faq'];
 var currentIdx=0;
 var datesActive=false;
+var navLocked=false; /* Transition sırasında çift tetiklenmeyi önler */
 
-function go(id){
+var SLIDE_DUR=380;
+var FADE_DUR=280;
+
+function go(id, transType, dir){
+  /* transType & dir opsiyonel — default fade */
+  transType = transType || 'fade';
   var newIdx=SECTIONS.indexOf(id);
   if(newIdx<0){newIdx=0;}
-  var prevIdx=currentIdx;
+  if(newIdx===currentIdx)return;
+  if(navLocked)return;
+
+  /* dir belirtilmemişse index'e göre otomatik belirle */
+  if(!dir){ dir = (newIdx>currentIdx) ? 'next' : 'prev'; }
+
+  navLocked=true;
+  setTimeout(function(){navLocked=false;}, transType==='slide'?SLIDE_DUR+50:FADE_DUR+50);
+
+  var oldIdx=currentIdx;
   currentIdx=newIdx;
 
-  document.querySelectorAll("#content > section").forEach(function(s,i){
-    s.classList.remove("active","slide-above","slide-below");
-    if(i<newIdx){s.classList.add("slide-above");}
-    else if(i>newIdx){s.classList.add("slide-below");}
-    else{s.classList.add("active");}
-    s.style.pointerEvents=(i===newIdx?"auto":"none");
-  });
+  var oldSec=document.getElementById(SECTIONS[oldIdx]);
+  var newSec=document.getElementById(id);
+  var easing='cubic-bezier(0.4,0,0.2,1)';
 
+  if(transType==='slide'){
+    /* Yeni section başlangıç pozisyonu: next=aşağı, prev=yukarı */
+    var fromY = (dir==='next') ? '100%' : '-100%';
+    var exitY  = (dir==='next') ? '-100%' : '100%';
+
+    /* Yeni section'ı görünmez pozisyona al, transition yok */
+    newSec.style.cssText='opacity:1;transform:translateY('+fromY+');pointer-events:none;transition:none;';
+    void newSec.offsetHeight; /* reflow — transition'dan önce şart */
+
+    /* Slide başlat */
+    var tr='transform '+SLIDE_DUR+'ms '+easing+', opacity '+SLIDE_DUR+'ms '+easing;
+    newSec.style.transition=tr;
+    newSec.style.transform='translateY(0)';
+    newSec.style.opacity='1';
+    newSec.style.pointerEvents='auto';
+
+    if(oldSec){
+      oldSec.style.transition=tr;
+      oldSec.style.transform='translateY('+exitY+')';
+      oldSec.style.opacity='0';
+      oldSec.style.pointerEvents='none';
+    }
+
+    /* Temizle */
+    setTimeout(function(){
+      if(oldSec){
+        oldSec.style.cssText='opacity:0;transform:translateY(0);pointer-events:none;transition:none;';
+      }
+      newSec.style.transition='none';
+    }, SLIDE_DUR+20);
+
+  } else {
+    /* FADE — menü tıklaması */
+    var fadeTr='opacity '+FADE_DUR+'ms ease';
+
+    if(oldSec){
+      oldSec.style.transition=fadeTr;
+      oldSec.style.opacity='0';
+      oldSec.style.pointerEvents='none';
+    }
+
+    setTimeout(function(){
+      if(oldSec){oldSec.style.cssText='opacity:0;transform:translateY(0);pointer-events:none;transition:none;';}
+      newSec.style.cssText='opacity:0;transform:translateY(0);pointer-events:none;transition:none;';
+      void newSec.offsetHeight;
+      newSec.style.transition=fadeTr;
+      newSec.style.opacity='1';
+      newSec.style.pointerEvents='auto';
+      setTimeout(function(){newSec.style.transition='none';},FADE_DUR+20);
+    }, FADE_DUR/2);
+  }
+
+  /* Nav butonları */
   document.querySelectorAll(".nbtn").forEach(function(b){b.classList.remove("active");});
   var bn=document.getElementById("btn-"+id);
   if(bn){bn.classList.add("active");}
 
+  /* Carousel reset */
   if(id==="getting-started"&&isMob()){
     setTimeout(function(){var t=document.getElementById("hiw-cards");if(t){t.scrollLeft=0;upArr(t,hPrev,hNext,4,0);}},30);
   }
@@ -556,11 +593,43 @@ function go(id){
   }
 }
 
-/* Set initial state for all sections except home */
+/* İlk durum: home visible, diğerleri gizli */
 document.querySelectorAll("#content > section").forEach(function(s,i){
-  if(i===0){s.classList.add("active");}
-  else{s.classList.add("slide-below");}
+  s.style.cssText = i===0
+    ? 'opacity:1;transform:translateY(0);pointer-events:auto;transition:none;'
+    : 'opacity:0;transform:translateY(0);pointer-events:none;transition:none;';
 });
+
+/* =========================================================
+   DESKTOP WHEEL / TRACKPAD NAVİGASYON
+   — Slide transition ile, debounce ile
+   ========================================================= */
+(function(){
+  var lastWheel=0;
+  var WHEEL_COOLDOWN=700; /* ms — hızlı scroll'u engelle */
+  var accDelta=0;
+  var THRESHOLD=80; /* trackpad için birikim eşiği */
+
+  window.addEventListener("wheel",function(e){
+    if(isMob())return;
+
+    var now=Date.now();
+    accDelta+=Math.abs(e.deltaY);
+
+    /* Mouse wheel: büyük deltaY, tek seferde eşiği geçer */
+    /* Trackpad: küçük deltaY, birikiyor */
+    if(accDelta<THRESHOLD && Math.abs(e.deltaY)<40){return;}
+
+    if(now-lastWheel<WHEEL_COOLDOWN){accDelta=0;return;}
+    lastWheel=now;
+    accDelta=0;
+
+    var goNext=(e.deltaY>0);
+    var next=goNext?currentIdx+1:currentIdx-1;
+    if(next<0||next>=SECTIONS.length)return;
+    go(SECTIONS[next],'slide',goNext?'next':'prev');
+  },{passive:true});
+})();
 
 function toggleDates(){
   datesActive=!datesActive;
@@ -651,18 +720,19 @@ function isMob(){return window.innerWidth<=768;}
 
     /* dy > 0 → parmak AŞAĞI gitti → BİR SONRAKİ section'a git */
     /* dy < 0 → parmak YUKARI gitti → BİR ÖNCEKİ section'a git */
-    var goNext=(dy<0); /* Aşağı swipe = sonraki sayfa (klasik mobil UX) */
+    var goNext=(dy<0); /* parmak yukarı = sonraki sayfa */
 
-    /* 4. FAQ scroll çakışma — yalnızca scroll sınırında navigate et */
+    /* 4. FAQ scroll çakışma */
     var fs=getFaqScroll();
     if(fs&&fs.contains(touchTarget)&&fs.scrollHeight>fs.clientHeight+2){
-      if(!goNext&&faqScrollTop>2)return;   /* yukarı swipe: FAQ başa dönmemişse → FAQ kaydır */
-      if(goNext&&!faqAtBottom)return;      /* aşağı swipe: FAQ sona gelmemişse → FAQ kaydır */
+      if(!goNext&&faqScrollTop>2)return;
+      if(goNext&&!faqAtBottom)return;
     }
 
     var next=goNext?currentIdx+1:currentIdx-1;
     if(next<0||next>=SECTIONS.length)return;
-    go(SECTIONS[next]);
+    /* SWIPE → slide transition, yön belirlendi */
+    go(SECTIONS[next],'slide',goNext?'next':'prev');
   },{passive:true});
 })();
 
@@ -712,51 +782,6 @@ function initHovers(){
   document.querySelectorAll(".step-img video").forEach(function(v){var w=v.closest(".step-img");if(!w){return;}w.addEventListener("mouseenter",function(){v.play().catch(function(){});});w.addEventListener("mouseleave",function(){v.pause();});});
 }
 
-/* =========================================================
-   BLUR LAG FIX — GPU ISINMASI
-   ─────────────────────────────────────────────────────────
-   Sorun: backdrop-filter GPU katmanı lazy init → ilk açılışta lag
-   Çözüm:
-   1. DOM'a invisible glass div ekle → GPU katmanını DOMContentLoaded'da başlat
-   2. requestAnimationFrame döngüsünde ilk birkaç kare için repaint zorla
-   3. will-change zaten CSS'de set edildi
-   ========================================================= */
-(function warmupGPU(){
-  /* Invisible div, backdrop-filter'ı erken başlatır */
-  var warmup=document.createElement("div");
-  warmup.style.cssText=[
-    "position:fixed",
-    "top:-9999px",
-    "left:-9999px",
-    "width:1px",
-    "height:1px",
-    "backdrop-filter:blur(1px)",
-    "-webkit-backdrop-filter:blur(1px)",
-    "transform:translate3d(0,0,0)",
-    "will-change:backdrop-filter",
-    "pointer-events:none",
-    "z-index:-1"
-  ].join(";");
-  document.documentElement.appendChild(warmup);
-
-  /* İlk 3 frame: tüm glass elementleri repaint'e zorla */
-  var frames=0;
-  function forceRepaint(){
-    if(frames>3)return;
-    frames++;
-    document.querySelectorAll(".glass,.glass-card").forEach(function(el){
-      /* offsetHeight oku → browser layout/paint tetikler */
-      void el.offsetHeight;
-    });
-    requestAnimationFrame(forceRepaint);
-  }
-  requestAnimationFrame(forceRepaint);
-
-  /* Warmup div'i 2s sonra kaldır */
-  setTimeout(function(){
-    if(warmup.parentNode){warmup.parentNode.removeChild(warmup);}
-  },2000);
-})();
 
 /* =========================================================
    BACKGROUND VIDEO AUTOPLAY
