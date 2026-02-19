@@ -95,11 +95,9 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 @media(min-width:640px){.nl{display:inline}}
 
 #content{position:fixed;top:var(--ctop);bottom:var(--cbtm);left:var(--px);right:var(--px);z-index:10}
-#content > section{display:none;width:100%;height:100%;flex-direction:column}
-#content > section.active{display:flex}
-@media(min-width:769px) {
-  #content > section.active{animation:fadeIn .38s ease}
-}
+/* All sections always in render tree — GPU keeps backdrop-filter warm, no lag on switch */
+#content > section{position:absolute;inset:0;display:flex;width:100%;height:100%;flex-direction:column;opacity:0;pointer-events:none}
+#content > section.active{opacity:1;pointer-events:auto;animation:fadeIn .3s ease}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
 .sh{flex:0 0 var(--th);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:var(--tmb);position:relative}
@@ -482,20 +480,22 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 <div class="hiw-card glass-card"><div class="step-num">03</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out"></div><div class="step-lbl"><h3>Ask Someone Out</h3></div></div>
 <div class="hiw-card glass-card"><div class="step-num">04</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match and Meet"></div><div class="step-lbl"><h3>Match &amp; Meet</h3></div></div>
 </div>
+
 <div class="date-grid" id="date-grid">
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(251,191,36,.2)"><i data-lucide="coffee" style="color:#facc15"></i></div><span class="dblbl">UES</span></div><h4>Coffee at Central Park</h4><p>Latte &amp; walk around reservoir.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(149,107,185,.25)"><i data-lucide="music" style="color:var(--blueberry)"></i></div><span class="dblbl">SoHo</span></div><h4>Live Jazz Night</h4><p>Blue Note quartet playing.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(244,63,94,.2)"><i data-lucide="utensils" style="color:#fca5a5"></i></div><span class="dblbl">Village</span></div><h4>Try New Italian</h4><p>Craving pasta at Carbone.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(59,130,246,.2)"><i data-lucide="camera" style="color:#93c5fd"></i></div><span class="dblbl">Midtown</span></div><h4>MoMA Gallery</h4><p>Checking out modern art.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(34,197,94,.2)"><i data-lucide="footprints" style="color:#86efac"></i></div><span class="dblbl">Central Park</span></div><h4>Run a 5k</h4><p>Morning jog and smoothies.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(234,179,8,.2)"><i data-lucide="laugh" style="color:#fde047"></i></div><span class="dblbl">Village</span></div><h4>Comedy Cellar</h4><p>Stand-up comedy night.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(239,68,68,.2)"><i data-lucide="shopping-bag" style="color:#fca5a5"></i></div><span class="dblbl">Chinatown</span></div><h4>Dumpling Crawl</h4><p>Taste the best spots.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(99,102,241,.2)"><i data-lucide="activity" style="color:#c4b5fd"></i></div><span class="dblbl">West Side</span></div><h4>Play Padel</h4><p>Active match &amp; drinks.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(14,165,233,.2)"><i data-lucide="sailboat" style="color:#7dd3fc"></i></div><span class="dblbl">Hudson</span></div><h4>Sunset Sail</h4><p>Cruise at golden hour.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(249,115,22,.2)"><i data-lucide="flame" style="color:#fdba74"></i></div><span class="dblbl">LES</span></div><h4>Cooking Class</h4><p>Make pasta, eat better.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(20,184,166,.2)"><i data-lucide="book-open" style="color:#5eead4"></i></div><span class="dblbl">Midtown</span></div><h4>Bookstore Browse</h4><p>Strand Books then coffee.</p></div>
-<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(236,72,153,.2)"><i data-lucide="ferris-wheel" style="color:#f9a8d4"></i></div><span class="dblbl">Coney Island</span></div><h4>Amusement Park</h4><p>Rides, boardwalk, cotton candy.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(251,191,36,.2)"><i data-lucide="mountain" style="color:#facc15"></i></div><span class="dblbl">Brooklyn</span></div><h4>Bouldering Session</h4><p>Climb, fall, laugh, repeat.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(149,107,185,.25)"><i data-lucide="shirt" style="color:var(--blueberry)"></i></div><span class="dblbl">Williamsburg</span></div><h4>Vintage Flea Market</h4><p>Hunt for hidden gems together.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(244,63,94,.2)"><i data-lucide="palette" style="color:#fca5a5"></i></div><span class="dblbl">Chelsea</span></div><h4>Intro to Pottery</h4><p>Getting our hands messy.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(59,130,246,.2)"><i data-lucide="utensils-crossed" style="color:#93c5fd"></i></div><span class="dblbl">Queens</span></div><h4>Street Food Crawl</h4><p>Eating exotic food &amp; exploring.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(34,197,94,.2)"><i data-lucide="snowflake" style="color:#86efac"></i></div><span class="dblbl">Bryant Park</span></div><h4>Ice Skating</h4><p>Try not to fall, hot cocoa after.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(234,179,8,.2)"><i data-lucide="mic" style="color:#fde047"></i></div><span class="dblbl">Bowery</span></div><h4>Live Indie Gig</h4><p>Seeing a concert downtown.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(239,68,68,.2)"><i data-lucide="tree-pine" style="color:#fca5a5"></i></div><span class="dblbl">Upstate</span></div><h4>Day Hiking Trip</h4><p>Escaping the city for nature.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(99,102,241,.2)"><i data-lucide="dice-5" style="color:#c4b5fd"></i></div><span class="dblbl">West Village</span></div><h4>Board Game Battle</h4><p>Friendly competition &amp; matcha.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(14,165,233,.2)"><i data-lucide="wine" style="color:#7dd3fc"></i></div><span class="dblbl">Tribeca</span></div><h4>Paint &amp; Sip Night</h4><p>Bad art, great wine.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(249,115,22,.2)"><i data-lucide="film" style="color:#fdba74"></i></div><span class="dblbl">Bushwick</span></div><h4>Rooftop Cinema</h4><p>Classic movie under the stars.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(20,184,166,.2)"><i data-lucide="flower-2" style="color:#5eead4"></i></div><span class="dblbl">Bronx</span></div><h4>Botanical Garden</h4><p>Plant spotting and walking.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(236,72,153,.2)"><i data-lucide="zap" style="color:#f9a8d4"></i></div><span class="dblbl">Pier 2</span></div><h4>Sunset Roller Skating</h4><p>Gliding by the skyline.</p></div>
 </div>
+
 </section>
 <section id="events">
 <div class="sh"><div class="stripe-bar"></div><h2 class="st">Latest Events</h2><div class="stripe-bar"></div></div>
@@ -537,7 +537,7 @@ function go(id){
   document.querySelectorAll("#content > section").forEach(function(s){s.classList.remove("active");});
   document.querySelectorAll(".nbtn").forEach(function(b){b.classList.remove("active");});
   var s=document.getElementById(id),bn=document.getElementById("btn-"+id);
-  if(s){requestAnimationFrame(function(){s.classList.add("active");});}
+  if(s){s.classList.add("active");}
   if(bn){bn.classList.add("active");}
   if(id==="getting-started"&&isMob()){setTimeout(function(){var t=document.getElementById("hiw-cards");if(t){t.scrollLeft=0;upArr(t,hPrev,hNext,4,0);}},30);}
   if(id==="events"&&isMob()){setTimeout(function(){var t=document.getElementById("events-grid");if(t){t.scrollLeft=0;upArr(t,ePrev,eNext,5,0);}},30);}
@@ -619,30 +619,12 @@ function initHovers(){
   v.addEventListener("canplay",tryPlay,{once:true});
 })();
 
-// Preload HIW backdrop-filter to eliminate lag on first open
-function preloadSectionBlur(){
-  var secs=document.querySelectorAll("#content > section:not(#home)");
-  secs.forEach(function(s){
-    var prev=s.style.cssText;
-    s.style.cssText+="display:flex!important;opacity:0!important;pointer-events:none!important;position:absolute!important;z-index:-999!important;";
-  });
-  requestAnimationFrame(function(){
-    requestAnimationFrame(function(){
-      secs.forEach(function(s){
-        s.style.cssText="";
-      });
-    });
-  });
-}
-
-// Fixed: Run lucide only when loaded
 window.addEventListener("load",function(){
   if(typeof lucide !== 'undefined') {
     lucide.createIcons();
   }
   setupMob();
   initHovers();
-  preloadSectionBlur();
 });
 go("home");
 </script>
