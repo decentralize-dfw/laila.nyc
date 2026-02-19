@@ -803,187 +803,152 @@ function initHovers(){
    4. Visibility change / pause recovery
    ========================================================= */
 (function(){
-  var v=document.getElementById("bg-video");
-  var tap=document.getElementById("vid-tap");
-  var blocker=document.getElementById("play-blocker");
-  var canvas=document.getElementById("bg-canvas");
-  var ctx=canvas?canvas.getContext("2d"):null;
-  if(!v){return;}
+  var v   = document.getElementById("bg-video");
+  var tap = document.getElementById("vid-tap");
+  var canvas = document.getElementById("bg-canvas");
+  if(!v) return;
 
-  /* Tüm mute flag'larını zorla */
-  v.muted=true; v.defaultMuted=true; v.volume=0;
+  /* ── Mute: her yoldan kapat ── */
+  v.muted = true; v.defaultMuted = true; v.volume = 0;
 
-  var canvasMode=false;
-  var canvasRAF=null;
-  var isPlaying=function(){return !v.paused&&!v.ended&&v.readyState>1;};
+  var canvasMode = false;
+  var canvasStarted = false;
+  var playing = false;
 
-  /* ── Canvas Fallback (Low Power Mode) ── */
+  /* ────────────────────────────────────────────────
+     CANVAS FALLBACK — Low Power Mode
+     objectFit:cover canvas'ta çalışmaz!
+     Manuel "cover" hesabı yapılır:
+       video aspect oranı korunur, canvas tamamen dolar,
+       fazla kısım ortadan kırpılır → tilt/scale yok.
+  ──────────────────────────────────────────────── */
   function startCanvas(){
-    if(canvasMode||!canvas||!ctx)return;
-    canvasMode=true;
+    if(canvasStarted || !canvas) return;
+    canvasStarted = true;
+    canvasMode    = true;
 
-    /* Video'yu görünmez yap ama DOM'da tut (kaldırma — bazı tarayıcılar bunu gerektirir) */
-    v.style.opacity="0";
-    v.style.position="absolute";
+    var ctx = canvas.getContext("2d");
+    if(!ctx) return;
 
-    /* Canvas'ı göster, boyutla */
-    canvas.style.display="block";
-    canvas.style.position="absolute";
-    canvas.style.inset="0";
-    canvas.style.width="100%";
-    canvas.style.height="100%";
-    canvas.style.objectFit="cover";
-    canvas.style.pointerEvents="none";
+    /* Video gizle, canvas göster */
+    v.style.opacity = "0";
+    canvas.style.cssText = [
+      "display:block",
+      "position:absolute",
+      "top:0","left:0",
+      "width:100%","height:100%",
+      "pointer-events:none"
+    ].join(";");
 
-    function resizeCanvas(){
-      canvas.width=canvas.offsetWidth||window.innerWidth;
-      canvas.height=canvas.offsetHeight||window.innerHeight;
+    /* Canvas piksel boyutunu fiziksel boyuta eşitle */
+    function sizeCanvas(){
+      canvas.width  = canvas.clientWidth  || window.innerWidth;
+      canvas.height = canvas.clientHeight || window.innerHeight;
     }
-    resizeCanvas();
-    window.addEventListener("resize",resizeCanvas,{passive:true});
+    sizeCanvas();
+    window.addEventListener("resize", sizeCanvas, {passive:true});
 
-    /* RAF loop ile video karelerini canvas'a çiz */
-    function drawFrame(){
-      canvasRAF=requestAnimationFrame(drawFrame);
-      if(v.readyState>=2){
-        try{
-          ctx.drawImage(v,0,0,canvas.width,canvas.height);
-        }catch(e){}
-      }
+    /* object-fit:cover mantığı: videoyu canvas'a ortalayarak kırp */
+    function drawCover(){
+      requestAnimationFrame(drawCover);
+      if(v.readyState < 2 || !v.videoWidth) return;
+
+      var cw = canvas.width,  ch = canvas.height;
+      var vw = v.videoWidth,  vh = v.videoHeight;
+      var scale = Math.max(cw/vw, ch/vh);
+      var dw = vw*scale, dh = vh*scale;
+      var dx = (cw-dw)/2, dy = (ch-dh)/2;
+
+      try { ctx.drawImage(v, dx, dy, dw, dh); } catch(e){}
     }
-    drawFrame();
+    drawCover();
 
-    /* Video ses kapalı ve loop olarak çal (canvas için) */
-    v.muted=true;v.volume=0;
-    var cp=v.play();
-    if(cp&&cp.then){
-      cp.catch(function(){
-        /* Canvas için play başarısız — video başladığında kendisi tetikler */
-        v.addEventListener("canplay",function(){v.play().catch(function(){});},{once:true,passive:true});
-      });
-    }
-  }
-
-  /* ── Normal Play ── */
-  function tryPlay(){
-    if(isPlaying()){
-      /* Oynuyor, tap overlay'i kaldır */
-      if(tap){tap.style.pointerEvents="none";}
-      if(blocker){blocker.style.pointerEvents="none";}
-      return;
-    }
-    v.muted=true;v.volume=0;
-    var p=v.play();
-    if(p&&p.then){
-      p.then(function(){
-        if(tap){tap.style.pointerEvents="none";}
-        if(blocker){blocker.style.pointerEvents="none";}
-        canvasMode=false; /* normal mod, canvas gerekmiyor */
-      }).catch(function(err){
-        /* Play engellendi — canvas fallback'i başlat */
-        startCanvas();
-      });
-    }
-  }
-
-  /* ① Anlık deneme */
-  tryPlay();
-  /* ② Gecikmeli denemeler — Samsung, eski Safari için */
-  setTimeout(tryPlay,100);
-  setTimeout(tryPlay,400);
-  setTimeout(tryPlay,800);
-  setTimeout(tryPlay,1500);
-  setTimeout(tryPlay,3000);
-
-  /* ③ Media ready events */
-  v.addEventListener("canplay",tryPlay,{passive:true});
-  v.addEventListener("canplaythrough",tryPlay,{passive:true});
-  v.addEventListener("loadedmetadata",tryPlay,{passive:true});
-  v.addEventListener("loadeddata",tryPlay,{passive:true});
-
-  /* ④ İlk kullanıcı etkileşimi — iOS Low Power Mode için en kritik adım */
-  function unlockOnGesture(){
-    v.muted=true;v.volume=0;
-    tryPlay();
-    /* Canvas modundaysa bile play'i yeniden dene */
-    if(canvasMode){
-      var cp=v.play();
-      if(cp&&cp.then){cp.catch(function(){});}
-    }
-  }
-
-  /* capture:true → bu listener HERŞEYDEN önce tetiklenir */
-  ["touchstart","touchend","pointerdown","mousedown","click","scroll","keydown"].forEach(function(evt){
-    document.addEventListener(evt,unlockOnGesture,{passive:true,capture:true,once:true});
-  });
-
-  /* vid-tap özel handler — tam ekran, herhangi bir dokunuş unlock eder */
-  if(tap){
-    tap.addEventListener("touchstart",function(){
-      unlockOnGesture();
-      /* Başarılı olursa tap'i devre dışı bırak */
-      setTimeout(function(){
-        if(isPlaying()){tap.style.pointerEvents="none";}
-      },500);
-    },{passive:true});
-    tap.addEventListener("click",unlockOnGesture,{passive:true});
-  }
-
-  /* ⑤ Tab switch / ekran kilidi sonrası recovery */
-  document.addEventListener("visibilitychange",function(){
-    if(!document.hidden){
-      setTimeout(tryPlay,200);
-      setTimeout(tryPlay,600);
-    }
-  });
-
-  /* Video dışarıdan pause edilirse yeniden başlat */
-  v.addEventListener("pause",function(){
-    if(!document.hidden){
-      setTimeout(function(){
-        v.muted=true;v.volume=0;
-        tryPlay();
-      },300);
-    }
-  },{passive:true});
-
-  /* ⑥ Stalled / error: source'u yeniden yükle */
-  var reloads=0;
-  function reloadAndPlay(){
-    if(reloads>4)return;
-    reloads++;
-    v.load();
-    setTimeout(tryPlay,600);
-    setTimeout(tryPlay,1200);
-  }
-  v.addEventListener("stalled",reloadAndPlay,{passive:true});
-  v.addEventListener("error",reloadAndPlay,{passive:true});
-  v.addEventListener("emptied",function(){setTimeout(tryPlay,400);},{passive:true});
-
-  /* ⑦ Play button blocker — native iOS "tap to play" overlay'ini maskele */
-  /* Video pause iken blocker pointer-events'ı açar → kullanıcının dokunuşunu yakalar */
-  setInterval(function(){
-    if(!blocker)return;
-    if(!isPlaying()&&!canvasMode){
-      /* Video duraklamış, native play button görünebilir → yakala */
-      blocker.style.pointerEvents="auto";
-      blocker.style.cursor="default";
-    } else {
-      blocker.style.pointerEvents="none";
-    }
-  },500);
-
-  /* Blocker'a tıklanırsa play'i unlock et */
-  if(blocker){
-    blocker.addEventListener("touchstart",function(){
-      blocker.style.pointerEvents="none";
-      unlockOnGesture();
-    },{passive:true});
-    blocker.addEventListener("click",function(){
-      blocker.style.pointerEvents="none";
-      unlockOnGesture();
+    /* Canvas için video'yu arka planda çal */
+    v.muted = true; v.volume = 0;
+    v.play().catch(function(){
+      v.addEventListener("canplay", function(){
+        v.play().catch(function(){});
+      }, {once:true, passive:true});
     });
   }
+
+  /* ────────────────────────────────────────────────
+     PLAY — sadece gerektiğinde çağrılır,
+     v.load() asla çağrılmaz → restart/siyah flash yok
+  ──────────────────────────────────────────────── */
+  var playPending = false;
+  function tryPlay(){
+    if(playing || playPending) return;
+    playPending = true;
+    v.muted = true; v.volume = 0;
+    var p = v.play();
+    if(p && p.then){
+      p.then(function(){
+        playing     = true;
+        playPending = false;
+        if(tap) tap.style.pointerEvents = "none";
+      }).catch(function(){
+        playPending = false;
+        /* Normal play reddedildi → canvas fallback */
+        startCanvas();
+      });
+    } else {
+      /* play() Promise döndürmüyor (eski tarayıcı) — başarılı say */
+      playPending = false;
+      playing     = true;
+      if(tap) tap.style.pointerEvents = "none";
+    }
+  }
+
+  /* ── İlk denemeler ── */
+  tryPlay();
+  setTimeout(tryPlay, 200);
+  setTimeout(tryPlay, 600);
+
+  /* Media ready — sadece henüz oynamıyorsa dene */
+  ["canplay","canplaythrough","loadeddata"].forEach(function(evt){
+    v.addEventListener(evt, function(){ if(!playing) tryPlay(); }, {passive:true});
+  });
+
+  /* ── Gesture unlock — capture phase, tüm ekran ── */
+  var gestureUnlocked = false;
+  function unlockOnGesture(){
+    if(gestureUnlocked) return;
+    gestureUnlocked = true;
+    playPending = false; /* sıfırla, yeniden dene */
+    playing     = false;
+    tryPlay();
+  }
+  ["touchstart","pointerdown","click"].forEach(function(evt){
+    document.addEventListener(evt, unlockOnGesture, {passive:true, capture:true, once:true});
+  });
+  if(tap){
+    tap.addEventListener("touchstart", unlockOnGesture, {passive:true});
+    tap.addEventListener("click",      unlockOnGesture, {passive:true});
+  }
+
+  /* ── Visibility change / ekran kilidi recovery ── */
+  document.addEventListener("visibilitychange", function(){
+    if(!document.hidden && !playing){
+      playPending = false;
+      setTimeout(tryPlay, 300);
+    }
+  });
+
+  /* ── Pause recovery — sadece tab gizli değilse ── */
+  v.addEventListener("pause", function(){
+    if(!document.hidden){
+      playing     = false;
+      playPending = false;
+      setTimeout(tryPlay, 300);
+    }
+  }, {passive:true});
+
+  /* ── stalled/error: v.load() ÇAĞIRMA — sadece play'i yeniden dene ── */
+  /* v.load() videoyu başa sarar → siyah flash → YASAK */
+  v.addEventListener("stalled", function(){ if(!playing){ playPending=false; setTimeout(tryPlay,500); } }, {passive:true});
+  v.addEventListener("error",   function(){ if(!playing){ playPending=false; setTimeout(tryPlay,800); } }, {passive:true});
+
 })();
 
 /* =========================================================
