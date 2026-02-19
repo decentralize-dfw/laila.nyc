@@ -11,6 +11,10 @@
 @font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd062_Fontspring-DEMO-bookmania-bold.otf") format("opentype");font-weight:700}
 @font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd063_Fontspring-DEMO-bookmania-semibold.otf") format("opentype");font-weight:600}
 @font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd065_Fontspring-DEMO-bookmania-regular.otf") format("opentype");font-weight:400}
+/* Override apostrophe & dash characters in Bookmania to system font — these glyphs are undefined in the typeface */
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:400;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:600;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:700;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
 @font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9d2d108a8275ff8b6_Metropolis-Regular.otf") format("opentype");font-weight:400}
 @font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c991c3fb98dc42418b_Metropolis-SemiBold.otf") format("opentype");font-weight:600}
 @font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9c97208ba9db083d5_Metropolis-Bold.otf") format("opentype");font-weight:700}
@@ -248,8 +252,8 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
   
   .hiw-toggle{display:none!important}
   .date-grid,.date-grid.active{display:none!important}
-  .h-mission-lead{font-size:clamp(0.875rem,3.5vw,1.25rem)!important}
-  .h-mission-body{font-size:clamp(0.65rem,2.8vw,0.875rem)!important}
+  .h-mission-lead{font-size:clamp(0.7rem,2.8vw,1rem)!important}
+  .h-mission-body{font-size:clamp(0.52rem,2.24vw,0.7rem)!important}
 
   /* SCROLL TRACK: BIGGER HEIGHT & SPACING */
   .mob-scroll{
