@@ -1,0 +1,655 @@
+<!-- This site was created by Virtually Ever After. https://virtuallyeverafter.xyz/ --><!-- Last Published: Feb 19 2026 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="description" content="Skip the small talk. Post date ideas, match with people who share your interests, and meet IRL. Dating app focused on real-life connections in NYC.">
+<title>Laila - Event-Based Dating App | Real Dates, Real Connections</title>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-M58TB852');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-V50X1P4B9H"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-V50X1P4B9H');</script>
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+@font-face{font-family:"Mulish";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd060_Mulish-VariableFont_wght.ttf") format("truetype");font-weight:200 1000;font-display:swap}
+@font-face{font-family:"Silk Flower";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd05f_Silk%20Flower.otf") format("opentype");font-weight:400;font-display:swap}
+@font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd062_Fontspring-DEMO-bookmania-bold.otf") format("opentype");font-weight:700}
+@font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd063_Fontspring-DEMO-bookmania-semibold.otf") format("opentype");font-weight:600}
+@font-face{font-family:"Bookmania";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/67a9d9b57c65ab414d6bd065_Fontspring-DEMO-bookmania-regular.otf") format("opentype");font-weight:400}
+/* Override apostrophe & dash characters in Bookmania to system font — these glyphs are undefined in the typeface */
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:400;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:600;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
+@font-face{font-family:"Bookmania";src:local("Helvetica Neue"),local("Arial"),local("sans-serif");font-weight:700;unicode-range:U+0027,U+2018,U+2019,U+201C,U+201D,U+002D,U+2013,U+2014}
+@font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9d2d108a8275ff8b6_Metropolis-Regular.otf") format("opentype");font-weight:400}
+@font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c991c3fb98dc42418b_Metropolis-SemiBold.otf") format("opentype");font-weight:600}
+@font-face{font-family:"Metropolis";src:url("https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/688277c9c97208ba9db083d5_Metropolis-Bold.otf") format("opentype");font-weight:700}
+
+:root{
+  --offline:#0F0F0F;--digi-mauve:#454270;--purple-hash:#753875;--grapelogue:#956BB9;--blueberry:#DBC1EA;--vanilla:#DDD9DB;
+  --stripe:repeating-linear-gradient(90deg,var(--purple-hash) 0px,var(--purple-hash) 2px,var(--grapelogue) 2px,var(--grapelogue) 10px);
+  --logo-h:36px;--logo-top:20px;--dock-h:48px;--dock-btm:12px;--gap-chr:5vh;
+  --ctop:calc(var(--logo-top) + var(--logo-h) + var(--gap-chr));
+  --cbtm:calc(var(--dock-btm) + var(--dock-h) + 6vh); 
+  --px:4%;--gv:1.5vh;--gh:1.2%;
+  --tsz:clamp(1.45rem,2.4vw,2.1rem);--th:5.5vh;--tmb:1.5vh;
+  --cpv:1.2vh;--cph:1%;--crad:18px;--prad:100px;
+  --hiw-h3:clamp(0.62rem,0.95vw,1rem);--hiw-h4:clamp(0.55rem,0.8vw,0.88rem);--hiw-p:clamp(0.48rem,0.65vw,0.72rem);
+  --bsz:clamp(9px,0.9vw,13px);--bicon:clamp(5px,0.55vw,7.5px);--bmb:0.5vh;--blbl:clamp(0.42rem,0.5vw,0.56rem);
+}
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;width:100%;overflow:hidden}
+body{font-family:"Mulish",sans-serif;background:var(--offline);color:var(--vanilla)}
+body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;opacity:0.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");background-size:300px;mix-blend-mode:overlay}
+
+.glass{
+  background:rgba(255,255,255,0.13);
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  border:1px solid rgba(255,255,255,0.40);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+.glass-card{
+  background:rgba(255,255,255,0.15);
+  backdrop-filter:blur(28px) saturate(200%);
+  -webkit-backdrop-filter:blur(28px) saturate(200%);
+  border:1px solid rgba(255,255,255,0.40);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+}
+
+.bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden}
+.bg-wrap video{width:100%;height:100%;object-fit:cover;pointer-events:none}
+/* Nuke all browser-native video controls/overlays */
+#bg-video::-webkit-media-controls,
+#bg-video::-webkit-media-controls-enclosure,
+#bg-video::-webkit-media-controls-panel,
+#bg-video::-webkit-media-controls-overlay-play-button,
+#bg-video::-webkit-media-controls-start-playback-button,
+#bg-video::-webkit-media-controls-play-button{display:none!important;opacity:0!important;pointer-events:none!important;-webkit-appearance:none!important}
+.bg-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,15,15,0.08) 0%,rgba(69,66,112,0.22) 30%,rgba(15,15,15,0.50) 70%,rgba(15,15,15,0.80) 100%)}
+.stripe-bar{display:inline-block;width:32px;height:4px;background:var(--stripe);border-radius:2px;flex-shrink:0}
+
+#logo{position:fixed;top:var(--logo-top);left:var(--px);z-index:200;cursor:pointer;height:var(--logo-h);display:flex;align-items:center}
+#logo img{height:100%;width:auto;filter:none;transition:filter .3s}
+#logo:hover img{filter:brightness(0) invert(1)}
+
+#amb-btn{position:fixed;top:var(--logo-top);right:var(--px);z-index:200;height:var(--logo-h);display:flex;align-items:center}
+#amb-btn a{display:inline-flex;align-items:center;justify-content:center;gap:6px;font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.58rem,.82vw,.75rem);color:var(--grapelogue);text-decoration:none;white-space:nowrap;padding:.42rem 1rem;border-radius:var(--prad);line-height:1}
+
+#socials{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);left:var(--px);transform:translateY(50%);z-index:200;display:flex;align-items:center;gap:8px}
+#socials a{display:flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;color:var(--grapelogue);text-decoration:none}
+#socials a svg{width:14px;height:14px;display:block}
+
+#legal{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);right:var(--px);transform:translateY(50%);z-index:200;display:flex;flex-direction:column;align-items:flex-end;gap:3px}
+#legal .ll{display:flex;gap:12px}
+#legal a{font-family:"Metropolis",sans-serif;font-size:clamp(.42rem,.6vw,.58rem);color:rgba(221,217,219,.6);text-decoration:underline;text-underline-offset:2px;white-space:nowrap;transition:color .2s}
+#legal a:hover{color:var(--vanilla)}
+#legal .cp{font-family:"Metropolis",sans-serif;font-size:clamp(.38rem,.5vw,.5rem);color:rgba(221,217,219,.28);white-space:nowrap}
+
+#dock{position:fixed;bottom:calc(var(--dock-btm) + var(--dock-h)/2 + var(--gap-chr)/2);left:50%;transform:translate(-50%,50%);z-index:200;height:var(--dock-h);display:flex;align-items:center;gap:2px;padding:0 clamp(8px,1.8vw,14px);border-radius:var(--prad)}
+.nbtn{display:flex;align-items:center;gap:6px;padding:6px clamp(10px,1.5vw,14px);border-radius:var(--prad);border:none;background:transparent;cursor:pointer;color:#bbb;font-family:"Mulish",sans-serif;font-weight:600;font-size:clamp(.6rem,.9vw,.75rem);letter-spacing:.02em;transition:color .2s}
+.nbtn:hover{color:var(--grapelogue)}
+.nbtn.active{background:rgba(149,107,185,.18)!important;color:var(--grapelogue)!important;border:1px solid rgba(149,107,185,.38)!important}
+.nbtn i{width:16px;height:16px;flex-shrink:0}
+.nl{display:none}
+@media(min-width:640px){.nl{display:inline}}
+
+#content{position:fixed;top:var(--ctop);bottom:var(--cbtm);left:var(--px);right:var(--px);z-index:10}
+/* All sections always in render tree — GPU keeps backdrop-filter warm, no lag on switch */
+#content > section{position:absolute;inset:0;display:flex;width:100%;height:100%;flex-direction:column;opacity:0;pointer-events:none}
+#content > section.active{opacity:1;pointer-events:auto;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.sh{flex:0 0 var(--th);display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:var(--tmb);position:relative}
+.st{font-family:"Bookmania",serif;font-weight:700;font-size:var(--tsz);color:#fff;text-shadow:0 2px 20px rgba(0,0,0,.4);transition:opacity .3s}
+
+/* HOME */
+#home{justify-content:space-between;align-items:center}
+.h-hero{flex:1;min-height:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;width:100%;padding:0 4%}
+.h-eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:clamp(.6rem,1.5vh,1.2rem);opacity:.75}
+.h-eyebrow span{font-family:"Metropolis",sans-serif;font-weight:600;font-size:clamp(.52rem,.85vw,.72rem);letter-spacing:.18em;text-transform:uppercase;color:var(--blueberry)}
+.h-main{font-family:"Silk Flower",cursive;font-size:clamp(3.8rem,10vw,9rem);line-height:1.0;color:#fff;text-shadow:0 4px 40px rgba(149,107,185,.3);margin-bottom:clamp(.2rem,.8vh,.6rem);white-space:nowrap}
+.h-rotwrap{height:clamp(2.6rem,7vw,6rem);display:flex;align-items:center;justify-content:center;overflow:hidden;width:100%;margin-bottom:clamp(1.2rem,3vh,2.4rem)}
+#rottext{font-family:"Silk Flower",cursive;font-size:clamp(1.8rem,5.5vw,4.8rem);background:linear-gradient(135deg,var(--blueberry) 0%,var(--grapelogue) 60%,var(--purple-hash) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1.0;display:block;transition:opacity .28s,transform .28s}
+.h-cta{display:flex;flex-direction:row;gap:10px;justify-content:center;flex-wrap:wrap}
+.btn-pill{display:inline-flex;align-items:center;gap:8px;font-family:"Bookmania",serif;font-weight:700;font-size:clamp(.72rem,1.1vw,.9rem);color:#fff;border-radius:var(--prad);padding:.7rem 1.5rem;text-decoration:none;cursor:pointer;border:none;background:rgba(255,255,255,0.28);backdrop-filter:blur(28px) saturate(200%);-webkit-backdrop-filter:blur(28px) saturate(200%);border:1px solid rgba(255,255,255,0.50)}
+.h-mission{flex:0 0 auto;width:100%;text-align:center;padding:0 6% clamp(.6rem,1.5vh,1.2rem)}
+.h-mission-inner{max-width:640px;margin:0 auto;padding-top:clamp(.5rem,1.2vh,1rem);border-top:1px solid rgba(221,193,234,.18)}
+.h-mission-lead{font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.7rem,1.4vw,1rem);color:#fff;margin-bottom:.4em;line-height:1.3}
+.h-mission-body{font-family:"Metropolis",sans-serif;font-size:clamp(.52rem,.85vw,.7rem);color:rgba(221,217,219,.65);line-height:1.45;letter-spacing:-.01em}
+.h-socials{display:none;align-items:center;justify-content:center;gap:28px;padding:2.5vh 0}
+.h-socials a{color:rgba(255,255,255,.75);transition:color .2s}
+.h-socials a:hover{color:#fff}
+
+/* HOW IT WORKS */
+.hiw-toggle{position:absolute;right:0;font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.56rem,.95vw,.72rem);color:#fff;cursor:pointer;white-space:nowrap;padding:.3rem .85rem;border-radius:var(--prad);transition:background .22s,border-color .22s}
+.hiw-toggle:hover{background:rgba(117,56,117,0.80)!important;border-color:rgba(149,107,185,0.90)!important;color:#fff!important}
+.hiw-cards{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);column-gap:var(--gh);overflow:visible}
+.hiw-cards.hidden{display:none}
+.hiw-card{display:flex;flex-direction:column;height:100%;min-height:0;padding:var(--cpv) var(--cph);padding-bottom:calc(var(--cpv)*1.5);border-radius:var(--crad)}
+.step-num{font-family:"Silk Flower",cursive;font-size:clamp(1.2rem,2vw,1.8rem);color:var(--blueberry);opacity:.6;line-height:1;margin-bottom:.3vh;text-align:center}
+.step-img{flex:1;min-height:0;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.step-img img,.step-img video{max-width:100%;max-height:100%;object-fit:contain}
+.step-img video{display:block;pointer-events:none}
+.step-lbl{flex:0 0 auto;display:flex;align-items:center;justify-content:center;margin-top:.6vh}
+.step-lbl h3{font-family:"Bookmania",serif;font-weight:600;font-size:var(--hiw-h3);color:#fff;text-align:center}
+.date-grid{flex:1;min-height:0;display:none;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(3,1fr);gap:var(--gv) var(--gh)}
+.date-grid.active{display:grid}
+.date-card{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:var(--cpv) var(--cph);border-radius:var(--crad)}
+.dbrow{display:flex;align-items:center;gap:4px;margin-bottom:var(--bmb)}
+.dbicon{width:var(--bsz);height:var(--bsz);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.dbicon svg,.dbicon i{width:var(--bicon)!important;height:var(--bicon)!important}
+.dblbl{font-size:var(--blbl);font-weight:700;text-transform:uppercase;letter-spacing:.05em;font-family:"Mulish",sans-serif;color:rgba(255,255,255,0.7)}
+.date-card h4{font-family:"Metropolis",sans-serif;font-weight:700;font-size:var(--hiw-h4);color:#fff;text-align:center;line-height:1.3;margin-bottom:.25vh}
+.date-card p{font-family:"Metropolis",sans-serif;font-size:var(--hiw-p);color:rgba(255,255,255,.65);text-align:center;line-height:1.35}
+
+/* EVENTS desktop */
+#events{position:relative}
+.curated-badge{
+  position:absolute;top:calc(var(--th)/2);right:0;
+  transform:translateY(-50%);
+  display:flex;align-items:center;
+  font-family:"Bookmania",serif;font-weight:600;
+  font-size:clamp(.56rem,.9vw,.72rem);
+  color:#fff;
+  padding:.45rem .9rem;border-radius:100px;
+  background:rgba(117,56,117,0.55);
+  backdrop-filter:blur(20px) saturate(180%);
+  -webkit-backdrop-filter:blur(20px) saturate(180%);
+  border:1px solid rgba(149,107,185,0.70);
+  z-index:5;white-space:nowrap;
+}
+.events-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 1fr;gap:var(--gv) var(--gh)}
+.ecard{
+  position:relative;
+  border-radius:var(--crad);
+  overflow:hidden;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+}
+.ecard img,.ecard video{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  border-radius:var(--crad);
+}
+.eoverlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.9),rgba(0,0,0,.35) 55%,transparent);border-radius:var(--crad)}
+.estripe{display:none!important}
+.einfo{position:absolute;bottom:0;left:0;width:100%;padding:clamp(.6rem,1.2vh,1rem) clamp(.7rem,1.2vw,1.1rem);z-index:2}
+.etag{font-family:"Mulish",sans-serif;font-weight:700;font-size:clamp(.36rem,.52vw,.5rem);letter-spacing:.08em;text-transform:uppercase;padding:.15rem .4rem;border-radius:3px;margin-bottom:.3rem;display:inline-block;color:#fff}
+.ecard h4{font-family:"Bookmania",serif;font-weight:700;font-size:clamp(.7rem,1.15vw,.96rem);margin-bottom:.12rem;line-height:1.15}
+.ecard p{font-family:"Metropolis",sans-serif;font-size:clamp(.48rem,.7vw,.62rem);line-height:1.25;color:rgba(255,255,255,.72)}
+
+/* FAQ FIXED STRUCTURE - APPLIES TO ALL SIZES */
+#faq {
+  display: flex;
+  flex-direction: column;
+}
+.faq-scroll{
+  flex:1; /* Take all available space */
+  min-height:0; /* Allow shrinking */
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:rgba(149,107,185,.4) transparent;
+  padding-bottom: 2vh;
+}
+.faq-scroll::-webkit-scrollbar{width:3px}
+.faq-scroll::-webkit-scrollbar-thumb{background:rgba(149,107,185,.4);border-radius:2px}
+.faq-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(.6rem,1.5vh,1.2rem) var(--gh)}
+.faq-col{display:flex;flex-direction:column;gap:clamp(.5rem,1.2vh,.9rem)}
+.faq-item{border-radius:14px}
+.faq-btn{width:100%;padding:.85rem 1.1rem;display:flex;justify-content:space-between;align-items:center;background:none;border:none;cursor:pointer;text-align:left}
+.faq-q{font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.82rem,1.2vw,1rem);color:#fff;line-height:1.3}
+.faq-ic{transition:transform .3s;flex-shrink:0;color:rgba(255,255,255,.55)}
+.faq-ic svg{width:15px;height:15px}
+.faq-body{display:none;padding:0 1.1rem .85rem;font-family:"Metropolis",sans-serif;font-size:clamp(.72rem,1vw,.88rem);color:rgba(255,255,255,.75);line-height:1.45}
+.faq-body.open{display:block}
+.faq-ic.open{transform:rotate(180deg)}
+
+/* FAQ FOOTER: FIXED AT BOTTOM */
+.faq-footer{
+  flex:0 0 auto; /* Don't grow or shrink */
+  display:flex;align-items:center;justify-content:center;
+  gap:clamp(.5rem,2vw,1.2rem);
+  margin-top:auto; /* Push to bottom if content is short */
+  padding-top:1.5vh; 
+  padding-bottom:1vh;
+  flex-wrap:nowrap;
+  border-top:none!important;
+}
+.faq-footer h3{font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.68rem,1.3vw,.9rem);white-space:nowrap;color:#fff}
+.fpbtn{font-family:"Bookmania",serif;font-weight:600;font-size:clamp(.6rem,1vw,.78rem);white-space:nowrap;padding:.32rem clamp(.6rem,1.2vw,.9rem);border-radius:var(--prad);border:none;cursor:pointer;color:var(--grapelogue);text-decoration:none}
+
+/* =================== MOBILE =================== */
+@media(max-width:768px){
+  /* FIX: Curated Badge moved below header in flow */
+  .curated-badge{
+    position:static!important; /* In normal flow */
+    transform:none!important;
+    margin: 0 auto 16px auto!important; /* Centered below title */
+    height:auto!important;
+    padding:.3rem .7rem!important;
+    font-size:.54rem!important;
+    line-height:1;
+    width: fit-content;
+  }
+
+  #amb-btn{top:var(--logo-top);right:3%;height:var(--logo-h);display:flex;align-items:center}
+  #amb-btn a{
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    font-size:.58rem!important;padding:.38rem .7rem!important;
+    white-space:nowrap!important;line-height:1!important;
+    color:#fff!important;
+    background:rgba(117,56,117,0.42)!important;
+    border:1px solid rgba(149,107,185,0.60)!important;
+  }
+  #amb-btn a svg{display:none!important}
+
+  #content{left:0!important;right:0!important;top:calc(var(--logo-top) + var(--logo-h) + 2.5vh)!important;bottom:calc(var(--dock-btm) + var(--dock-h) + 2.5vh)!important}
+  #dock{bottom:calc(var(--dock-btm) + var(--dock-h)/2 + 2.5vh/2)!important}
+  #socials{display:none!important}
+  #legal{display:none!important}
+
+  .sh{padding:0 15vw}
+  /* Remove flex from sh so badge sits under it properly if needed, but flex is fine if direction is column. Parent section is flex-col */
+  
+  .hiw-toggle{display:none!important}
+  .date-grid,.date-grid.active{display:none!important}
+  .h-mission-lead{font-size:clamp(0.7rem,2.8vw,1rem)!important}
+  .h-mission-body{font-size:clamp(0.52rem,2.24vw,0.7rem)!important}
+
+  /* SCROLL TRACK: BIGGER HEIGHT & SPACING */
+  .mob-scroll{
+    flex:1!important;min-height:0!important;
+    display:flex!important;flex-direction:row!important;
+    overflow-x:scroll!important;overflow-y:hidden!important;
+    scroll-snap-type:x mandatory;
+    padding-inline:15vw;
+    scroll-padding-inline-start:15vw;
+    gap:25px!important;
+    align-items:center!important; /* VERTICAL CENTER FIX */
+    scrollbar-width:none;
+    -webkit-overflow-scrolling:touch;
+    grid-template-columns:unset!important;
+    grid-template-rows:unset!important;
+    column-gap:0!important;
+  }
+  .mob-scroll::-webkit-scrollbar{display:none}
+  
+  /* CARDS: INCREASED HEIGHT TO 88% AS REQUESTED */
+  .mob-scroll > *{
+    flex:0 0 70vw!important;
+    width:70vw!important;
+    height:88%!important; /* Increased from 78% */
+    scroll-snap-align:start; 
+    margin-right: 20px!important;
+  }
+
+  /* HIW CARD: SPACE BETWEEN (TOP IMAGE, BOTTOM BUTTON) */
+  .mob-scroll > .hiw-card{
+    background:transparent!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+    border:none!important;border-radius:0!important;padding:0!important;
+    display:flex!important;flex-direction:column!important;
+    justify-content:space-between!important; /* KEY: Pushes Img Top, Btn Bottom */
+    align-items:center!important;
+    position:relative!important;
+  }
+  
+  /* Image: Fills remaining space */
+  .mob-scroll > .hiw-card .step-img{
+    position:static!important;
+    flex:1!important; /* Take up all available space */
+    width:100%!important;
+    height:auto!important; 
+    margin-bottom:0!important;
+    overflow:visible!important;
+    align-items:flex-start!important; /* Align Image to Top */
+    justify-content:center!important;
+  }
+  .mob-scroll > .hiw-card .step-img img{
+    width:100%!important;height:100%!important;max-width:none!important;
+    object-fit:contain!important;object-position:top center!important;
+  }
+  .mob-scroll > .hiw-card .step-img video{display:none!important}
+
+  /* Text Pill: Bottom Aligned */
+  .mob-scroll > .hiw-card .step-lbl{
+    position:static!important;
+    transform:none!important;
+    height:auto!important;
+    flex:0 0 auto!important; /* Fixed height for button */
+    display:inline-flex!important;align-items:center!important;justify-content:center!important;
+    width:auto!important;margin:0 auto!important;
+    
+    background:rgba(255,255,255,0.12)!important;
+    backdrop-filter:blur(28px) saturate(200%)!important;
+    -webkit-backdrop-filter:blur(28px) saturate(200%)!important;
+    border:1px solid rgba(255,255,255,0.40)!important;
+    border-radius:100px!important;
+    padding:.35rem 1.4rem!important;
+    white-space:nowrap!important;
+    margin-bottom:0!important; /* Bottom edge of card */
+  }
+  .mob-scroll > .hiw-card .step-lbl h3{
+    font-size:clamp(.72rem,3vw,.9rem)!important;color:#fff!important;
+    white-space:nowrap!important;line-height:1!important; margin:0!important; padding:0!important;
+  }
+  .step-num{display:none}
+
+  /* EVENTS CARD: SAME HEIGHT AS HIW */
+  .mob-scroll > .ecard{
+    display:flex!important;flex-direction:column!important;
+    border-radius:16px!important; 
+    overflow:visible!important; 
+    overflow:hidden!important; 
+    position:relative!important;
+    background:transparent!important; 
+  }
+  
+  /* Image: 65% height */
+  .mob-scroll > .ecard > img, .mob-scroll > .ecard > video{
+    position:absolute!important;top:0!important;left:0!important;right:0!important;
+    bottom:auto!important;
+    height:65%!important;
+    width:100%!important;
+    border-radius:16px 16px 0 0!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    display:block!important;
+  }
+  .mob-scroll > .ecard .eoverlay{display:none!important}
+  
+  /* Text Info: 35% height, aligned to bottom of 88% container */
+  .mob-scroll > .ecard .einfo{
+    position:absolute!important;
+    top:auto!important;
+    bottom:0!important;left:0!important;right:0!important;
+    height:35%!important; 
+    padding:.6rem 1rem!important;
+    background:rgba(255,255,255,0.10)!important;
+    backdrop-filter:blur(16px) saturate(160%)!important;
+    -webkit-backdrop-filter:blur(16px) saturate(160%)!important;
+    border:1px solid rgba(255,255,255,0.25)!important;
+    border-top:none!important;
+    border-radius:0 0 16px 16px!important;
+    display:flex!important;flex-direction:column!important;justify-content:center!important;
+    width:100%!important;box-sizing:border-box!important;
+  }
+  .mob-scroll > .ecard h4{font-size:clamp(0.88rem,3.5vw,1.05rem)!important;color:#fff!important;margin-bottom:.25rem!important;line-height:1.2!important}
+  .mob-scroll > .ecard p{font-size:clamp(.58rem,2.2vw,.75rem)!important;color:rgba(255,255,255,.75)!important;line-height:1.3!important;white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important}
+  
+  /* RESTORE ETAGS IN MOBILE */
+  .mob-scroll > .ecard .etag{
+    display:inline-block!important;
+    margin-bottom:0.2rem!important;
+  }
+  
+  #events-grid.mob-scroll > .ecard:last-child{grid-column:auto!important}
+
+  .faq-grid{grid-template-columns:1fr!important}
+  /* FAQ Mobile Scroll: Flex 1 takes remaining space, footer fixed at bottom by parent flex */
+  #faq .faq-scroll{
+    padding:0 15vw; 
+    max-height:none!important; /* Allow flex to handle height */
+  }
+  #faq .faq-footer{padding-left:15vw;padding-right:15vw}
+  .faq-q{font-size:clamp(.72rem,2.5vw,.9rem)!important}
+  .faq-body{font-size:clamp(.62rem,2vw,.78rem)!important}
+
+  #home{flex-direction:column!important;justify-content:flex-start!important;align-items:stretch!important}
+  .h-hero{flex:1!important}
+  .h-socials{display:flex!important}
+  .h-main{font-size:clamp(3rem,12vw,5rem)!important;white-space:nowrap!important}
+  #rottext{font-size:clamp(1.5rem,6.5vw,2.8rem)!important}
+
+  .mob-arrow{
+    position:absolute;top:50%;transform:translateY(-50%);
+    z-index:30;width:36px;height:36px;border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,0.13)!important;
+    backdrop-filter:blur(28px) saturate(200%)!important;
+    -webkit-backdrop-filter:blur(28px) saturate(200%)!important;
+    border:1px solid rgba(255,255,255,0.40)!important;
+    cursor:pointer;transition:opacity .2s;color:var(--grapelogue);pointer-events:auto;
+  }
+  .mob-arrow.hidden{opacity:0;pointer-events:none}
+  .mob-arrow-prev{left:3vw}
+  .mob-arrow-next{right:3vw}
+  .mob-arrow svg{width:18px;height:18px;stroke:var(--grapelogue);fill:none}
+}
+
+/* HOVER EFFECTS - DESKTOP ONLY */
+@media(min-width:769px){
+  .btn-pill{transition:background .22s,border-color .22s,color .22s}
+  .btn-pill:hover{background:rgba(117,56,117,0.65)!important;border-color:rgba(149,107,185,0.85)!important;color:#fff!important}
+  #amb-btn a{transition:background .22s,border-color .22s,color .22s}
+  #amb-btn a:hover{background:rgba(117,56,117,0.65)!important;border-color:rgba(149,107,185,0.85)!important;color:#fff!important}
+  .date-card{cursor:pointer;transition:background .22s,border-color .22s}
+  .date-card:hover{background:rgba(117,56,117,0.45)!important;border-color:rgba(149,107,185,0.65)!important}
+}
+</style>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M58TB852" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+<div class="bg-wrap"><video id="bg-video" autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false" x-webkit-airplay="deny" disableRemotePlayback preload="auto" style="pointer-events:none"><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/480p/mp4/file.mp4" type="video/mp4" media="(max-width:767px)"><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div id="logo" onclick="go('home')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
+<div id="amb-btn"><a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener" class="glass"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Become an Ambassador</a></div>
+<div id="socials">
+<a href="https://www.instagram.com/laila.social/" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+<a href="https://x.com/LailaSocial" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></a>
+<a href="https://www.tiktok.com/@lailasocial" target="_blank" rel="noopener" class="glass"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg></a>
+</div>
+<div id="legal"><div class="ll"><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68acc0133df6f03948a48732_Laila%20Dating%20-%20Terms%20of%20Use%20(8%3A25%3A25).pdf" target="_blank" rel="noopener">Terms of Use</a><a href="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/6846fbfc59f3b042ad4628ae_Laila%20Dating%20Privacy%20Policy%20(6_9_2025).docx.pdf" target="_blank" rel="noopener">Privacy Policy</a></div><div class="cp">&#169; 2024 Laila Dating Inc.</div></div>
+<nav id="dock" class="glass">
+<button class="nbtn active" id="btn-home" onclick="go('home')"><i data-lucide="home"></i><span class="nl">Home</span></button>
+<button class="nbtn" id="btn-getting-started" onclick="go('getting-started')"><i data-lucide="route"></i><span class="nl">How it Works</span></button>
+<button class="nbtn" id="btn-events" onclick="go('events')"><i data-lucide="calendar-heart"></i><span class="nl">Events</span></button>
+<button class="nbtn" id="btn-faq" onclick="go('faq')"><i data-lucide="help-circle"></i><span class="nl">FAQ</span></button>
+</nav>
+<div id="content">
+<section id="home">
+<div class="h-hero">
+<div class="h-eyebrow"><div class="stripe-bar"></div><span>The first first date app</span><div class="stripe-bar"></div></div>
+<h1 class="h-main">Let's go</h1>
+<div class="h-rotwrap"><span id="rottext">to a Broadway show</span></div>
+<div class="h-cta">
+<a href="https://apps.apple.com/us/app/laila-match-meet/id6670228423" target="_blank" class="btn-pill">Join Laila <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+<button class="btn-pill" onclick="go('getting-started')">How it works</button>
+</div>
+</div>
+<div class="h-socials">
+<a href="https://www.instagram.com/laila.social/" target="_blank"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+<a href="https://x.com/LailaSocial" target="_blank"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.254 5.622 5.91-5.622Zm-1.161 17.52h1.833L7.084 4.126H5.117Z"/></svg></a>
+<a href="https://www.tiktok.com/@lailasocial" target="_blank"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 0 0-.79-.05 6.34 6.34 0 0 0-6.34 6.34 6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.33-6.34V8.69a8.18 8.18 0 0 0 4.77 1.52V6.76a4.85 4.85 0 0 1-1-.07z"/></svg></a>
+</div>
+<div class="h-mission"><div class="h-mission-inner">
+<p class="h-mission-lead">Our mission is to turn every match into a real-life connection.</p>
+<p class="h-mission-body">Laila eliminates endless swiping and low match-to-date conversion by making dating about action, not small talk. Post a date you actually want to go on and connect with people who are ready to join you.</p>
+</div></div>
+</section>
+<section id="getting-started" style="position:relative">
+<div class="sh"><div class="stripe-bar"></div><h2 id="hiw-title" class="st">How Laila Works</h2><div class="stripe-bar"></div><button id="hiw-toggle" class="hiw-toggle glass" onclick="toggleDates()">Popular Date Ideas</button></div>
+<div class="hiw-cards" id="hiw-cards">
+<div class="hiw-card glass-card"><div class="step-num">01</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfc5_mockup-1-p-800.png" alt="Post a Date"></div><div class="step-lbl"><h3>Post A Date</h3></div></div>
+<div class="hiw-card glass-card"><div class="step-num">02</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfbd_mockup-2-p-800.png" alt="See Who Joins"></div><div class="step-lbl"><h3>See Who Joins</h3></div></div>
+<div class="hiw-card glass-card"><div class="step-num">03</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfcd_mockup-5-p-800.png" alt="Ask Someone Out"></div><div class="step-lbl"><h3>Ask Someone Out</h3></div></div>
+<div class="hiw-card glass-card"><div class="step-num">04</div><div class="step-img"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfd5_mockup-4-p-800.png" alt="Match and Meet"></div><div class="step-lbl"><h3>Match &amp; Meet</h3></div></div>
+</div>
+<div class="date-grid" id="date-grid">
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(251,191,36,.2)"><i data-lucide="coffee" style="color:#facc15"></i></div><span class="dblbl">UES</span></div><h4>Coffee at Central Park</h4><p>Latte &amp; walk around reservoir.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(149,107,185,.25)"><i data-lucide="music" style="color:var(--blueberry)"></i></div><span class="dblbl">SoHo</span></div><h4>Live Jazz Night</h4><p>Blue Note quartet playing.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(244,63,94,.2)"><i data-lucide="utensils" style="color:#fca5a5"></i></div><span class="dblbl">Village</span></div><h4>Try New Italian</h4><p>Craving pasta at Carbone.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(59,130,246,.2)"><i data-lucide="camera" style="color:#93c5fd"></i></div><span class="dblbl">Midtown</span></div><h4>MoMA Gallery</h4><p>Checking out modern art.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(34,197,94,.2)"><i data-lucide="footprints" style="color:#86efac"></i></div><span class="dblbl">Central Park</span></div><h4>Run a 5k</h4><p>Morning jog and smoothies.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(234,179,8,.2)"><i data-lucide="laugh" style="color:#fde047"></i></div><span class="dblbl">Village</span></div><h4>Comedy Cellar</h4><p>Stand-up comedy night.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(239,68,68,.2)"><i data-lucide="shopping-bag" style="color:#fca5a5"></i></div><span class="dblbl">Chinatown</span></div><h4>Dumpling Crawl</h4><p>Taste the best spots.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(99,102,241,.2)"><i data-lucide="activity" style="color:#c4b5fd"></i></div><span class="dblbl">West Side</span></div><h4>Play Padel</h4><p>Active match &amp; drinks.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(14,165,233,.2)"><i data-lucide="sailboat" style="color:#7dd3fc"></i></div><span class="dblbl">Hudson</span></div><h4>Sunset Sail</h4><p>Cruise at golden hour.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(249,115,22,.2)"><i data-lucide="flame" style="color:#fdba74"></i></div><span class="dblbl">LES</span></div><h4>Cooking Class</h4><p>Make pasta, eat better.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(20,184,166,.2)"><i data-lucide="book-open" style="color:#5eead4"></i></div><span class="dblbl">Midtown</span></div><h4>Bookstore Browse</h4><p>Strand Books then coffee.</p></div>
+<div class="date-card glass-card"><div class="dbrow"><div class="dbicon" style="background:rgba(236,72,153,.2)"><i data-lucide="ferris-wheel" style="color:#f9a8d4"></i></div><span class="dblbl">Coney Island</span></div><h4>Amusement Park</h4><p>Rides, boardwalk, cotton candy.</p></div>
+</div>
+</section>
+<section id="events">
+<div class="sh"><div class="stripe-bar"></div><h2 class="st">Latest Events</h2><div class="stripe-bar"></div></div>
+<div class="curated-badge">Curated by Laila</div>
+<div class="events-grid" id="events-grid">
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe1_Screenshot%202025-07-02%20at%2000.47.58.png" alt="Laila x D8 Time"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(149,107,185,.9)">Speed Dating</span><h4>Laila x D8 Time</h4><p>Fast-paced speed dating at Time Again, Dimes Square.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfe8_Screenshot%202025-07-03%20at%2019.52.46.png" alt="Good Girls Gone Social"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(219,39,119,.9)">Mixer</span><h4>Good Girls Gone Social</h4><p>A flirty singles mixer where roses flowed all night.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfef_WhatsApp%20Image%202025-07-02%20at%2023.32.44.jpeg" alt="Cupid's Hit List"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(220,38,38,.9)">Party</span><h4>Cupid's Hit List</h4><p>Retro 80s disco at Early Terrible.</p></div></div>
+<div class="ecard"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdfdb_Screenshot%202025-07-02%20at%2000.34.29.png" alt="Laila's Friends"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(37,99,235,.9)">Community</span><h4>Laila's Friends</h4><p>Our friends and family launch at Bar Nena.</p></div></div>
+<div class="ecard" style="grid-column:span 2"><div class="estripe"></div><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/68828c85eea4e3b178bcdff7_WhatsApp%20Image%202025-07-02%20at%2023.34.53.jpeg" alt="Pregame at Cosmo"><div class="eoverlay"></div><div class="einfo"><span class="etag" style="background:rgba(217,119,6,.9)">Social</span><h4>Pregame at Cosmo</h4><p>A cheeky martini-fueled soiree.</p></div></div>
+</div>
+</section>
+<section id="faq">
+<div class="sh"><div class="stripe-bar"></div><h2 class="st">FAQ</h2><div class="stripe-bar"></div></div>
+<div class="faq-scroll"><div class="faq-grid">
+<div class="faq-col">
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">What is Laila and how does it work?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Laila is an event-based dating app that helps you skip the small talk and get to real-life connections faster. Instead of swiping endlessly, you can post or ask to join specific date ideas. This way, you'll meet people with shared interests and start your date with a fun activity already planned.</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How do I post a date idea?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Posting a date is simple. Just open the app, click the “Post a Date” button, and either share your own idea or use Laila’s AI Date Planner to generate suggestions based on your interests. Whether it’s grabbing a drink, checking out a local event, or something more unique, you can add the details, date, and time. Once your date is live, others can show interest by sending a like to it and joining you!</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Is Laila available everywhere?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Right now, Laila is live in New York City. We’re working on expanding to more cities soon, so stay tuned! Want Laila in your city? Let us know by following us on social media and sharing your thoughts—we’re always listening!</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How do I get matches on Laila?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Laila connects you with people who share your interests through real-life date ideas. You can either post a date idea or like dates posted by others. If someone likes your date or you both like the same date, it’s a match! Once matched, you can chat to finalize the details and plan your meetup.</div></div>
+</div>
+<div class="faq-col">
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">How is Laila different from other dating apps?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Unlike traditional apps that focus on profiles and endless messaging, Laila is all about action. We encourage users to post date ideas like "Coffee at Central Park" or "Live music in SoHo." It's about getting off your phone and into real life, fast. Our goal is to make dating fun and spontaneous again.</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Can I join a posted date?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Yes! If you see a date idea that interests you, simply send a like to show you're interested. If there’s mutual interest, you'll get connected in the chat, where you can finalize the details and meet up.</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Is Laila safe to use?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Absolutely. At Laila, safety is our top priority. We thoroughly vet every profile by cross-checking user information and social media accounts to ensure that every user is real and authentic. Additionally, to enhance safety, users can post date ideas without specifying the exact location upfront. For example, you can post “Let’s grab Italian” and finalize the location in the chat once you’ve matched with someone interested in joining. This ensures that details are shared only when both parties feel comfortable</div></div>
+<div class="faq-item glass-card"><button class="faq-btn" onclick="tFaq(this)"><span class="faq-q">Can I suggest improvements or report issues?</span><span class="faq-ic"><i data-lucide="chevron-down"></i></span></button><div class="faq-body">Absolutely! We love hearing from our users. If you have feedback, suggestions, or need help with anything, you can contact us through the app or email us at contact@laila.nyc. We're always working to make Laila better!</div></div>
+</div>
+</div></div>
+<div class="faq-footer"><h3>Still have questions?</h3><a href="https://www.instagram.com/laila.social/" target="_blank" class="fpbtn glass">DM Us</a><a href="mailto:contact@laila.nyc" class="fpbtn glass">Email Us</a></div>
+</section>
+</div>
+<script>
+var ideas=["to a Broadway show","do a dumpling crawl","play tennis","to Farmer's Market","bowling","to a comedy show","hiking","to a Mets game","play padel","to brunch"];
+var idx=0,el=document.getElementById("rottext");
+function rot(){el.style.opacity="0";el.style.transform="translateY(10px)";setTimeout(function(){el.textContent=ideas[idx];el.style.opacity="1";el.style.transform="translateY(0)";idx=(idx+1)%ideas.length;},280);}
+setInterval(rot,3000);
+var datesActive=false;
+function go(id){
+  document.querySelectorAll("#content > section").forEach(function(s){s.classList.remove("active");});
+  document.querySelectorAll(".nbtn").forEach(function(b){b.classList.remove("active");});
+  var s=document.getElementById(id),bn=document.getElementById("btn-"+id);
+  if(s){s.classList.add("active");}
+  if(bn){bn.classList.add("active");}
+  if(id==="getting-started"&&isMob()){setTimeout(function(){var t=document.getElementById("hiw-cards");if(t){t.scrollLeft=0;upArr(t,hPrev,hNext,4,0);}},30);}
+  if(id==="events"&&isMob()){setTimeout(function(){var t=document.getElementById("events-grid");if(t){t.scrollLeft=0;upArr(t,ePrev,eNext,5,0);}},30);}
+  if(id!=="getting-started"&&datesActive){
+    datesActive=false;
+    var hc=document.getElementById("hiw-cards"),dg=document.getElementById("date-grid"),ht=document.getElementById("hiw-title"),hb=document.getElementById("hiw-toggle");
+    if(hc){hc.classList.remove("hidden");}if(dg){dg.classList.remove("active");}
+    if(ht){ht.textContent="How Laila Works";}if(hb){hb.textContent="Popular Date Ideas";}
+  }
+}
+function toggleDates(){
+  datesActive=!datesActive;
+  var c=document.getElementById("hiw-cards"),g=document.getElementById("date-grid"),t=document.getElementById("hiw-title"),b=document.getElementById("hiw-toggle");
+  if(!c||!g||!t||!b){return;}
+  if(datesActive){c.classList.add("hidden");g.classList.add("active");t.style.opacity="0";setTimeout(function(){t.textContent="Popular Date Ideas";t.style.opacity="1";},180);b.textContent="How Laila Works";}
+  else{c.classList.remove("hidden");g.classList.remove("active");t.style.opacity="0";setTimeout(function(){t.textContent="How Laila Works";t.style.opacity="1";},180);b.textContent="Popular Date Ideas";}
+  // Check for lucide again
+  if(typeof lucide !== 'undefined') { lucide.createIcons(); }
+}
+function tFaq(btn){
+  var body=btn.nextElementSibling,icon=btn.querySelector(".faq-ic"),open=body.classList.contains("open");
+  document.querySelectorAll(".faq-body").forEach(function(b){b.classList.remove("open");});
+  document.querySelectorAll(".faq-ic").forEach(function(i){i.classList.remove("open");});
+  if(!open){body.classList.add("open");icon.classList.add("open");}
+}
+function isMob(){return window.innerWidth<=768;}
+var hPrev=null,hNext=null,ePrev=null,eNext=null,hStep=0,eStep=0,mobReady=false;
+function makeArrows(sec,total,onPrev,onNext){
+  var p=document.createElement("button");p.className="mob-arrow mob-arrow-prev hidden";p.setAttribute("aria-label","Previous");
+  p.innerHTML="<svg viewBox='0 0 24 24' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='15 18 9 12 15 6'></polyline></svg>";
+  p.addEventListener("click",onPrev);
+  var n=document.createElement("button");n.className="mob-arrow mob-arrow-next";n.setAttribute("aria-label","Next");
+  n.innerHTML="<svg viewBox='0 0 24 24' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='9 18 15 12 9 6'></polyline></svg>";
+  n.addEventListener("click",onNext);
+  sec.appendChild(p);sec.appendChild(n);return [p,n];
+}
+function scrollTo(track,i,total){i=Math.max(0,Math.min(total-1,i));track.scrollTo({left:i*window.innerWidth*0.8,behavior:"smooth"});return i;}
+function upArr(track,prev,next,total,step){if(!prev||!next){return;}prev.classList.toggle("hidden",step===0);next.classList.toggle("hidden",step>=total-1);}
+function setupMob(){
+  if(!isMob()||mobReady){return;}mobReady=true;
+  var hc=document.getElementById("hiw-cards");
+  if(hc){
+    hc.classList.add("mob-scroll");
+    var hiw=document.getElementById("getting-started");
+    if(hiw){
+      var ha=makeArrows(hiw,4,function(){hStep=scrollTo(hc,hStep-1,4);upArr(hc,hPrev,hNext,4,hStep);},function(){hStep=scrollTo(hc,hStep+1,4);upArr(hc,hPrev,hNext,4,hStep);});
+      hPrev=ha[0];hNext=ha[1];
+      hc.addEventListener("scroll",function(){hStep=Math.max(0,Math.min(3,Math.round(this.scrollLeft/(window.innerWidth*0.8))));upArr(this,hPrev,hNext,4,hStep);},{passive:true});
+      upArr(hc,hPrev,hNext,4,0);
+    }
+  }
+  var eg=document.getElementById("events-grid");
+  if(eg){
+    eg.classList.add("mob-scroll");
+    var last=eg.querySelector(".ecard:last-child");if(last){last.style.gridColumn="auto";}
+    var esec=document.getElementById("events");
+    if(esec){
+      var ea=makeArrows(esec,5,function(){eStep=scrollTo(eg,eStep-1,5);upArr(eg,ePrev,eNext,5,eStep);},function(){eStep=scrollTo(eg,eStep+1,5);upArr(eg,ePrev,eNext,5,eStep);});
+      ePrev=ea[0];eNext=ea[1];
+      eg.addEventListener("scroll",function(){eStep=Math.max(0,Math.min(4,Math.round(this.scrollLeft/(window.innerWidth*0.8))));upArr(this,ePrev,eNext,5,eStep);},{passive:true});
+      upArr(eg,ePrev,eNext,5,0);
+    }
+  }
+}
+function initHovers(){
+  if(isMob()){return;}
+  document.querySelectorAll(".step-img video").forEach(function(v){var w=v.closest(".step-img");if(!w){return;}w.addEventListener("mouseenter",function(){v.play().catch(function(){});});w.addEventListener("mouseleave",function(){v.pause();});});
+}
+
+// Aggressive video autoplay — works on iOS Safari, Samsung, Chrome Android, WeChat
+(function(){
+  var v=document.getElementById("bg-video");
+  if(!v){return;}
+  // Force muted at JS level too (some browsers ignore the HTML attribute)
+  v.muted=true;
+  v.volume=0;
+  v.defaultMuted=true;
+  var done=false;
+  function tryPlay(){
+    if(done)return;
+    var p=v.play();
+    if(p&&p.then){p.then(function(){done=true;}).catch(function(){});}
+  }
+  // Fire immediately and after short delays for browsers that need DOM settle time
+  tryPlay();
+  setTimeout(tryPlay,100);
+  setTimeout(tryPlay,500);
+  setTimeout(tryPlay,1500);
+  // On every user interaction until it plays (iOS/Samsung strict policy fallback)
+  ["touchstart","touchend","pointerdown","click","scroll"].forEach(function(e){
+    document.addEventListener(e,function h(){tryPlay();if(done)document.removeEventListener(e,h);},{passive:true,capture:true});
+  });
+  // Resume if paused by browser (tab switch, phone lock, etc.)
+  document.addEventListener("visibilitychange",function(){if(!document.hidden)tryPlay();});
+  v.addEventListener("pause",function(){if(!document.hidden)setTimeout(tryPlay,200);});
+  v.addEventListener("stalled",function(){v.load();setTimeout(tryPlay,500);});
+  v.addEventListener("suspend",function(){setTimeout(tryPlay,300);});
+})();
+
+window.addEventListener("load",function(){
+  if(typeof lucide !== 'undefined') {
+    lucide.createIcons();
+  }
+  setupMob();
+  initHovers();
+});
+go("home");
+</script>
+</body>
+</html>
