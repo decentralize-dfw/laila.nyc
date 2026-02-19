@@ -68,13 +68,22 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 
 .bg-wrap{position:fixed;inset:0;z-index:0;overflow:hidden}
 .bg-wrap video{width:100%;height:100%;object-fit:cover;pointer-events:none}
-/* Nuke all browser-native video controls/overlays */
+/* Kill EVERY webkit media control pseudo-element — no play button ever, on any device */
 #bg-video::-webkit-media-controls,
 #bg-video::-webkit-media-controls-enclosure,
 #bg-video::-webkit-media-controls-panel,
 #bg-video::-webkit-media-controls-overlay-play-button,
 #bg-video::-webkit-media-controls-start-playback-button,
-#bg-video::-webkit-media-controls-play-button{display:none!important;opacity:0!important;pointer-events:none!important;-webkit-appearance:none!important}
+#bg-video::-webkit-media-controls-play-button,
+#bg-video::-webkit-media-controls-timeline,
+#bg-video::-webkit-media-controls-current-time-display,
+#bg-video::-webkit-media-controls-time-remaining-display,
+#bg-video::-webkit-media-controls-mute-button,
+#bg-video::-webkit-media-controls-fullscreen-button,
+#bg-video::-webkit-media-controls-volume-slider{display:none!important;opacity:0!important;visibility:hidden!important;pointer-events:none!important;-webkit-appearance:none!important}
+/* Transparent touch-capture layer — sits on top of video, behind #content (z-index:10) */
+/* Captures first user touch to unlock iOS autoplay without any visible UI */
+#vid-tap{position:absolute;inset:0;z-index:1;background:transparent;-webkit-tap-highlight-color:transparent}
 .bg-wrap::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,15,15,0.08) 0%,rgba(69,66,112,0.22) 30%,rgba(15,15,15,0.50) 70%,rgba(15,15,15,0.80) 100%)}
 .stripe-bar{display:inline-block;width:32px;height:4px;background:var(--stripe);border-radius:2px;flex-shrink:0}
 
@@ -448,7 +457,7 @@ body::after{content:"";position:fixed;inset:0;z-index:9998;pointer-events:none;o
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M58TB852" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
-<div class="bg-wrap"><video id="bg-video" autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false" x-webkit-airplay="deny" disableRemotePlayback preload="auto" style="pointer-events:none"><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/480p/mp4/file.mp4" type="video/mp4" media="(max-width:767px)"><source src="https://video.wixstatic.com/video/54a996_8f4aa0b1afa74f298bd140729f6e95d4/1080p/mp4/file.mp4" type="video/mp4"></video></div>
+<div class="bg-wrap"><video id="bg-video" autoplay muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5" x5-video-player-fullscreen="false" x-webkit-airplay="deny" disableRemotePlayback preload="auto" style="pointer-events:none;display:block"><source src="https://github.com/decentralize-dfw/laila.nyc/releases/download/mp4/export-V2-2.mp4" type="video/mp4"></video><div id="vid-tap"></div></div>
 <div id="logo" onclick="go('home')" role="button" aria-label="Home"><img src="https://cdn.prod.website-files.com/67a9d9b57c65ab414d6bd050/687f7b192391e54bdc2b91b4_logo-p-500.png" alt="Laila"></div>
 <div id="amb-btn"><a href="https://laila-ambassador-c9f7b.web.app/signin" target="_blank" rel="noopener" class="glass"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>Become an Ambassador</a></div>
 <div id="socials">
@@ -617,35 +626,78 @@ function initHovers(){
   document.querySelectorAll(".step-img video").forEach(function(v){var w=v.closest(".step-img");if(!w){return;}w.addEventListener("mouseenter",function(){v.play().catch(function(){});});w.addEventListener("mouseleave",function(){v.pause();});});
 }
 
-// Aggressive video autoplay — works on iOS Safari, Samsung, Chrome Android, WeChat
+// ── BACKGROUND VIDEO AUTOPLAY ─────────────────────────────────────────────────
+// Goal: play on EVERY device/browser — no exceptions.
+// iOS Low Power Mode, Samsung Internet, Chrome Android, WeChat, all covered.
+// Strategy:
+//   1. Immediate attempt with all mute flags forced at JS level
+//   2. canplay/canplaythrough events retry
+//   3. #vid-tap overlay + document capture listeners unlock iOS on first touch
+//      (touch fires BEFORE any page element handles it → in-gesture context)
+//   4. Visibility/pause recovery so phone lock / tab switch don't stop video
+//   5. stalled/error: reload source and retry
+// ─────────────────────────────────────────────────────────────────────────────
 (function(){
   var v=document.getElementById("bg-video");
+  var tap=document.getElementById("vid-tap");
   if(!v){return;}
-  // Force muted at JS level too (some browsers ignore the HTML attribute)
-  v.muted=true;
-  v.volume=0;
-  v.defaultMuted=true;
-  var done=false;
+
+  // Force every possible mute property — some browsers ignore the HTML attribute
+  v.muted=true; v.defaultMuted=true; v.volume=0;
+
+  var isPlaying=function(){return !v.paused&&!v.ended&&v.readyState>2;};
+
   function tryPlay(){
-    if(done)return;
+    if(isPlaying()){tap&&(tap.style.pointerEvents="none");return;}
+    v.muted=true; v.volume=0; // re-enforce before every attempt
     var p=v.play();
-    if(p&&p.then){p.then(function(){done=true;}).catch(function(){});}
+    if(p&&p.then){
+      p.then(function(){tap&&(tap.style.pointerEvents="none");})
+       .catch(function(){/* will retry on next event */});
+    }
   }
-  // Fire immediately and after short delays for browsers that need DOM settle time
+
+  // ① Immediate
   tryPlay();
-  setTimeout(tryPlay,100);
-  setTimeout(tryPlay,500);
-  setTimeout(tryPlay,1500);
-  // On every user interaction until it plays (iOS/Samsung strict policy fallback)
-  ["touchstart","touchend","pointerdown","click","scroll"].forEach(function(e){
-    document.addEventListener(e,function h(){tryPlay();if(done)document.removeEventListener(e,h);},{passive:true,capture:true});
+  // ② Short delays — some browsers (Samsung, older Safari) need a beat
+  setTimeout(tryPlay,80); setTimeout(tryPlay,300); setTimeout(tryPlay,800); setTimeout(tryPlay,2000);
+
+  // ③ Media-ready events
+  v.addEventListener("canplay",tryPlay,{passive:true});
+  v.addEventListener("canplaythrough",tryPlay,{passive:true});
+  v.addEventListener("loadedmetadata",tryPlay,{passive:true});
+
+  // ④ First user touch/click ANYWHERE on page (capture phase = fires before everything else)
+  //    This unlocks iOS Low Power Mode and any strict autoplay policy
+  function unlock(){v.muted=true;v.volume=0;tryPlay();}
+  ["touchstart","touchend","pointerdown","click","scroll","keydown"].forEach(function(e){
+    document.addEventListener(e,unlock,{passive:true,capture:true,once:true});
   });
-  // Resume if paused by browser (tab switch, phone lock, etc.)
-  document.addEventListener("visibilitychange",function(){if(!document.hidden)tryPlay();});
-  v.addEventListener("pause",function(){if(!document.hidden)setTimeout(tryPlay,200);});
-  v.addEventListener("stalled",function(){v.load();setTimeout(tryPlay,500);});
-  v.addEventListener("suspend",function(){setTimeout(tryPlay,300);});
+  // #vid-tap: full-screen transparent div behind content, captures bg-area touches
+  if(tap){
+    tap.addEventListener("touchstart",unlock,{passive:true});
+    tap.addEventListener("click",unlock,{passive:true});
+  }
+
+  // ⑤ Recovery — tab switch / phone lock / OS-level pause
+  document.addEventListener("visibilitychange",function(){
+    if(!document.hidden){setTimeout(tryPlay,150);}
+  });
+  v.addEventListener("pause",function(){
+    if(!document.hidden){setTimeout(tryPlay,250);}
+  });
+
+  // ⑥ Stalled / error: reload and retry (network hiccup, CDN redirect issue)
+  var reloads=0;
+  function reloadAndPlay(){
+    if(reloads>3){return;} reloads++;
+    v.load(); setTimeout(tryPlay,800);
+  }
+  v.addEventListener("stalled",reloadAndPlay,{passive:true});
+  v.addEventListener("error",reloadAndPlay,{passive:true});
+  v.addEventListener("emptied",function(){setTimeout(tryPlay,400);},{passive:true});
 })();
+// ─────────────────────────────────────────────────────────────────────────────
 
 window.addEventListener("load",function(){
   if(typeof lucide !== 'undefined') {
